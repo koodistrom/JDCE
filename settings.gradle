@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'ios', 'core'
+include 'desktop', 'android', 'ios', 'core', ':wahoo_fitness_android_api_1.8.2.0'
