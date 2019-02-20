@@ -37,7 +37,7 @@ public class ConnectingService extends Service {
         mHardwareConnector . shutdown ();
     }
 
-    @androidx.annotation.Nullable
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
