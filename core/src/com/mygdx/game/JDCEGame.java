@@ -61,7 +61,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
         testObject= new GameObject(this);
         testObject.setX(camera.viewportWidth/2);
         testObject.setY(camera.viewportHeight/2);
-
+        testObject.setTexture(new Texture("noweeler.png"));
         BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		bodyDef.position.set((testObject.getX() + testObject.getWidth()/2),

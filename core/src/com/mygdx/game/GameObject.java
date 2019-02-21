@@ -18,11 +18,10 @@ public class GameObject {
 
 
     public GameObject(JDCEGame game){
-        texture = new Texture("cyclerex.png");
+
         this.game = game;
         this.batch = game.batch;
-        width = texture.getWidth()/game.PIXELS_TO_METERS;
-        height = texture.getHeight()/game.PIXELS_TO_METERS;
+
         rotation = 0;
         x = game.worldWidth/2;
         y = game.worldHeight/2;
@@ -46,7 +45,10 @@ public class GameObject {
     }
 
     public void setTexture(Texture texture) {
+
         this.texture = texture;
+        width = texture.getWidth()/game.PIXELS_TO_METERS;
+        height = texture.getHeight()/game.PIXELS_TO_METERS;
     }
 
     public Body getBody() {
