@@ -2,11 +2,13 @@ package com.mygdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.Game;
+import com.mygdx.game.JDCEGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+
+        JDCEGame.setPlatformResolver(new DesktopResolver());
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Game(), config);
+		new LwjglApplication(new JDCEGame(), config);
 	}
 }

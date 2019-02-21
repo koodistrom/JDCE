@@ -14,10 +14,10 @@ public class GameObject {
     private Float height;
     private Batch batch;
     private float rotation;
-    private Game game;
+    private JDCEGame game;
 
 
-    public GameObject(Game game){
+    public GameObject(JDCEGame game){
         texture = new Texture("cyclerex.png");
         this.game = game;
         this.batch = game.batch;

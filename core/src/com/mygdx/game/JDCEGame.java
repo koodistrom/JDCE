@@ -21,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Game extends ApplicationAdapter implements InputProcessor {
+public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 	SpriteBatch batch;
 	Sprite sprite;
 	Texture img;
@@ -33,6 +33,7 @@ public class Game extends ApplicationAdapter implements InputProcessor {
 	OrthographicCamera camera;
 	BitmapFont font;
 	GameObject testObject;
+    protected static PlatformResolver m_platformResolver = null;
 
 
 	float torque = 0.0f;
@@ -142,6 +143,24 @@ public class Game extends ApplicationAdapter implements InputProcessor {
 		img.dispose();
 		world.dispose();
 	}
+
+
+
+    public static PlatformResolver getPlatformResolver() {
+        return m_platformResolver;
+    }
+
+    public static void setPlatformResolver(PlatformResolver platformResolver) {
+        m_platformResolver = platformResolver;
+    }
+
+
+
+
+
+
+
+
 
     @Override
     public boolean keyDown(int keycode) {
