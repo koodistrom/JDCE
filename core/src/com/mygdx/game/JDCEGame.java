@@ -34,6 +34,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 	BitmapFont font;
 	GameObject testObject;
     protected static PlatformResolver m_platformResolver = null;
+    Player player;
 
 
 	float torque = 0.0f;
@@ -54,33 +55,10 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,worldWidth,worldHeight);
 
-
-
 		world = new World(new Vector2(0, -1f),true);
+        player = new Player(this);
 
-        testObject= new GameObject(this);
-        testObject.setX(camera.viewportWidth/2);
-        testObject.setY(camera.viewportHeight/2);
-        testObject.setTexture(new Texture("noweeler.png"));
-        BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.position.set((testObject.getX() + testObject.getWidth()/2),
-				(testObject.getY() + testObject.getHeight()/2));
 
-		body = world.createBody(bodyDef);
-
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(testObject.getWidth()/2, testObject.getHeight()
-				/2);
-
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = shape;
-		fixtureDef.density = 0.1f;
-		fixtureDef.restitution = 0.5f;
-
-		body.createFixture(fixtureDef);
-		shape.dispose();
-		testObject.setBody(body);
 
 		BodyDef bodyDef2 = new BodyDef();
 		bodyDef2.type = BodyDef.BodyType.StaticBody;
@@ -115,9 +93,10 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 		// Step the physics simulation forward at a rate of 60hz
 		world.step(1f/60f, 6, 2);
 
-		body.applyTorque(torque,true);
 
-		testObject.update();
+
+
+		player.update();
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -126,12 +105,10 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 		debugMatrix = batch.getProjectionMatrix();
 		batch.begin();
 
-        testObject.draw();
 
-		font.draw(batch,
-				"Restitution: " + body.getFixtureList().first().getRestitution(),
-				-Gdx.graphics.getWidth()/2,
-				Gdx.graphics.getHeight()/2 );
+        player. draw();
+
+
 		batch.end();
 
 		debugRenderer.render(world, debugMatrix);

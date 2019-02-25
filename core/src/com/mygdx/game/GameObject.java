@@ -6,15 +6,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class GameObject {
 
-    private Texture texture;
-    private Body body;
-    private Float x;
-    private Float y;
+    protected Texture texture;
+    protected Body body;
+    protected Float x;
+    protected Float y;
     private Float width;
     private Float height;
-    private Batch batch;
-    private float rotation;
-    private JDCEGame game;
+    protected Batch batch;
+    protected float rotation;
+    protected JDCEGame game;
 
 
     public GameObject(JDCEGame game){
