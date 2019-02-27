@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -58,7 +59,8 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 		world = new World(new Vector2(0, -1f),true);
         player = new Player(this);
 
-
+        LevelCreator create = new LevelCreator();
+        float[] points = create.create();
 
 		BodyDef bodyDef2 = new BodyDef();
 		bodyDef2.type = BodyDef.BodyType.StaticBody;
@@ -71,13 +73,12 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 		bodyDef2.position.set(0,0);
 		FixtureDef fixtureDef2 = new FixtureDef();
 
-		EdgeShape edgeShape = new EdgeShape();
-		edgeShape.set(0,h,w,h);
-		fixtureDef2.shape = edgeShape;
-
+		ChainShape chainShape = new ChainShape();
+		chainShape.createChain(points);
+		fixtureDef2.shape = chainShape;
 		bodyEdgeScreen = world.createBody(bodyDef2);
 		bodyEdgeScreen.createFixture(fixtureDef2);
-		edgeShape.dispose();
+		chainShape.dispose();
 
 		Gdx.input.setInputProcessor(this);
 
@@ -94,7 +95,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 		world.step(1f/60f, 6, 2);
 
 
-
+        moveCamera();
 
 		player.update();
 
@@ -134,7 +135,14 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 
 
 
+    private void moveCamera() {
 
+        camera.position.set(player.getX()+2.5f,
+                player.getY()+1.5f,
+                0);
+
+
+    }
 
 
 
