@@ -21,7 +21,7 @@ public class LevelCreator {
      *              passing through all the given knots
      */
     public float[] create(){
-        return computePathThroughKnots(createKnots(10),10);
+        return computePathThroughKnots(createKnots(100),10);
     }
     public float[] computePathThroughKnots(List<EpointF> knots, int resolution) {
         throwExceptionIfInputIsInvalid(knots);
@@ -202,7 +202,7 @@ public class LevelCreator {
         for(int x = 1; x<length; x++){
             float y = lastY + (float)(Math.random()*2)-1;
             lastY = y;
-            knots.add(new EpointF(x,y));
+            knots.add(new EpointF(x*2,y));
         }
         return knots;
     }

@@ -1,10 +1,18 @@
 package com.mygdx.game.desktop;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.mygdx.game.PlatformResolver;
 
 public class DesktopResolver implements PlatformResolver {
     @Override
     public Float getPedalSpeed() {
-        return null;
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+
+            return -5f;
+        }else{
+            return null;
+        }
+
     }
 }

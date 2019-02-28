@@ -10,5 +10,7 @@ public class DesktopLauncher {
         JDCEGame.setPlatformResolver(new DesktopResolver());
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new JDCEGame(), config);
+		config.width = 1300;
+		config.height = 800;
 	}
 }

@@ -28,7 +28,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 	Texture img;
 	World world;
 	Body body;
-	Body bodyEdgeScreen;
+	Body bodyGround;
 	Box2DDebugRenderer debugRenderer;
 	Matrix4 debugMatrix;
 	OrthographicCamera camera;
@@ -70,17 +70,19 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 		float h = 50/PIXELS_TO_METERS;
 		//bodyDef2.position.set(0,
 //                h-10/PIXELS_TO_METERS);
-		bodyDef2.position.set(0,0);
+
 		FixtureDef fixtureDef2 = new FixtureDef();
 
 		ChainShape chainShape = new ChainShape();
 		chainShape.createChain(points);
 		fixtureDef2.shape = chainShape;
-		bodyEdgeScreen = world.createBody(bodyDef2);
-		bodyEdgeScreen.createFixture(fixtureDef2);
+		fixtureDef2.friction = 1f;
+		bodyGround = world.createBody(bodyDef2);
+		bodyGround.createFixture(fixtureDef2);
+        bodyDef2.position.set(0,0);
 		chainShape.dispose();
 
-		Gdx.input.setInputProcessor(this);
+
 
 		debugRenderer = new Box2DDebugRenderer();
 		font = new BitmapFont();
@@ -96,6 +98,8 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 
 
         moveCamera();
+
+
 
 		player.update();
 
@@ -156,10 +160,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
     public boolean keyUp(int keycode) {
 
 
-        if(keycode == Input.Keys.RIGHT)
-            body.setLinearVelocity(1f, 0f);
-        if(keycode == Input.Keys.LEFT)
-            body.setLinearVelocity(-1f,0f);
+
 
         if(keycode == Input.Keys.UP)
             body.applyForceToCenter(0f,10f,true);
@@ -176,14 +177,6 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
         if(keycode == Input.Keys.BACKSLASH)
             torque = 0.0f;
 
-        // If user hits spacebar, reset everything back to normal
-        if(keycode == Input.Keys.SPACE|| keycode == Input.Keys.NUM_2) {
-            body.setLinearVelocity(0f, 0f);
-            body.setAngularVelocity(0f);
-            torque = 0f;
-            sprite.setPosition(camera.viewportWidth/2,camera.viewportHeight/2);
-            body.setTransform(0f,0f,0f);
-        }
 
         if(keycode == Input.Keys.COMMA) {
             body.getFixtureList().first().setRestitution(body.getFixtureList().first().getRestitution()-0.1f);

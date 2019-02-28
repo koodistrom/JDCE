@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements InputProcessor {
 
 
     World world;
@@ -21,7 +24,9 @@ public class Player extends GameObject {
     Texture wheel;
     float rwRotation;
     float fwRotation;
-
+    WheelJointDef rearWheelJointDef = new WheelJointDef();
+    WheelJoint rearWheelJoint;
+    WheelJoint frontWheelJoint;
     public Player(JDCEGame game) {
 
         super(game);
@@ -66,13 +71,12 @@ public class Player extends GameObject {
         rearWheelJointDef.collideConnected=false;
         rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
         //rearWheelJointDef.localAnchorB.set(0,0);
-        rearWheelJointDef.motorSpeed = -1f;
-        rearWheelJointDef.enableMotor = true;
+        rearWheelJointDef.enableMotor = false;
+        rearWheelJointDef.motorSpeed = -5f;
+
         rearWheelJointDef.maxMotorTorque = 50f;
+        rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
 
-
-        Joint rearWheelJoint;
-        rearWheelJoint = world.createJoint(rearWheelJointDef);
 
         WheelJointDef frontWheelJointDef = new WheelJointDef();
         frontWheelJointDef.bodyA=body;
@@ -80,10 +84,10 @@ public class Player extends GameObject {
         frontWheelJointDef.collideConnected=false;
         frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
         //frontWheelJointDef.localAnchorB.set(0,0);
+        frontWheelJointDef.maxMotorTorque = 50f;
+        frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
 
-
-        Joint frontWheelJoint;
-        frontWheelJoint = world.createJoint(frontWheelJointDef);
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -101,6 +105,7 @@ public class Player extends GameObject {
     @Override
     public void update(){
         super.update();
+
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
     }
@@ -124,5 +129,68 @@ public class Player extends GameObject {
         fixtureDef.shape.dispose();
 
         return ball;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.RIGHT) {
+            rearWheelJoint.enableMotor(true);
+            rearWheelJoint.setMotorSpeed(-10f);
+
+
+            System.out.println(rearWheelJointDef.enableMotor);
+        }
+        if(keycode == Input.Keys.LEFT) {
+            frontWheelJoint.enableMotor(true);
+            frontWheelJoint.setMotorSpeed(0f);
+            rearWheelJoint.enableMotor(true);
+            rearWheelJoint.setMotorSpeed(0f);
+
+            System.out.println(rearWheelJointDef.enableMotor);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.RIGHT) {
+            rearWheelJoint.enableMotor(false);
+            System.out.println("benis");
+        }
+        if(keycode == Input.Keys.LEFT) {
+            frontWheelJoint.enableMotor(false);
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }
