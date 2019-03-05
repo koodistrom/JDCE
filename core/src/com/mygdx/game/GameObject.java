@@ -15,6 +15,7 @@ public class GameObject {
     protected Batch batch;
     protected float rotation;
     protected JDCEGame game;
+    int a = 2;
 
 
     public GameObject(JDCEGame game){
