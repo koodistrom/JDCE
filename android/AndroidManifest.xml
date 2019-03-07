@@ -20,6 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="false"
+
+            android:isolatedProcess="false"
+            android:label="string resource"
+            android:name=".ConnectingService"
+            android:permission="string"
+            android:process="com.mygdx.game" >
+            . . .
+        </service>
     </application>
 
 

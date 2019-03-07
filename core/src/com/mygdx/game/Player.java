@@ -73,7 +73,9 @@ public class Player extends GameObject implements InputProcessor {
         //rearWheelJointDef.localAnchorB.set(0,0);
         rearWheelJointDef.enableMotor = false;
         rearWheelJointDef.motorSpeed = -5f;
-
+        rearWheelJointDef.dampingRatio = 0.95f;
+        rearWheelJointDef.frequencyHz = 1.7f;
+        rearWheelJointDef.localAxisA.set(new Vector2(0,1));
         rearWheelJointDef.maxMotorTorque = 50f;
         rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
 
@@ -84,6 +86,9 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJointDef.collideConnected=false;
         frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
         //frontWheelJointDef.localAnchorB.set(0,0);
+        frontWheelJointDef.dampingRatio = 0.95f;
+        frontWheelJointDef.frequencyHz = 1.7f;
+        frontWheelJointDef.localAxisA.set(new Vector2(0,1));
         frontWheelJointDef.maxMotorTorque = 50f;
         frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
 
@@ -138,7 +143,7 @@ public class Player extends GameObject implements InputProcessor {
             rearWheelJoint.setMotorSpeed(-10f);
 
 
-            System.out.println(rearWheelJointDef.enableMotor);
+
         }
         if(keycode == Input.Keys.LEFT) {
             frontWheelJoint.enableMotor(true);
@@ -146,7 +151,7 @@ public class Player extends GameObject implements InputProcessor {
             rearWheelJoint.enableMotor(true);
             rearWheelJoint.setMotorSpeed(0f);
 
-            System.out.println(rearWheelJointDef.enableMotor);
+
         }
         return true;
     }
@@ -155,7 +160,7 @@ public class Player extends GameObject implements InputProcessor {
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
             rearWheelJoint.enableMotor(false);
-            System.out.println("benis");
+
         }
         if(keycode == Input.Keys.LEFT) {
             frontWheelJoint.enableMotor(false);

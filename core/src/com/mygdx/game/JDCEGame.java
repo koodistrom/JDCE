@@ -99,8 +99,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 
         moveCamera();
 
-
-
+        m_platformResolver.getPedalSpeed();
 		player.update();
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);

@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+//luokka muunneltu netistä kopioidustaluokasta: https://www.stkent.com/2015/07/03/building-smooth-paths-using-bezier-curves.html
 public class LevelCreator {
 
     int verticeIndex = 0;
@@ -150,21 +150,7 @@ public class LevelCreator {
         Vector2 p4 = new Vector2(targetKnot.getX(),targetKnot.getY());
         Vector2 tmp = new Vector2(1, 1);
         Vector2[] controlpoints = {p0,p1,p2,p4};
-        System.out.print(p0.x);
-        System.out.print("y");
-        System.out.println(p0.y);
 
-        System.out.print(p1.x);
-        System.out.print("y");
-        System.out.println(p1.y);
-
-        System.out.print(p2.x);
-        System.out.print("y");
-        System.out.println(p2.y);
-
-        System.out.print(p4.x);
-        System.out.print("y");
-        System.out.println(p4.y);
 
         Bezier<Vector2> curve;
         curve = new Bezier<Vector2>(controlpoints);
@@ -173,15 +159,14 @@ public class LevelCreator {
             Vector2 point2;
 
             curve.valueAt(point,(float)i/(float)resolution);
-            System.out.print("resolution:");
+
 
             vertices[verticeIndex]= point.x;
-            System.out.println(vertices[verticeIndex]);
+
 
             verticeIndex++;
 
             vertices[verticeIndex]= point.y;
-            System.out.println(vertices[verticeIndex]);
 
             verticeIndex++;
         }
