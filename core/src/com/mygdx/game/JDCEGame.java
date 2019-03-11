@@ -2,8 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,11 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+
 import com.badlogic.gdx.physics.box2d.World;
 
 public class JDCEGame extends ApplicationAdapter {
@@ -28,20 +23,16 @@ public class JDCEGame extends ApplicationAdapter {
 	Sprite sprite;
 
 	World world;
-	Body body;
-	Body bodyGround;
 	Box2DDebugRenderer debugRenderer;
 	Matrix4 debugMatrix;
 	OrthographicCamera camera;
 	BitmapFont font;
-	GameObject testObject;
+
     protected static PlatformResolver m_platformResolver = null;
     Player player;
     Stegosaurus stegosaurus;
     LevelCreator levelCreator;
 
-	float torque = 0.0f;
-	boolean drawSprite = true;
 
 	final float PIXELS_TO_METERS = 100f;
     Float worldWidth;

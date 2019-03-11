@@ -72,8 +72,9 @@ public class ConnectingService extends Service {
                         if ( capabilityType == Capability.CapabilityType. CrankRevs ) {
                             System.out.println("Crank rev capability found");
                             CrankRevs crankRevs = ( CrankRevs ) sensorConnection . getCurrentCapability ( Capability.CapabilityType. CrankRevs );
-
+                            crankRevs.setCrankRevsAutoZeroTime(TimePeriod.fromSeconds(1));
                             crankRevs . addListener ( mCrankRevsListener );
+
 
                         }
 
