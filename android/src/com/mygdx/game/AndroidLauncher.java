@@ -8,7 +8,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 public class AndroidLauncher extends AndroidApplication {
     ConnectingService connectingService;
-    String test = "test";
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
         JDCEGame.setPlatformResolver(new AndroidResolver());

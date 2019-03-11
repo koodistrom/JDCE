@@ -5,20 +5,40 @@ import android.content.Intent;
 import android.os.IBinder;
 
 
+import com.wahoofitness.common.datatypes.TimePeriod;
 import com.wahoofitness.connector.HardwareConnector;
 import com.wahoofitness.connector.HardwareConnectorEnums;
 import com.wahoofitness.connector.HardwareConnectorTypes;
+import com.wahoofitness.connector.capabilities.Accelerometer;
 import com.wahoofitness.connector.capabilities.Capability;
 import com.wahoofitness.connector.capabilities.CrankRevs;
+import com.wahoofitness.connector.conn.characteristics.CrankWheelRevsHelper;
 import com.wahoofitness.connector.conn.connections.SensorConnection;
 import com.wahoofitness.connector.conn.connections.params.ConnectionParams;
 import com.wahoofitness.connector.listeners.discovery.DiscoveryListener;
 
+import java.util.Collection;
+
 public class ConnectingService extends Service {
 
     private HardwareConnector mHardwareConnector ;
-    CrankRevs.Listener mCrankRevsListener;
+    CrankRevs.Listener mCrankRevsListener = new CrankRevs.Listener() {
+
+        @Override
+        public void onCrankRevsData(CrankRevs.Data data) {
+
+        }
+    };
+
+    Accelerometer.Listener mAccelerometerListener = new Accelerometer.Listener() {
+        @Override
+        public void onAccelerometerData(Accelerometer.Data data) {
+
+        }
+    };
+
     static SensorConnection mSensorConnection;
+    static Accelerometer accelerometer;
 
     private final HardwareConnector.Listener mHardwareConnectorListener = new HardwareConnector.Listener (){
         @Override
@@ -32,6 +52,8 @@ public class ConnectingService extends Service {
         }
     };
 
+
+
     @Override
     public void onCreate () {
         super . onCreate ();
@@ -40,15 +62,26 @@ public class ConnectingService extends Service {
         mHardwareConnector.startDiscovery(new DiscoveryListener() {
             @Override
             public void onDeviceDiscovered(ConnectionParams connectionParams) {
-                System.out.println("device discovered");
+                System.out.print("device discovered: ");
+                System.out.println(connectionParams.getProductType());
                 mSensorConnection = mHardwareConnector.requestSensorConnection(connectionParams, new SensorConnection.Listener() {
                     @Override
                     public void onNewCapabilityDetected(SensorConnection sensorConnection, Capability.CapabilityType capabilityType) {
-
+                        System.out.print("capability found: ");
+                        System.out.println(capabilityType);
                         if ( capabilityType == Capability.CapabilityType. CrankRevs ) {
                             System.out.println("Crank rev capability found");
                             CrankRevs crankRevs = ( CrankRevs ) sensorConnection . getCurrentCapability ( Capability.CapabilityType. CrankRevs );
+
                             crankRevs . addListener ( mCrankRevsListener );
+
+                        }
+
+                        if ( capabilityType == Capability.CapabilityType. Accelerometer ) {
+                            System.out.println("Accelerometer capability found");
+                            accelerometer = (Accelerometer)sensorConnection.getCurrentCapability(Capability.CapabilityType.Accelerometer);
+                            accelerometer.addListener(mAccelerometerListener);
+
                         }
                     }
 
@@ -62,6 +95,11 @@ public class ConnectingService extends Service {
 
                     }
                 });
+                 System.out.print("capabilities: ");
+                 Collection<Capability.CapabilityType> capabilities = mSensorConnection.getExpectedCapabilities();
+                 System.out.println(capabilities.size());
+                 System.out.println(mSensorConnection.getExpectedCapabilities());
+
 
             }
 
@@ -80,7 +118,7 @@ public class ConnectingService extends Service {
     @Override
     public void onDestroy () {
         super . onDestroy ();
-        
+
         mHardwareConnector . shutdown ();
     }
 
@@ -96,6 +134,26 @@ public class ConnectingService extends Service {
             CrankRevs crankRevs = ( CrankRevs ) mSensorConnection . getCurrentCapability ( Capability.CapabilityType. CrankRevs );
             if ( crankRevs != null ) {
                 return crankRevs . getCrankRevsData ().getCrankSpeed().asRevolutionsPerSecond();
+            } else {
+// The sensor connection does not currently support the crank revs capability
+                return null;
+            }
+        } else {
+// Sensor not connected
+            return null;
+
+        }
+    }
+
+    public static Float[] getAccelerometerData () {
+        Float[] xYZ = new Float[3];
+        if ( mSensorConnection != null ) {
+
+            if ( accelerometer != null ) {
+                xYZ[0] =  accelerometer . getAccelerometerData().getAccelerationX(false);
+                xYZ[1] =  accelerometer . getAccelerometerData().getAccelerationY(false);
+                xYZ[2] =  accelerometer . getAccelerometerData().getAccelerationZ(false);
+                return xYZ;
             } else {
 // The sensor connection does not currently support the crank revs capability
                 return null;

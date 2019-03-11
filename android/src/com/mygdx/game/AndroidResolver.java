@@ -4,11 +4,12 @@ public class AndroidResolver implements PlatformResolver {
     @Override
     public Float getPedalSpeed() {
 
-        System.out.println(ConnectingService.mSensorConnection.getConnectionState());
-        if(ConnectingService.getCrankRevsData()!= null) {
-            double crankSpeed = ConnectingService.getCrankRevsData();
-            float speed = (float) crankSpeed;
-            return speed;
+        if(ConnectingService.getCrankRevsData() != null) {
+            Float crankSpeed;
+            double speed = ConnectingService.getCrankRevsData();
+            crankSpeed = (float)speed;
+
+            return crankSpeed;
         }else{
             return null;
         }

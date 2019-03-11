@@ -17,15 +17,16 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class JDCEGame extends ApplicationAdapter implements InputProcessor {
+public class JDCEGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Sprite sprite;
-	Texture img;
+
 	World world;
 	Body body;
 	Body bodyGround;
@@ -36,7 +37,8 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 	GameObject testObject;
     protected static PlatformResolver m_platformResolver = null;
     Player player;
-
+    Stegosaurus stegosaurus;
+    LevelCreator levelCreator;
 
 	float torque = 0.0f;
 	boolean drawSprite = true;
@@ -48,7 +50,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+
 
         worldWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
         worldHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
@@ -56,35 +58,16 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,worldWidth,worldHeight);
 
-		world = new World(new Vector2(0, -1f),true);
+		world = new World(new Vector2(0, -3f),true);
         player = new Player(this);
+        //stegosaurus = new Stegosaurus(this);
 
-        LevelCreator create = new LevelCreator();
-        float[] points = create.create();
+        levelCreator = new LevelCreator();
+        levelCreator.createLevel(world);
 
-		BodyDef bodyDef2 = new BodyDef();
-		bodyDef2.type = BodyDef.BodyType.StaticBody;
-		float w = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
-		// Set the height to just 50 pixels above the bottom of the screen so we can see the edge in the
-		// debug renderer
-		float h = 50/PIXELS_TO_METERS;
-		//bodyDef2.position.set(0,
-//                h-10/PIXELS_TO_METERS);
+        world.setContactListener(new ContactListenerClass());
 
-		FixtureDef fixtureDef2 = new FixtureDef();
-
-		ChainShape chainShape = new ChainShape();
-		chainShape.createChain(points);
-		fixtureDef2.shape = chainShape;
-		fixtureDef2.friction = 1f;
-		bodyGround = world.createBody(bodyDef2);
-		bodyGround.createFixture(fixtureDef2);
-        bodyDef2.position.set(0,0);
-		chainShape.dispose();
-
-
-
-		debugRenderer = new Box2DDebugRenderer();
+        debugRenderer = new Box2DDebugRenderer();
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 
@@ -98,8 +81,7 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 
 
         moveCamera();
-
-        m_platformResolver.getPedalSpeed();
+		m_platformResolver.getPedalSpeed();
 		player.update();
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -121,7 +103,6 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 		world.dispose();
 	}
 
@@ -143,84 +124,10 @@ public class JDCEGame extends ApplicationAdapter implements InputProcessor {
         camera.position.set(player.getX()+2.5f,
                 player.getY()+1.5f,
                 0);
-
-
     }
 
 
 
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
 
-    @Override
-    public boolean keyUp(int keycode) {
-
-
-
-
-        if(keycode == Input.Keys.UP)
-            body.applyForceToCenter(0f,10f,true);
-        if(keycode == Input.Keys.DOWN)
-            body.applyForceToCenter(0f, -10f, true);
-
-        // On brackets ( [ ] ) apply torque, either clock or counterclockwise
-        if(keycode == Input.Keys.RIGHT_BRACKET)
-            torque += 0.1f;
-        if(keycode == Input.Keys.LEFT_BRACKET)
-            torque -= 0.1f;
-
-        // Remove the torque using backslash /
-        if(keycode == Input.Keys.BACKSLASH)
-            torque = 0.0f;
-
-
-        if(keycode == Input.Keys.COMMA) {
-            body.getFixtureList().first().setRestitution(body.getFixtureList().first().getRestitution()-0.1f);
-        }
-        if(keycode == Input.Keys.PERIOD) {
-            body.getFixtureList().first().setRestitution(body.getFixtureList().first().getRestitution()+0.1f);
-        }
-        if(keycode == Input.Keys.ESCAPE || keycode == Input.Keys.NUM_1)
-            drawSprite = !drawSprite;
-
-        return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-
-    // On touch we apply force from the direction of the users touch.
-    // This could result in the object "spinning"
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        body.applyForce(1f,1f,screenX,screenY,true);
-        //body.applyTorque(0.4f,true);
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 }

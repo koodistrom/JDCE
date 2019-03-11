@@ -27,6 +27,7 @@ public class Player extends GameObject implements InputProcessor {
     WheelJointDef rearWheelJointDef = new WheelJointDef();
     WheelJoint rearWheelJoint;
     WheelJoint frontWheelJoint;
+    Float motorSpeed;
     public Player(JDCEGame game) {
 
         super(game);
@@ -45,10 +46,12 @@ public class Player extends GameObject implements InputProcessor {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set((getX() + getWidth()/2),
                 (getY() + getHeight()/2));
+
+        body = world.createBody(bodyDef);
+
         Vector2[] vertices;
         vertices= new Vector2[] {new Vector2(-0.5f,-0.8f),new Vector2(-1.4f,0.2f),
                 new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f),new Vector2(0.5f,0.4f)};
-        body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         shape.set(vertices);
@@ -109,10 +112,28 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public void update(){
+        Float speed;
         super.update();
 
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
+        //System.out.println(body.getLinearVelocity().x);
+        speed = game.m_platformResolver.getPedalSpeed();
+        if( speed!= null) {
+
+            motorSpeed = (-15) * speed;
+
+            if (Math.abs(motorSpeed) > body.getLinearVelocity().x) {
+                rearWheelJoint.enableMotor(true);
+                rearWheelJoint.setMotorSpeed(motorSpeed);
+            } else {
+                rearWheelJoint.enableMotor(false);
+            }
+            System.out.println(motorSpeed);
+            System.out.println(speed);
+
+            System.out.println(rearWheelJoint.isMotorEnabled());
+        }
     }
 
 
@@ -140,7 +161,7 @@ public class Player extends GameObject implements InputProcessor {
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
             rearWheelJoint.enableMotor(true);
-            rearWheelJoint.setMotorSpeed(-10f);
+            rearWheelJoint.setMotorSpeed(-20f);
 
 
 
@@ -166,6 +187,12 @@ public class Player extends GameObject implements InputProcessor {
             frontWheelJoint.enableMotor(false);
 
         }
+
+        if(keycode == Input.Keys.ESCAPE) {
+            game.dispose();
+            game.create();
+
+        }
         return true;
     }
 
@@ -181,7 +208,9 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        game.dispose();
+        game.create();
+        return true;
     }
 
     @Override

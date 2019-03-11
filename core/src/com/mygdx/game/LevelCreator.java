@@ -2,6 +2,11 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -16,11 +21,10 @@ public class LevelCreator {
      * The curve will be twice-differentiable everywhere and satisfy natural
      * boundary conditions at both ends.
      *
-     * @param knots a list of knots
      * @return      a Path representing the twice-differentiable curve
      *              passing through all the given knots
      */
-    public float[] create(){
+    public float[] createVertices(){
         return computePathThroughKnots(createKnots(100),10);
     }
     public float[] computePathThroughKnots(List<EpointF> knots, int resolution) {
@@ -190,5 +194,24 @@ public class LevelCreator {
             knots.add(new EpointF(x*2,y));
         }
         return knots;
+    }
+
+    public void createLevel(World world){
+        Body bodyGround;
+        float[] points = createVertices();
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        ChainShape chainShape = new ChainShape();
+        chainShape.createChain(points);
+        fixtureDef.shape = chainShape;
+        fixtureDef.friction = 1f;
+        bodyGround = world.createBody(bodyDef);
+        bodyGround.createFixture(fixtureDef);
+        bodyDef.position.set(0,0);
+        chainShape.dispose();
     }
 }
