@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Joint;
+
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
@@ -28,6 +28,10 @@ public class Player extends GameObject implements InputProcessor {
     WheelJoint rearWheelJoint;
     WheelJoint frontWheelJoint;
     Float motorSpeed;
+    int time;
+    Float oldSpeed;
+
+
     public Player(JDCEGame game) {
 
         super(game);
@@ -40,6 +44,8 @@ public class Player extends GameObject implements InputProcessor {
         world = game.world;
         x = game.worldWidth/3;
         y = game.worldHeight/2;
+        time = 0;
+        oldSpeed = 0f;
 
 
         BodyDef bodyDef = new BodyDef();
@@ -65,8 +71,8 @@ public class Player extends GameObject implements InputProcessor {
         shape.dispose();
         setBody(body);
 
-        rearWheel=createSphere(BodyDef.BodyType.DynamicBody,x,y,1,0.5f,1f,ww/2);
-        frontWheel=createSphere(BodyDef.BodyType.DynamicBody,x+getWidth(),y,1,0.5f,1f,ww/2);
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,1,0.5f,1f,ww/2);
+        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,1,0.5f,1f,ww/2);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
         rearWheelJointDef.bodyA=body;
@@ -129,19 +135,34 @@ public class Player extends GameObject implements InputProcessor {
             } else {
                 rearWheelJoint.enableMotor(false);
             }
-            System.out.println(motorSpeed);
-            System.out.println(speed);
+            //System.out.println(motorSpeed);
 
-            System.out.println(rearWheelJoint.isMotorEnabled());
+            if(time%60==0) {
+
+
+            }
+
+            if(speed.equals(oldSpeed) ) {
+
+                time++;
+            }else{
+                System.out.println("speed is: "+speed);
+                System.out.println("time from last change: "+time);
+                time = 0;
+            }
+
+
+            oldSpeed = speed;
         }
     }
 
 
-    private Body createSphere(BodyDef.BodyType type, float x, float y, float d, float r, float f, float radius) {
+    private Body createWheel(BodyDef.BodyType type, float x, float y, float d, float r, float f, float radius) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = type;
         bodyDef.position.set(x,y);
         bodyDef.angle=0;
+
         Body ball = world.createBody(bodyDef);
 
         FixtureDef fixtureDef=new FixtureDef();

@@ -72,18 +72,10 @@ public class ConnectingService extends Service {
                         if ( capabilityType == Capability.CapabilityType. CrankRevs ) {
                             System.out.println("Crank rev capability found");
                             CrankRevs crankRevs = ( CrankRevs ) sensorConnection . getCurrentCapability ( Capability.CapabilityType. CrankRevs );
-                            crankRevs.setCrankRevsAutoZeroTime(TimePeriod.fromSeconds(1));
+                            crankRevs.setCrankRevsAutoZeroTime(TimePeriod.fromSeconds(1.0));
                             crankRevs . addListener ( mCrankRevsListener );
-
-
                         }
 
-                        if ( capabilityType == Capability.CapabilityType. Accelerometer ) {
-                            System.out.println("Accelerometer capability found");
-                            accelerometer = (Accelerometer)sensorConnection.getCurrentCapability(Capability.CapabilityType.Accelerometer);
-                            accelerometer.addListener(mAccelerometerListener);
-
-                        }
                     }
 
                     @Override
@@ -134,7 +126,9 @@ public class ConnectingService extends Service {
         if ( mSensorConnection != null ) {
             CrankRevs crankRevs = ( CrankRevs ) mSensorConnection . getCurrentCapability ( Capability.CapabilityType. CrankRevs );
             if ( crankRevs != null ) {
+                // System.out.println(crankRevs.getCrankRevsData().getCrankRevs());
                 return crankRevs . getCrankRevsData ().getCrankSpeed().asRevolutionsPerSecond();
+
             } else {
 // The sensor connection does not currently support the crank revs capability
                 return null;

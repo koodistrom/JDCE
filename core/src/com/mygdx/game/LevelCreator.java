@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import svg.parser.ExtractSVGPaths;
+
 //luokka muunneltu netistä kopioidustaluokasta: https://www.stkent.com/2015/07/03/building-smooth-paths-using-bezier-curves.html
 public class LevelCreator {
 
@@ -203,8 +206,8 @@ public class LevelCreator {
 
     public void createLevel(World world){
         Body bodyGround;
-        float[] points = createVertices();
-
+        //float[] points = createVertices();
+        float[] points = createFromSVG("test2.svg");
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
@@ -218,5 +221,19 @@ public class LevelCreator {
         bodyGround.createFixture(fixtureDef);
         bodyDef.position.set(0,0);
         chainShape.dispose();
+    }
+
+    public float[] createFromSVG (String filePath){
+
+        float[] vertices;
+        ArrayList<Vector2> verticeArray;
+
+        verticeArray = ExtractSVGPaths.extract(filePath);
+        vertices = new float[verticeArray.size()*2];
+        for(int i = 0; i <verticeArray.size(); i++){
+            vertices[i*2] = verticeArray.get(i).x;
+            vertices[i*2+1] = verticeArray.get(i).y;
+        }
+        return vertices;
     }
 }
