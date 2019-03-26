@@ -14,6 +14,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
+import com.badlogic.gdx.utils.Timer;
+
+import java.util.ArrayList;
 
 public class Player extends GameObject implements InputProcessor {
 
@@ -30,7 +33,9 @@ public class Player extends GameObject implements InputProcessor {
     Float motorSpeed;
     int time;
     Float oldSpeed;
-
+    float trackTime;
+    Timer timer;
+    boolean isTurboOn;
 
     public Player(JDCEGame game) {
 
@@ -46,6 +51,8 @@ public class Player extends GameObject implements InputProcessor {
         y = game.worldHeight/2;
         time = 0;
         oldSpeed = 0f;
+        isTurboOn = false;
+
 
 
         BodyDef bodyDef = new BodyDef();
@@ -129,6 +136,8 @@ public class Player extends GameObject implements InputProcessor {
 
             motorSpeed = (-15) * speed;
 
+
+
             if (Math.abs(motorSpeed) > body.getLinearVelocity().x) {
                 rearWheelJoint.enableMotor(true);
                 rearWheelJoint.setMotorSpeed(motorSpeed);
@@ -137,10 +146,6 @@ public class Player extends GameObject implements InputProcessor {
             }
             //System.out.println(motorSpeed);
 
-            if(time%60==0) {
-
-
-            }
 
             if(speed.equals(oldSpeed) ) {
 
@@ -153,6 +158,17 @@ public class Player extends GameObject implements InputProcessor {
 
 
             oldSpeed = speed;
+        }
+
+        if(isTurboOn){
+            body.applyForceToCenter(new Vector2(5,0),false);
+            //motorSpeed *= 2;
+        }
+
+        if(x>game.levelCreator.goal.getX()){
+            System.out.println("voitto "+trackTime);
+        }else{
+            trackTime += Gdx.graphics.getDeltaTime();
         }
     }
 
@@ -176,6 +192,20 @@ public class Player extends GameObject implements InputProcessor {
         fixtureDef.shape.dispose();
 
         return ball;
+    }
+
+    public void turboOn(){
+        isTurboOn = true;
+        timer = new Timer();
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                System.out.println("turbo on pois");
+                isTurboOn = false;
+            }
+        };
+        timer.scheduleTask(task,7);
+
     }
 
     @Override

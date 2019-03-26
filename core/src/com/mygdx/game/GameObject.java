@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class GameObject {
+public class GameObject implements HasBody{
 
     protected Texture texture;
     protected Body body;
@@ -23,7 +23,7 @@ public class GameObject {
         this.game = game;
         this.batch = game.batch;
 
-        rotation = 0;
+        rotation = 0f;
         x = game.worldWidth/2;
         y = game.worldHeight/2;
     }
@@ -94,6 +94,15 @@ public class GameObject {
 
     public void setHeight(Float height) {
         this.height = height;
+    }
+
+    public void remove(){
+        game.world.destroyBody(body);
+        texture.dispose();
+    }
+
+    @Override
+    public void deledDis() {
     }
 
 }

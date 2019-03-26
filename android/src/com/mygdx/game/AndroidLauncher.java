@@ -15,6 +15,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
         System.out.println("edes Android launcher toimii");
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.useWakelock=true;
 		initialize(new JDCEGame(), config);
 
 		connectingService= new ConnectingService();
