@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class NewScreen implements Screen {
     private JDCEGame game;
@@ -21,14 +22,14 @@ public class NewScreen implements Screen {
     private float screenHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
     private Stage gameStage;
     private Skin uiSkin;
-    private float textButtonHeight = 0.3f;
-    private float textButtonWidth = 3;
-    private float imageButtonHeight = 0.5f;
-    private float imageButtonWidth = 0.5f;
+    private float textButtonHeight = 30;
+    private float textButtonWidth = 300;
+    private float imageButtonHeight = 50;
+    private float imageButtonWidth = 50;
     private Button mute;
     private Button languageFI;
     private Button languageEN;
-    private FitViewport gameViewport;
+    private ScreenViewport gameViewport;
 
 
     public NewScreen(JDCEGame g) {
@@ -36,7 +37,7 @@ public class NewScreen implements Screen {
         batch = game.getBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenWidth, screenHeight);
-        gameViewport = new FitViewport(screenWidth, screenHeight);
+        gameViewport = new ScreenViewport();
         gameStage = new Stage(gameViewport, batch);
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 

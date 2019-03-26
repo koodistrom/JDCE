@@ -17,13 +17,13 @@ public class MainMenuScreen extends NewScreen {
     /*public Button play;
     public Button highScores;*/
     private Texture background;
-    private float textButtonX = getScreenWidth() / 2 - (getTextButtonWidth() / 2);
-    private float textButtonY1 = getScreenHeight() / 2 - (getTextButtonHeight() / 2);
-    private float textButtonY2 = getScreenHeight() / 2.5f - (getTextButtonHeight() / 2);
-    private float imageButtonX1 = getScreenWidth() * 0.25f - (getImageButtonWidth() / 2);
-    private float imageButtonX2 = getScreenWidth() * 0.5f - (getImageButtonWidth() / 2);
-    private float imageButtonX3 = getScreenWidth() * 0.75f - (getImageButtonWidth() / 2);
-    private float imageButtonY = 0.05f;
+    private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
+    private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
+    private float textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
+    private float imageButtonX1 = getStageWidth() * 0.25f - (getImageButtonWidth() / 2);
+    private float imageButtonX2 = getStageWidth() * 0.5f - (getImageButtonWidth() / 2);
+    private float imageButtonX3 = getStageWidth() * 0.75f - (getImageButtonWidth() / 2);
+    private float imageButtonY = 5;
 
     public MainMenuScreen(JDCEGame g) {
         super(g);
@@ -105,8 +105,6 @@ public class MainMenuScreen extends NewScreen {
             getGame().setScreen(new HighScoreScreen(getGame()));
         }*/
 
-        getGameStage().draw();
-
         getSpriteBatch().begin();
         getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());
         /*play.draw();
@@ -114,6 +112,14 @@ public class MainMenuScreen extends NewScreen {
         getSpriteBatch().end();
 
         getGameStage().draw();
+    }
+
+    public float getStageWidth() {
+        return getGameStage().getWidth();
+    }
+
+    public float getStageHeight() {
+        return getGameStage().getHeight();
     }
 }
 
