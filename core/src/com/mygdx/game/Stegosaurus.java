@@ -10,9 +10,9 @@ public class Stegosaurus extends GameObject {
 
     World world;
 
-    public Stegosaurus(JDCEGame game) {
+    public Stegosaurus(GameScreen game) {
         super(game);
-        world = game.world;
+        world = game.getWorld();
         setHeight(2f);
         setWidth(2f);
         BodyDef bodyDef = new BodyDef();
