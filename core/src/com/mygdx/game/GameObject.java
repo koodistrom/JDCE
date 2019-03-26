@@ -14,18 +14,18 @@ public class GameObject implements HasBody{
     private Float height;
     protected Batch batch;
     protected float rotation;
-    protected JDCEGame game;
+    protected GameScreen game;
     int a = 2;
 
 
-    public GameObject(JDCEGame game){
+    public GameObject(GameScreen game){
 
         this.game = game;
-        this.batch = game.batch;
+        this.batch = game.getSpriteBatch();
 
         rotation = 0f;
-        x = game.worldWidth/2;
-        y = game.worldHeight/2;
+        x = game.getScreenWidth()/2;
+        y = game.getScreenHeight()/2;
     }
 
     public void update(){
@@ -97,7 +97,7 @@ public class GameObject implements HasBody{
     }
 
     public void remove(){
-        game.world.destroyBody(body);
+        game.getWorld().destroyBody(body);
         texture.dispose();
     }
 

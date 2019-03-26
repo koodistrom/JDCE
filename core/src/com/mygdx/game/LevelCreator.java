@@ -33,7 +33,7 @@ public class LevelCreator {
     PolygonSprite polygonSprites[];
     PolygonRegion polyRegs[];
     GameObject goal;
-    JDCEGame game;
+    GameScreen game;
     ArrayList<Vector2> allVertices;
     float lowest;
     float highest;
@@ -48,7 +48,7 @@ public class LevelCreator {
      * @return      a Path representing the twice-differentiable curve
      *              passing through all the given knots
      */
-    public LevelCreator(JDCEGame game){
+    public LevelCreator(GameScreen game){
 
         this.game = game;
         allVertices = new ArrayList<Vector2>();
@@ -322,11 +322,11 @@ public class LevelCreator {
 
 
             if(SVGs[i].equals("rotko.svg")){
-                modules[i].setBody(createBody(points, game.world, lastX, lastY-5,true));
+                modules[i].setBody(createBody(points, game.getWorld(), lastX, lastY-5,true));
                 game.rotkos.add(modules[i]);
                 modules[i].setPolygonRegion(createTexture(game, SVGs[i], spikes));
             }else{
-                modules[i].setBody(createBody(points, game.world, lastX, lastY,false));
+                modules[i].setBody(createBody(points, game.getWorld(), lastX, lastY,false));
                 modules[i].setPolygonRegion(createTexture(game, SVGs[i], dirt));
             }
 
@@ -353,7 +353,7 @@ public class LevelCreator {
         return modules;
     }
 
-    public PolygonRegion createTexture(JDCEGame game, String filePath, TextureRegion textureRegion){
+    public PolygonRegion createTexture(GameScreen game, String filePath, TextureRegion textureRegion){
         PolygonRegion polygonRegion;
         float[] vertices = createFromSVG(filePath);
         for(int i=0; i<vertices.length;i++){

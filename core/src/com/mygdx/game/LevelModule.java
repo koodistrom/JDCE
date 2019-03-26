@@ -15,7 +15,7 @@ public class LevelModule implements HasBody{
     float y;
     float lengthScaler;
     float heightScaler;
-    JDCEGame game;
+    GameScreen game;
 
     public String getFile() {
         return file;
@@ -82,11 +82,11 @@ public class LevelModule implements HasBody{
         this.y = y;
     }
 
-    public JDCEGame getGame() {
+    public GameScreen getGame() {
         return game;
     }
 
-    public void setGame(JDCEGame game) {
+    public void setGame(GameScreen game) {
         this.game = game;
     }
 
@@ -107,6 +107,6 @@ public class LevelModule implements HasBody{
     }
 
     public void draw(){
-        game.polyBatch.draw(polygonRegion, x,y,length, height);
+        game.getPolyBatch().draw(polygonRegion, x,y,length, height);
     }
 }
