@@ -1,5 +1,9 @@
 package svg.parser;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.XmlReader;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import  java.awt.geom.Point2D;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,10 +34,14 @@ public class IOUtilities {
   public static Document loadXmlFile (String path)  {
     //get the factory
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    XmlReader xmlReader = new XmlReader();
 
     LogMessage.log("IOUtilities", "loadXmlFile", "Path:"+path);
-    	
-	File file = new File(path);
+
+    FileHandle fileHandle = Gdx.files.internal(path);
+	File file = fileHandle.file();
+	System.out.println("file: "+ file);
+      System.out.println("filepath: "+ Gdx.files.internal(path).path());
     LogMessage.log("IOUtilities", "loadXmlFile", "Can read:"+file.canRead());
 	 
 	 /*
@@ -51,7 +60,7 @@ public class IOUtilities {
       //parse using builder to get DOM representation of the XML file
       //Document dom = db.parse(path);
       LogMessage.log("IOUtilities", "loadXmlFile", "Start parse:");
-      Document dom = db.parse(file);
+      Document dom = db.parse(fileHandle.read());
       LogMessage.log("IOUtilities", "loadXmlFile", "Finish parse:");
       
       return dom;

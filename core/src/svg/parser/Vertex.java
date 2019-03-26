@@ -7,11 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 
 
 
-public class Vertex extends Point2D implements Comparable<Vertex> {
+public class Vertex extends Vector2 implements Comparable<Vertex> {
 	public final String TAG = this.getClass().getSimpleName();
 	
 	public float x;
 	public float y;
+
+
 	
 	
 	
@@ -83,10 +85,7 @@ public class Vertex extends Point2D implements Comparable<Vertex> {
 		return new Vertex(x,y);
 	}
 	
-	public void set(float x, float y) {
-		this.x = x;
-		this.y = y;
-	}
+
 	
 	public Vertex transform(AffineTransformation at) {
 		Coordinate c = new Coordinate(x, y);
@@ -102,15 +101,15 @@ public class Vertex extends Point2D implements Comparable<Vertex> {
 			return true;
 		return false;
 	}
-	@Override
+
 	public double getX() {
 		return x;
 	}
-	@Override
+
 	public double getY() {
 		return y;
 	}
-	@Override
+
 	public void setLocation(double x, double y) {	
 		this.x = (float) x;
 		this.y = (float) y;

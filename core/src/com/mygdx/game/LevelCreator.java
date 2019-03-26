@@ -1,12 +1,18 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Bezier;
+import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.ShortArray;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -18,6 +24,21 @@ import svg.parser.ExtractSVGPaths;
 //luokka muunneltu netistä kopioidustaluokasta: https://www.stkent.com/2015/07/03/building-smooth-paths-using-bezier-curves.html
 public class LevelCreator {
 
+    Texture dirtTexture;
+    TextureRegion dirt;
+    Texture spikeTexture;
+    TextureRegion spikes;
+    PolygonRegion polyReg;
+    PolygonSprite polySprite;
+    PolygonSprite polygonSprites[];
+    PolygonRegion polyRegs[];
+    GameObject goal;
+    JDCEGame game;
+    ArrayList<Vector2> allVertices;
+    float lowest;
+    float highest;
+    float bottom;
+
     int verticeIndex = 0;
     /**
      * Computes a Poly-Bezier curve passing through a given list of knots.
@@ -27,6 +48,24 @@ public class LevelCreator {
      * @return      a Path representing the twice-differentiable curve
      *              passing through all the given knots
      */
+    public LevelCreator(JDCEGame game){
+
+        this.game = game;
+        allVertices = new ArrayList<Vector2>();
+        goal = new GameObject(game);
+        goal.setTexture(new Texture("finish.png"));
+        dirtTexture = new Texture("dirt.jpg");
+        dirtTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        dirt = new TextureRegion(dirtTexture);
+
+        spikeTexture = new Texture("spikes.png");
+        spikeTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        spikes = new TextureRegion(spikeTexture);
+
+
+        //textureRegion.setRegion(0,0,texture.getWidth()*100,texture.getHeight()*100);
+    }
+
     public float[] createVertices(){
         return computePathThroughKnots(createKnots(100),9);
     }
@@ -204,36 +243,139 @@ public class LevelCreator {
         return knots;
     }
 
-    public void createLevel(World world){
+    public void createLevel(World world, String filePath){
         Body bodyGround;
         //float[] points = createVertices();
-        float[] points = createFromSVG("test2.svg");
+        float[] points = createFromSVG(filePath);
+
+        createBody(points,world,0,0,false);
+    }
+
+    public Body createBody(float[] points, World world, float x, float y, boolean isSensor){
+        Body bodyGround;
+
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
         FixtureDef fixtureDef = new FixtureDef();
 
         ChainShape chainShape = new ChainShape();
-        chainShape.createChain(points);
+        chainShape.createLoop(points);
+
         fixtureDef.shape = chainShape;
         fixtureDef.friction = 1f;
+        fixtureDef.isSensor = isSensor;
+        bodyDef.position.set(x,y);
         bodyGround = world.createBody(bodyDef);
         bodyGround.createFixture(fixtureDef);
-        bodyDef.position.set(0,0);
+
         chainShape.dispose();
+        return bodyGround;
     }
 
     public float[] createFromSVG (String filePath){
 
         float[] vertices;
+        lowest = 0;
+        highest = 0;
+
         ArrayList<Vector2> verticeArray;
 
         verticeArray = ExtractSVGPaths.extract(filePath);
-        vertices = new float[verticeArray.size()*2];
+        vertices = new float[verticeArray.size()*2+4];
         for(int i = 0; i <verticeArray.size(); i++){
+
             vertices[i*2] = verticeArray.get(i).x;
             vertices[i*2+1] = verticeArray.get(i).y;
+            if(verticeArray.get(i).y<lowest){
+                lowest = verticeArray.get(i).y;
+            }
+            if(verticeArray.get(i).y>highest){
+                highest = verticeArray.get(i).y;
+            }
         }
+        bottom = lowest-3;
+        vertices[vertices.length-4] = vertices[vertices.length-6];
+        vertices[vertices.length-3] = bottom;
+        vertices[vertices.length-2] = vertices[0];
+        vertices[vertices.length-1] = bottom;
         return vertices;
+    }
+
+    public LevelModule[] createModules ( String[] SVGs,float[] scalers){
+
+        float lastX = 0;
+        float lastY = 0;
+
+
+        LevelModule[] modules;
+        modules = new LevelModule[SVGs.length];
+
+        for(int i=0; i<SVGs.length; i++){
+
+            modules[i] = new LevelModule();
+            float[] points = createFromSVG(SVGs[i]);
+            points = scalePoints(points,scalers[i]);
+            modules[i].setLengthScaler(scalers[i]);
+
+            allVertices.addAll(ExtractSVGPaths.extract(SVGs[i]));
+
+
+            if(SVGs[i].equals("rotko.svg")){
+                modules[i].setBody(createBody(points, game.world, lastX, lastY-5,true));
+                game.rotkos.add(modules[i]);
+                modules[i].setPolygonRegion(createTexture(game, SVGs[i], spikes));
+            }else{
+                modules[i].setBody(createBody(points, game.world, lastX, lastY,false));
+                modules[i].setPolygonRegion(createTexture(game, SVGs[i], dirt));
+            }
+
+
+            modules[i].setFile(SVGs[i]);
+            modules[i].setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
+            modules[i].setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
+            modules[i].setX(lastX);
+
+            if(SVGs[i].equals("rotko.svg")){
+                modules[i].setY(lastY-5);
+            }else{
+                modules[i].setY(lastY);
+            }
+
+            modules[i].setGame(game);
+            lastX += points[points.length-6];
+            lastY += points[points.length-5];
+        }
+
+        goal.setX(lastX);
+        goal.setY(lastY);
+
+        return modules;
+    }
+
+    public PolygonRegion createTexture(JDCEGame game, String filePath, TextureRegion textureRegion){
+        PolygonRegion polygonRegion;
+        float[] vertices = createFromSVG(filePath);
+        for(int i=0; i<vertices.length;i++){
+            vertices[i] = vertices[i]*game.PIXELS_TO_METERS;
+        }
+
+        EarClippingTriangulator triangulator = new EarClippingTriangulator();
+        ShortArray triangleIndices = triangulator.computeTriangles(vertices);
+
+        polygonRegion = new PolygonRegion(textureRegion, vertices, triangleIndices.toArray());
+        polyReg = polygonRegion;
+
+        polySprite = new PolygonSprite(polyReg);
+
+        return polygonRegion;
+
+    }
+
+    public float[] scalePoints(float[] points, float scaler){
+        for(int i=1; i<points.length;i+=2){
+            points[i]*=scaler;
+        }
+        return points;
     }
 }

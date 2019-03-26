@@ -138,4 +138,5 @@ idea {
 }
 dependencies {
     implementation project(':wahoo_fitness_android_api_1.8.2.0')
+    implementation project(':thingylib')
 }

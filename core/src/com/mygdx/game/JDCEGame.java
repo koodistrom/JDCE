@@ -21,15 +21,17 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ShortArray;
+
+import java.util.ArrayList;
 
 public class JDCEGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Sprite sprite;
 
     PolygonSpriteBatch polyBatch;
-    PolygonSprite polySprite;
 
 	World world;
 	Box2DDebugRenderer debugRenderer;
@@ -44,42 +46,36 @@ public class JDCEGame extends ApplicationAdapter {
     Player player;
     Stegosaurus stegosaurus;
     LevelCreator levelCreator;
-    PolygonRegion polyReg;
-
+    LevelModule[] modules;
+    Collectable collectable;
+    ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
+    ArrayList<HasBody> collectables = new ArrayList<HasBody>();
 	final float PIXELS_TO_METERS = 100f;
     Float worldWidth;
     Float worldHeight;
+
 	
 	@Override
 	public void create () {
-	    texture = new Texture("dirt.jpg");
-        texture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
-	    textureRegion = new TextureRegion(texture);
-        //textureRegion.setRegion(0,0,texture.getWidth()*100,texture.getHeight()*100);
 
         world = new World(new Vector2(0, -3f),true);
-        levelCreator = new LevelCreator();
-        levelCreator.createLevel(world);
-
-		batch = new SpriteBatch();
-        polyBatch = new PolygonSpriteBatch(); // To assign at the beginning
-
-        float[] vertices = levelCreator.createFromSVG("test2.svg");
-        for(int i=0; i<vertices.length;i++){
-            vertices[i] = vertices[i]*PIXELS_TO_METERS;
-        }
-
-        EarClippingTriangulator triangulator = new EarClippingTriangulator();
-        ShortArray triangleIndices = triangulator.computeTriangles(vertices);
-
-        polyReg = new PolygonRegion(textureRegion, vertices, triangleIndices.toArray());
-
-        polySprite = new PolygonSprite(polyReg);
-
-        //polySprite.scale(1/PIXELS_TO_METERS);
-
         worldWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
         worldHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
+
+        batch = new SpriteBatch();
+        polyBatch = new PolygonSpriteBatch(); // To assign at the beginning
+
+        levelCreator = new LevelCreator(this);
+
+        //levelCreator.createLevel(world, "test3.SVG");
+        //levelCreator.createTexture(this,"test3.SVG");
+
+        modules = levelCreator.createModules( new String[] {"test2.svg"}, new float[]{1});
+
+
+
+
+
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,worldWidth,worldHeight);
@@ -88,9 +84,10 @@ public class JDCEGame extends ApplicationAdapter {
         player = new Player(this);
         //stegosaurus = new Stegosaurus(this);
 
+        //collectable = new Collectable(this, new Texture("collectable.png"));
+        //collectable.setLocationInLevel(20f,levelCreator);
 
-
-        world.setContactListener(new ContactListenerClass());
+        world.setContactListener(new ContactListenerClass(this));
 
         debugRenderer = new Box2DDebugRenderer();
 		font = new BitmapFont();
@@ -119,13 +116,19 @@ public class JDCEGame extends ApplicationAdapter {
 		batch.begin();
 
         player. draw();
+        //collectable.update();
+
+        levelCreator.goal.draw();
 
 		batch.end();
 
         polyBatch.begin();
 
         //polySprite.draw(polyBatch);
-        polyBatch.draw(polyReg, 0,0,polySprite.getWidth()/PIXELS_TO_METERS, polySprite.getHeight()/PIXELS_TO_METERS);
+        //polyBatch.draw(levelCreator.polyReg, 0,0,levelCreator.polySprite.getWidth()/PIXELS_TO_METERS, levelCreator.polySprite.getHeight()/PIXELS_TO_METERS);
+        for(int i=0; i<modules.length; i++){
+            modules[i].draw();
+        }
         polyBatch.end();
 
 		debugRenderer.render(world, debugMatrix);

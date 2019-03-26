@@ -2,6 +2,7 @@ package svg.parser;
 
 import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
+import java.awt.geom.Point2D;
 
 
 public class ExtractSVGPaths {
