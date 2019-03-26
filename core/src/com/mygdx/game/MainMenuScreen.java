@@ -108,7 +108,7 @@ public class MainMenuScreen extends NewScreen {
         getGameStage().draw();
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(background, 0, 0, (int) getScreenWidth(), (int) getScreenHeight());
+        getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());
         /*play.draw();
         highScores.draw();*/
         getSpriteBatch().end();
