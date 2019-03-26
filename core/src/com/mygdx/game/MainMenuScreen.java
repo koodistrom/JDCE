@@ -23,7 +23,7 @@ public class MainMenuScreen extends NewScreen {
     private float imageButtonX1 = getScreenWidth() * 0.25f - (getImageButtonWidth() / 2);
     private float imageButtonX2 = getScreenWidth() * 0.5f - (getImageButtonWidth() / 2);
     private float imageButtonX3 = getScreenWidth() * 0.75f - (getImageButtonWidth() / 2);
-    private float imageButtonY = 5f;
+    private float imageButtonY = 0.05f;
 
     public MainMenuScreen(JDCEGame g) {
         super(g);

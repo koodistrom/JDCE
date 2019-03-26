@@ -21,10 +21,10 @@ public class NewScreen implements Screen {
     private float screenHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
     private Stage gameStage;
     private Skin uiSkin;
-    private float textButtonHeight = 30;
-    private float textButtonWidth = 300;
-    private float imageButtonHeight = 50;
-    private float imageButtonWidth = 50;
+    private float textButtonHeight = 0.3f;
+    private float textButtonWidth = 3;
+    private float imageButtonHeight = 0.5f;
+    private float imageButtonWidth = 0.5f;
     private Button mute;
     private Button languageFI;
     private Button languageEN;
