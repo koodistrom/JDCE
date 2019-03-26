@@ -37,7 +37,7 @@ public class Player extends GameObject implements InputProcessor {
     Timer timer;
     boolean isTurboOn;
 
-    public Player(JDCEGame game) {
+    public Player(GameScreen game) {
 
         super(game);
         rwRotation=0;
@@ -46,9 +46,9 @@ public class Player extends GameObject implements InputProcessor {
         wheel = new Texture("rengas.png");
         float ww = wheel.getWidth()/game.PIXELS_TO_METERS;
         float wh = wheel.getHeight()/game.PIXELS_TO_METERS;
-        world = game.world;
-        x = game.worldWidth/3;
-        y = game.worldHeight/2;
+        world = game.getWorld();
+        x = game.getScreenWidth()/3;
+        y = game.getScreenHeight()/2;
         time = 0;
         oldSpeed = 0f;
         isTurboOn = false;
@@ -131,7 +131,7 @@ public class Player extends GameObject implements InputProcessor {
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
         //System.out.println(body.getLinearVelocity().x);
-        speed = game.m_platformResolver.getPedalSpeed();
+        speed = JDCEGame.m_platformResolver.getPedalSpeed();
         if( speed!= null) {
 
             motorSpeed = (-15) * speed;
@@ -165,7 +165,7 @@ public class Player extends GameObject implements InputProcessor {
             //motorSpeed *= 2;
         }
 
-        if(x>game.levelCreator.goal.getX()){
+        if(x>game.getLevelCreator().goal.getX()){
             System.out.println("voitto "+trackTime);
         }else{
             trackTime += Gdx.graphics.getDeltaTime();
@@ -241,7 +241,7 @@ public class Player extends GameObject implements InputProcessor {
 
         if(keycode == Input.Keys.ESCAPE) {
             game.dispose();
-            game.create();
+            game = new GameScreen(game.getGame());
 
         }
         return true;
@@ -260,7 +260,7 @@ public class Player extends GameObject implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         game.dispose();
-        game.create();
+        game = new GameScreen(game.getGame());
         return true;
     }
 

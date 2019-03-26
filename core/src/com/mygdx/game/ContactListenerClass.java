@@ -11,18 +11,18 @@ import java.util.ArrayList;
 
 public class ContactListenerClass implements ContactListener {
 
-    JDCEGame game;
+    GameScreen game;
     Fixture[] playerFixs;
     Fixture fixtureTouched;
     HasBody objectTouched;
 
 
-    public ContactListenerClass (JDCEGame game){
+    public ContactListenerClass (GameScreen game){
         this.game =game;
         playerFixs = new Fixture[]{
-                game.player.body.getFixtureList().get(0),
-                game.player.frontWheel.getFixtureList().get(0),
-                game.player.rearWheel.getFixtureList().get(0)
+                game.getPlayer().body.getFixtureList().get(0),
+                game.getPlayer().frontWheel.getFixtureList().get(0),
+                game.getPlayer().rearWheel.getFixtureList().get(0)
         };
     }
     @Override
@@ -32,14 +32,14 @@ public class ContactListenerClass implements ContactListener {
 
         if(playerTouches(game.collectables,contact)){
             Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
-            game.player.turboOn();
+            game.getPlayer().turboOn();
             objectTouched.deledDis();
 
 
         }
 
         if(playerTouches(game.rotkos,contact)){
-            game.create();
+            game = new GameScreen(game.getGame());
 
         }
 

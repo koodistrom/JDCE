@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public class Collectable extends GameObject {
     boolean touched;
-    public Collectable(JDCEGame game, Texture texture) {
+    public Collectable(GameScreen game, Texture texture) {
         super(game);
         touched = false;
         setTexture(texture);
@@ -22,7 +22,7 @@ public class Collectable extends GameObject {
         bodyDef.position.set((getX() + getWidth()/2),
                 (getY() + getHeight()/2));
 
-        body = game.world.createBody(bodyDef);
+        body = game.getWorld().createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
 
