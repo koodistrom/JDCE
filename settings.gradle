@@ -1,2 +1,2 @@
-include ':fitness', ':batik-parser-1.11', ':batik-transcoder-1.11', ':batik-i18n-1.11', ':batik-util-1.11', ':thingylib'
+include ':fitness', ':batik-parser-1.11', ':batik-transcoder-1.11', ':batik-i18n-1.11', ':batik-util-1.11', ':thingylib', ':BLE_scanner', ':scanner'
 include 'desktop', 'android', 'ios', 'core', ':wahoo_fitness_android_api_1.8.2.0'

@@ -3,23 +3,40 @@ package com.mygdx.game;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 
+import java.util.ArrayList;
+
 import no.nordicsemi.android.thingylib.ThingyListener;
 import no.nordicsemi.android.thingylib.ThingySdkManager;
 
 public class JDCEThingyListener implements ThingyListener {
 
     ThingySdkManager thingySdkManager;
-    public JDCEThingyListener(ThingySdkManager thingySdkManager){
+    private ArrayList<BluetoothDevice> mConnectedBleDeviceList;
+
+    private BluetoothDevice mDevice;
+    private BluetoothDevice mOldDevice;
+    private AndroidResolver androidResolver;
+
+    public JDCEThingyListener(ThingySdkManager thingySdkManager, AndroidResolver androidResolver){
+        mConnectedBleDeviceList = new ArrayList<BluetoothDevice>();
+        this.androidResolver = androidResolver;
+
         this.thingySdkManager = thingySdkManager;
     }
     @Override
     public void onDeviceConnected(BluetoothDevice device, int connectionState) {
 
+        if (!mConnectedBleDeviceList.contains(device)) {
+            mConnectedBleDeviceList.add(device);
+        }
     }
 
     @Override
     public void onDeviceDisconnected(BluetoothDevice device, int connectionState) {
 
+        if (mConnectedBleDeviceList.contains(device)) {
+            mConnectedBleDeviceList.remove(device);
+        }
     }
 
     @Override
@@ -93,7 +110,7 @@ public class JDCEThingyListener implements ThingyListener {
 
     @Override
     public void onGyroscopeValueChangedEvent(BluetoothDevice bluetoothDevice, float x, float y, float z) {
-
+        androidResolver.setPedalSpeed(z/360);
     }
 
     @Override
