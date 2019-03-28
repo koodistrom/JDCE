@@ -1,17 +1,18 @@
 package com.mygdx.game;
 
 public class AndroidResolver implements PlatformResolver {
+    float speed;
+
+    public AndroidResolver(){
+        speed = 0;
+    }
     @Override
     public Float getPedalSpeed() {
 
-        if(ConnectingService.getCrankRevsData() != null) {
-            Float crankSpeed;
-            double speed = ConnectingService.getCrankRevsData();
-            crankSpeed = (float)speed;
+        return speed;
+    }
 
-            return crankSpeed;
-        }else{
-            return null;
-        }
+    public void setPedalSpeed(float speed){
+        this.speed = speed;
     }
 }

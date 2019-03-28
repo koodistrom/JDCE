@@ -12,10 +12,21 @@ public class ThingyService extends BaseThingyService {
     @Nullable
     @Override
     public BaseThingyBinder onBind(Intent intent) {
-        return null;
+        return new ThingyBinder();
     }
 
     public class ThingyBinder extends BaseThingyBinder {
+        private boolean mIsScanning = false;
+
+        public void setScanningState(final boolean isScanning) {
+            mIsScanning = isScanning;
+        }
+
+        public boolean isScanningState() {
+            return mIsScanning;
+        }
+
+
         @Override
         public ThingyConnection getThingyConnection(BluetoothDevice device) {
             return mThingyConnections.get(device);
