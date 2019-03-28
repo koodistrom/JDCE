@@ -253,6 +253,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         final Thingy thingy = new Thingy(mDevice);
         System.out.println(mDevice);
         thingySdkManager.setSelectedDevice(mDevice);
+        System.out.println(mDevice.getType());
         System.out.println("nyt pitäis olla yhteys");
     }
 

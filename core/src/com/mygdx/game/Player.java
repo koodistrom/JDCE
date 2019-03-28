@@ -36,6 +36,9 @@ public class Player extends GameObject implements InputProcessor {
     float trackTime;
     Timer timer;
     boolean isTurboOn;
+    float freeRollRange;
+    boolean reverseOn;
+    Float speed;
 
     public Player(GameScreen game) {
 
@@ -52,7 +55,9 @@ public class Player extends GameObject implements InputProcessor {
         time = 0;
         oldSpeed = 0f;
         isTurboOn = false;
-
+        freeRollRange = 0.05f;
+        reverseOn = false;
+        speed = 0f;
 
 
         BodyDef bodyDef = new BodyDef();
@@ -125,40 +130,43 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public void update(){
-        Float speed;
+
         super.update();
 
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
         //System.out.println(body.getLinearVelocity().x);
-        speed = JDCEGame.m_platformResolver.getPedalSpeed();
-        if( speed!= null) {
 
-            motorSpeed = (-15) * speed;
-
-
-
-            if (Math.abs(motorSpeed) > body.getLinearVelocity().x) {
-                rearWheelJoint.enableMotor(true);
-                rearWheelJoint.setMotorSpeed(motorSpeed);
-            } else {
-                rearWheelJoint.enableMotor(false);
-            }
-            //System.out.println(motorSpeed);
-
-
-            if(speed.equals(oldSpeed) ) {
-
-                time++;
-            }else{
-                System.out.println("speed is: "+speed);
-                System.out.println("time from last change: "+time);
-                time = 0;
-            }
-
-
-            oldSpeed = speed;
+        if(JDCEGame.m_platformResolver.isAndroid()) {
+            speed = JDCEGame.m_platformResolver.getPedalSpeed();
         }
+
+        //vapaalla
+        if(!isReverseOn() && speed < freeRollRange && speed>-freeRollRange) {
+            rearWheelJoint.enableMotor(false);
+            frontWheelJoint.enableMotor(false);
+
+        }
+
+        //backward
+        if(speed<-freeRollRange) {
+            rearWheelJoint.enableMotor(true);
+            frontWheelJoint.enableMotor(true);
+
+            reverseOn = true;
+        }
+
+        //forward
+        if(speed > freeRollRange ) {
+            rearWheelJoint.enableMotor(true);
+            frontWheelJoint.enableMotor(false);
+
+        }
+        motorSpeed = (-15) * speed;
+        System.out.println("nopeus: "+ motorSpeed+"  polkunopeus: "+speed);
+
+        rearWheelJoint.setMotorSpeed(motorSpeed);
+        frontWheelJoint.setMotorSpeed(motorSpeed);
 
         if(isTurboOn){
             body.applyForceToCenter(new Vector2(5,0),false);
@@ -208,20 +216,31 @@ public class Player extends GameObject implements InputProcessor {
 
     }
 
+    public  boolean isReverseOn(){
+        if (reverseOn){
+            if (speed<freeRollRange){
+                return true;
+            }else {
+                reverseOn = false;
+                return false;
+            }
+
+        }else {
+            return false;
+        }
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
-            rearWheelJoint.enableMotor(true);
-            rearWheelJoint.setMotorSpeed(-20f);
+
+            speed = 1f;
 
 
 
         }
         if(keycode == Input.Keys.LEFT) {
-            frontWheelJoint.enableMotor(true);
-            frontWheelJoint.setMotorSpeed(0f);
-            rearWheelJoint.enableMotor(true);
-            rearWheelJoint.setMotorSpeed(0f);
+            speed = -1f;
 
 
         }
@@ -231,11 +250,11 @@ public class Player extends GameObject implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
-            rearWheelJoint.enableMotor(false);
+            speed = 0f;
 
         }
         if(keycode == Input.Keys.LEFT) {
-            frontWheelJoint.enableMotor(false);
+            speed = 0f;
 
         }
 
