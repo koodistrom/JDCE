@@ -176,8 +176,9 @@ public class Player extends GameObject implements InputProcessor {
 
 
         if(x>game.getLevelCreator().goal.getX()){
-            //voittaminen
+            //voittaminen :ok_hand:
             game.getGame().setScreen(new FinishView(game.getGame(),trackTime));
+            
         }else{
             trackTime += Gdx.graphics.getDeltaTime();
         }

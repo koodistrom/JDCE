@@ -33,8 +33,8 @@ public class MainMenuScreen extends NewScreen {
         highScores = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "High Scores", getScreenWidth()/2, getScreenHeight()/3);*/
         background = new Texture(Gdx.files.internal("mainmenuscreen_ph.png"));
 
-        final TextButton playButton = new TextButton("Play", getUiSkin());
-        final TextButton highScoreButton = new TextButton("High Scores", getUiSkin());
+        /*final*/ TextButton playButton = new TextButton("Play", getUiSkin());
+        /*final*/ TextButton highScoreButton = new TextButton("High Scores", getUiSkin());
 
         playButton.setWidth(getTextButtonWidth());
         playButton.setHeight(getTextButtonHeight());
