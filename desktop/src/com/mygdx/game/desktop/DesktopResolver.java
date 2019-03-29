@@ -15,4 +15,9 @@ public class DesktopResolver implements PlatformResolver {
         }
 
     }
+
+    @Override
+    public boolean isAndroid() {
+        return false;
+    }
 }
