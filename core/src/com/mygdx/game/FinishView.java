@@ -30,5 +30,6 @@ public class FinishView extends NewScreen {
 
     public void addHighScore(float f) {
         highscores.putFloat("highscore", f);
+        highscores.flush();
     }
 }

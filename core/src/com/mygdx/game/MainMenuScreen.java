@@ -82,6 +82,7 @@ public class MainMenuScreen extends NewScreen {
         getMuteButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println(Utilities.secondsToString(4913.3452f));
                 if(getMuteButton().isChecked()) {
                     getMuteButton().setChecked(true);
                 } else {
