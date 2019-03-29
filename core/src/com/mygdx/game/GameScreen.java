@@ -118,6 +118,11 @@ public class GameScreen extends NewScreen {
                 0);
     }
 
+    public void reset(){
+        getGame().setScreen(new GameScreen(getGame()));
+        dispose();
+    }
+
     public World getWorld() {
         return world;
     }

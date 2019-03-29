@@ -63,6 +63,14 @@ public class NewScreen implements Screen {
 
     }
 
+    public float getStageWidth() {
+        return getGameStage().getWidth();
+    }
+
+    public float getStageHeight() {
+        return getGameStage().getHeight();
+    }
+
     public void setGame(JDCEGame g) {
         game = g;
     }

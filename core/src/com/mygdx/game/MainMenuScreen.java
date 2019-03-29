@@ -113,13 +113,7 @@ public class MainMenuScreen extends NewScreen {
         getGameStage().draw();
     }
 
-    public float getStageWidth() {
-        return getGameStage().getWidth();
-    }
 
-    public float getStageHeight() {
-        return getGameStage().getHeight();
-    }
 
     public void dispose() {
         background.dispose();
