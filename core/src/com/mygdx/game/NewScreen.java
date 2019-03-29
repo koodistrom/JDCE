@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class NewScreen implements Screen {
     private JDCEGame game;
     private SpriteBatch batch;
-    private OrthographicCamera camera;
+    //private OrthographicCamera camera;
     final float PIXELS_TO_METERS = 100f;
     private float screenWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
     private float screenHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
@@ -30,14 +30,16 @@ public class NewScreen implements Screen {
     private Button languageFI;
     private Button languageEN;
     private ScreenViewport gameViewport;
+    private FitViewport meterViewport;
 
 
     public NewScreen(JDCEGame g) {
         game = g;
         batch = game.getBatch();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, screenWidth, screenHeight);
+        /*camera = new OrthographicCamera();
+        camera.setToOrtho(false, screenWidth, screenHeight);*/
         gameViewport = new ScreenViewport();
+        meterViewport = new FitViewport(screenWidth, screenHeight);
         gameStage = new Stage(gameViewport, batch);
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 
@@ -87,12 +89,20 @@ public class NewScreen implements Screen {
         return batch;
     }
 
-    public void setCamera(OrthographicCamera c) {
-        camera = c;
+    public FitViewport getMeterViewport() {
+        return meterViewport;
     }
 
-    public OrthographicCamera getCamera() {
-        return camera;
+    public void setMeterViewport(FitViewport meterViewport) {
+        this.meterViewport = meterViewport;
+    }
+
+    public ScreenViewport getGameViewport() {
+        return gameViewport;
+    }
+
+    public void setGameViewport(ScreenViewport gameViewport) {
+        this.gameViewport = gameViewport;
     }
 
     public void setScreenWidth(float width) {
@@ -183,7 +193,8 @@ public class NewScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        gameViewport.update(width, height);
+        gameViewport.update(width, height, true);
+        meterViewport.update(width, height, true);
     }
 
     @Override

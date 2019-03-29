@@ -26,6 +26,8 @@ public class FinishView extends NewScreen {
         background = new Texture(Gdx.files.internal("bluebackground.png"));
         addHighScore(Utilities.secondsToString(time));
 
+        //pixelCamera.setToOrtho(false, g, getScreenHeight());
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 12;
@@ -36,7 +38,8 @@ public class FinishView extends NewScreen {
 
     @Override
     public void render(float delta) {
-        getSpriteBatch().setProjectionMatrix(getCamera().combined);
+        getMeterViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         getSpriteBatch().begin();
         getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());

@@ -10,7 +10,8 @@ public class HighScoreScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        getSpriteBatch().setProjectionMatrix(getCamera().combined);
+        getMeterViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
         Gdx.gl.glClearColor(0.2f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }

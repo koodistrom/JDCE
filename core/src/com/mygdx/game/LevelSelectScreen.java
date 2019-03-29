@@ -27,7 +27,8 @@ public class LevelSelectScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        getSpriteBatch().setProjectionMatrix(getCamera().combined);
+        getMeterViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         getSpriteBatch().begin();
         getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());

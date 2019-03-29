@@ -82,7 +82,6 @@ public class MainMenuScreen extends NewScreen {
         getMuteButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println(Utilities.secondsToString(4913.3452f));
                 if(getMuteButton().isChecked()) {
                     getMuteButton().setChecked(true);
                 } else {
@@ -95,7 +94,8 @@ public class MainMenuScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        getSpriteBatch().setProjectionMatrix(getCamera().combined);
+        getMeterViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

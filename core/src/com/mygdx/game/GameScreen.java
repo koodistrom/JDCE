@@ -74,7 +74,7 @@ public class GameScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        getCamera().update();
+        //getMeterViewport().getCamera().update();
         // Step the physics simulation forward at a rate of 60hz
         world.step(1f/60f, 6, 2);
 
@@ -86,8 +86,10 @@ public class GameScreen extends NewScreen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        polyBatch.setProjectionMatrix(getCamera().combined);
-        getSpriteBatch().setProjectionMatrix(getCamera().combined);
+        getMeterViewport().apply();
+
+        polyBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
+        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         debugMatrix = getSpriteBatch().getProjectionMatrix();
         getSpriteBatch().begin();
@@ -113,7 +115,7 @@ public class GameScreen extends NewScreen {
 
     private void moveCamera() {
 
-        getCamera().position.set(player.getX()+2.5f,
+        getMeterViewport().getCamera().position.set(player.getX()+2.5f,
                 player.getY()+1.5f,
                 0);
     }
