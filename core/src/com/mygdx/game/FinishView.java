@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -15,7 +16,7 @@ public class FinishView extends NewScreen {
     private Texture background;
     float finishTime;
     private FreeTypeFontGenerator generator;
-    private FreeTypeFont font12;
+    private BitmapFont font12;
 
     public FinishView(JDCEGame g, float time) {
         super(g);
