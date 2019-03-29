@@ -33,7 +33,6 @@ public class NewScreen implements Screen {
 
 
     public NewScreen(JDCEGame g) {
-        int benis;
         game = g;
         batch = game.getBatch();
         camera = new OrthographicCamera();
@@ -196,6 +195,7 @@ public class NewScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        gameStage.dispose();
+        uiSkin.dispose();
     }
 }

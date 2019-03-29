@@ -39,4 +39,8 @@ public class JDCEGame extends Game {
 	public static void setPlatformResolver(PlatformResolver platformResolver) {
 		m_platformResolver = platformResolver;
 	}
+
+	public JDCEGame getGame() {
+		return this;
+	}
 }

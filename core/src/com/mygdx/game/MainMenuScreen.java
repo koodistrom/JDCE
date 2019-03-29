@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -107,8 +108,6 @@ public class MainMenuScreen extends NewScreen {
 
         getSpriteBatch().begin();
         getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());
-        /*play.draw();
-        highScores.draw();*/
         getSpriteBatch().end();
 
         getGameStage().draw();
@@ -120,6 +119,11 @@ public class MainMenuScreen extends NewScreen {
 
     public float getStageHeight() {
         return getGameStage().getHeight();
+    }
+
+    public void dispose() {
+        background.dispose();
+        super.dispose();
     }
 }
 
