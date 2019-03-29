@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
@@ -17,6 +18,7 @@ public class FinishView extends NewScreen {
     float finishTime;
     private FreeTypeFontGenerator generator;
     private BitmapFont font12;
+    private OrthographicCamera pixelCamera;
 
     public FinishView(JDCEGame g, float time) {
         super(g);
@@ -24,7 +26,7 @@ public class FinishView extends NewScreen {
         background = new Texture(Gdx.files.internal("bluebackground.png"));
         addHighScore(Utilities.secondsToString(time));
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 12;
         parameter.borderColor = Color.BLACK;
