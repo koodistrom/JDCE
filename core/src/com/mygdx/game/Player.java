@@ -173,8 +173,11 @@ public class Player extends GameObject implements InputProcessor {
             //motorSpeed *= 2;
         }
 
+
+
         if(x>game.getLevelCreator().goal.getX()){
-            System.out.println("voitto "+trackTime);
+            //voittaminen
+            game.getGame().setScreen(new FinishView(game.getGame(),trackTime));
         }else{
             trackTime += Gdx.graphics.getDeltaTime();
         }

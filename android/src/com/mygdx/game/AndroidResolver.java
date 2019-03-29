@@ -2,9 +2,9 @@ package com.mygdx.game;
 
 public class AndroidResolver implements PlatformResolver {
     float speed;
-
-    public AndroidResolver(){
-
+    AndroidLauncher androidLauncher;
+    public AndroidResolver(AndroidLauncher androidLauncher){
+        this.androidLauncher = androidLauncher;
         speed = 0;
     }
     @Override
@@ -13,9 +13,16 @@ public class AndroidResolver implements PlatformResolver {
         return speed;
     }
 
+
+
     @Override
     public boolean isAndroid() {
         return true;
+    }
+
+    @Override
+    public void connect() {
+        androidLauncher.prepareForScanning(true);
     }
 
     public void setPedalSpeed(float speed){

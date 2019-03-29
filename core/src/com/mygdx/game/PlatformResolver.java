@@ -6,4 +6,6 @@ public interface PlatformResolver {
 
     public boolean isAndroid();
 
+    public void connect();
+
 }

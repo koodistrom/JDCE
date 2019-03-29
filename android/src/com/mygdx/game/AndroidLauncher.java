@@ -50,7 +50,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-	    androidResolver = new AndroidResolver();
+	    androidResolver = new AndroidResolver(this);
         JDCEGame.setPlatformResolver(androidResolver);
 		super.onCreate(savedInstanceState);
         System.out.println("edes Android launcher toimii");
@@ -136,7 +136,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         return true;
     }
 
-    private void prepareForScanning(final boolean nfcInitiated) {
+    public void prepareForScanning(final boolean nfcInitiated) {
         System.out.println("preparoidaan");
         System.out.println("luvat: "+ checkIfRequiredPermissionsGranted());
         if (checkIfRequiredPermissionsGranted()) {
