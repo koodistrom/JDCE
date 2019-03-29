@@ -25,4 +25,9 @@ public class DesktopResolver implements PlatformResolver {
     public void connect() {
 
     }
+
+    @Override
+    public boolean isConnected() {
+        return true;
+    }
 }

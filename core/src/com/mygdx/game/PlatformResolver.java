@@ -8,4 +8,6 @@ public interface PlatformResolver {
 
     public void connect();
 
+    public boolean isConnected();
+
 }

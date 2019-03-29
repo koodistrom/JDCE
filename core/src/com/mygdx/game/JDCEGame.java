@@ -14,7 +14,12 @@ public class JDCEGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new MainMenuScreen(this));
+		if(m_platformResolver.isAndroid())
+			this.setScreen(new ConnectScreen(this));
+		else {
+			this.setScreen(new MainMenuScreen(this));
+		}
+
 	}
 
 	@Override

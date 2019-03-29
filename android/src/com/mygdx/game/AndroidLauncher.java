@@ -95,7 +95,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         System.out.println("service yhdistetty");
 
         thingyBinder = (ThingyService.ThingyBinder) thingySdkManager.getThingyBinder();
-        prepareForScanning(true);
+        //prepareForScanning(true);
     }
 
     @Override
@@ -255,6 +255,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         thingySdkManager.setSelectedDevice(mDevice);
         System.out.println(mDevice.getType());
         System.out.println("nyt pitäis olla yhteys");
+        androidResolver.setConnected(true);
     }
 
     private void connect(final BluetoothDevice device) {
