@@ -42,7 +42,8 @@ public class Player extends GameObject implements InputProcessor {
     boolean neutralOn;
     Float speed;
     ArrayList<Float> distsInSec;
-    float distInSec;
+    float neutralDist;
+    float neutralRange;
 
     public Player(GameScreen game) {
 
@@ -62,8 +63,10 @@ public class Player extends GameObject implements InputProcessor {
         freeRollRange = 0.001f;
         reverseOn = false;
         speed = 0f;
-        distInSec = 0f;
+        neutralDist = 0f;
+        neutralRange = 0.1f;
         distsInSec = new ArrayList<Float>();
+
 
 
         BodyDef bodyDef = new BodyDef();
@@ -297,24 +300,36 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJoint.enableMotor(true);
         frontWheelJoint.enableMotor(true);
         reverseOn = true;
+        neutralOn = false;
     }
 
     public void setToNeutral(){
         rearWheelJoint.enableMotor(false);
         frontWheelJoint.enableMotor(false);
+
+        if(forwardOn){
+            neutralDist = neutralRange;
+        }else if(reverseOn){
+            neutralDist = -neutralRange;
+        }
+
+        distsInSec.clear();
         neutralOn = true;
+        forwardOn =false;
+        reverseOn = false;
     }
 
     public void setToForward(){
         rearWheelJoint.enableMotor(true);
         frontWheelJoint.enableMotor(false);
         forwardOn = true;
+        neutralOn = false;
     }
 
     public void driveMode(){
         if(neutralOn){
             for(int i=0; i<distsInSec.size(); i++){
-                distInSec +=distsInSec.get(i);
+                neutralDist +=distsInSec.get(i);
 
             }
         }
