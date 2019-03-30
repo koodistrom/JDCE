@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 public class AndroidResolver implements PlatformResolver {
     float speed;
+    float calculatedSpeed;
     boolean connected;
     AndroidLauncher androidLauncher;
 
@@ -12,8 +13,8 @@ public class AndroidResolver implements PlatformResolver {
 
     @Override
     public Float getPedalSpeed() {
-
-        return speed;
+        calculatedSpeed = speed/360/60;
+        return calculatedSpeed;
     }
 
     public void setPedalSpeed(float speed) {

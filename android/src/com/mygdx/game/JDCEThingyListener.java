@@ -110,7 +110,7 @@ public class JDCEThingyListener implements ThingyListener {
 
     @Override
     public void onGyroscopeValueChangedEvent(BluetoothDevice bluetoothDevice, float x, float y, float z) {
-        androidResolver.setPedalSpeed(z/360);
+        androidResolver.setPedalSpeed(z);
     }
 
     @Override

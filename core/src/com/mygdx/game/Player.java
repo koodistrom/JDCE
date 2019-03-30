@@ -55,7 +55,7 @@ public class Player extends GameObject implements InputProcessor {
         time = 0;
         oldSpeed = 0f;
         isTurboOn = false;
-        freeRollRange = 0.05f;
+        freeRollRange = 0.001f;
         reverseOn = false;
         speed = 0f;
 
@@ -137,51 +137,11 @@ public class Player extends GameObject implements InputProcessor {
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
         //System.out.println(body.getLinearVelocity().x);
 
-        if(JDCEGame.m_platformResolver.isAndroid()) {
-            speed = JDCEGame.m_platformResolver.getPedalSpeed();
-        }
 
-        //vapaalla
-        if(!isReverseOn() && speed < freeRollRange && speed>-freeRollRange) {
-            rearWheelJoint.enableMotor(false);
-            frontWheelJoint.enableMotor(false);
-
-        }
-
-        //backward
-        if(speed<-freeRollRange) {
-            rearWheelJoint.enableMotor(true);
-            frontWheelJoint.enableMotor(true);
-
-            reverseOn = true;
-        }
-
-        //forward
-        if(speed > freeRollRange ) {
-            rearWheelJoint.enableMotor(true);
-            frontWheelJoint.enableMotor(false);
-
-        }
-        motorSpeed = (-15) * speed;
-        System.out.println("nopeus: "+ motorSpeed+"  polkunopeus: "+speed);
-
-        rearWheelJoint.setMotorSpeed(motorSpeed);
-        frontWheelJoint.setMotorSpeed(motorSpeed);
-
-        if(isTurboOn){
-            body.applyForceToCenter(new Vector2(5,0),false);
-            //motorSpeed *= 2;
-        }
+        steering();
+        trackTime();
 
 
-
-        if(x>game.getLevelCreator().goal.getX()){
-            //voittaminen :ok_hand:
-            game.getGame().setScreen(new FinishView(game.getGame(),trackTime));
-            
-        }else{
-            trackTime += Gdx.graphics.getDeltaTime();
-        }
     }
 
 
@@ -238,13 +198,13 @@ public class Player extends GameObject implements InputProcessor {
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
 
-            speed = 1f;
+            speed = 1/60f;
 
 
 
         }
         if(keycode == Input.Keys.LEFT) {
-            speed = -1f;
+            speed = -1/60f;
 
 
         }
@@ -267,6 +227,57 @@ public class Player extends GameObject implements InputProcessor {
 
         }
         return true;
+    }
+
+    public void trackTime(){
+        if(x>game.getLevelCreator().goal.getX()){
+            //voittaminen :ok_hand:
+            game.getGame().setScreen(new FinishView(game.getGame(),trackTime));
+
+        }else{
+            trackTime += Gdx.graphics.getDeltaTime();
+        }
+    }
+
+    public void steering(){
+
+        if(JDCEGame.m_platformResolver.isAndroid()) {
+            speed = JDCEGame.m_platformResolver.getPedalSpeed();
+        }
+
+        //vapaalla
+        if(!isReverseOn() && speed < freeRollRange && speed>-freeRollRange) {
+            rearWheelJoint.enableMotor(false);
+            frontWheelJoint.enableMotor(false);
+
+        }
+
+        //backward
+        if(speed<-freeRollRange) {
+            rearWheelJoint.enableMotor(true);
+            frontWheelJoint.enableMotor(true);
+
+            reverseOn = true;
+        }
+
+        //forward
+        if(speed > freeRollRange ) {
+            rearWheelJoint.enableMotor(true);
+            frontWheelJoint.enableMotor(false);
+
+        }
+        motorSpeed = (-15)*60 * speed;
+        System.out.println("nopeus: "+ motorSpeed+"  polkunopeus: "+speed);
+
+        rearWheelJoint.setMotorSpeed(motorSpeed);
+        frontWheelJoint.setMotorSpeed(motorSpeed);
+
+        if(isTurboOn){
+            body.applyForceToCenter(new Vector2(5,0),false);
+            //motorSpeed *= 2;
+        }
+
+
     }
 
     @Override
