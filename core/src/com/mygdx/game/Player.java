@@ -38,7 +38,11 @@ public class Player extends GameObject implements InputProcessor {
     boolean isTurboOn;
     float freeRollRange;
     boolean reverseOn;
+    boolean forwardOn;
+    boolean neutralOn;
     Float speed;
+    ArrayList<Float> distsInSec;
+    float distInSec;
 
     public Player(GameScreen game) {
 
@@ -58,6 +62,8 @@ public class Player extends GameObject implements InputProcessor {
         freeRollRange = 0.001f;
         reverseOn = false;
         speed = 0f;
+        distInSec = 0f;
+        distsInSec = new ArrayList<Float>();
 
 
         BodyDef bodyDef = new BodyDef();
@@ -76,15 +82,15 @@ public class Player extends GameObject implements InputProcessor {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = 0.2f;
         fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
         shape.dispose();
         setBody(body);
 
-        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,1,0.5f,1f,ww/2);
-        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,1,0.5f,1f,ww/2);
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.7f,0.5f,1.5f,ww/2);
+        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.7f,0.5f,1.5f,ww/2);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
         rearWheelJointDef.bodyA=body;
@@ -97,7 +103,7 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.dampingRatio = 0.95f;
         rearWheelJointDef.frequencyHz = 1.7f;
         rearWheelJointDef.localAxisA.set(new Vector2(0,1));
-        rearWheelJointDef.maxMotorTorque = 50f;
+        rearWheelJointDef.maxMotorTorque = 40f;
         rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
 
 
@@ -138,7 +144,12 @@ public class Player extends GameObject implements InputProcessor {
         //System.out.println(body.getLinearVelocity().x);
 
 
+
         steering();
+        distsInSec.add(speed);
+        if(distsInSec.size()>60){
+            distsInSec.remove(distsInSec.size()-1);
+        }
         trackTime();
 
 
@@ -166,33 +177,7 @@ public class Player extends GameObject implements InputProcessor {
         return ball;
     }
 
-    public void turboOn(){
-        isTurboOn = true;
-        timer = new Timer();
-        Timer.Task task = new Timer.Task() {
-            @Override
-            public void run() {
-                System.out.println("turbo on pois");
-                isTurboOn = false;
-            }
-        };
-        timer.scheduleTask(task,7);
 
-    }
-
-    public  boolean isReverseOn(){
-        if (reverseOn){
-            if (speed<freeRollRange){
-                return true;
-            }else {
-                reverseOn = false;
-                return false;
-            }
-
-        }else {
-            return false;
-        }
-    }
 
     @Override
     public boolean keyDown(int keycode) {
@@ -267,7 +252,7 @@ public class Player extends GameObject implements InputProcessor {
 
         }
         motorSpeed = (-15)*60 * speed;
-        System.out.println("nopeus: "+ motorSpeed+"  polkunopeus: "+speed);
+        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
 
         rearWheelJoint.setMotorSpeed(motorSpeed);
         frontWheelJoint.setMotorSpeed(motorSpeed);
@@ -278,6 +263,61 @@ public class Player extends GameObject implements InputProcessor {
         }
 
 
+    }
+
+    public void turboOn(){
+        isTurboOn = true;
+        timer = new Timer();
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                System.out.println("turbo on pois");
+                isTurboOn = false;
+            }
+        };
+        timer.scheduleTask(task,7);
+
+    }
+
+    public  boolean isReverseOn(){
+        if (reverseOn){
+            if (speed<freeRollRange){
+                return true;
+            }else {
+                reverseOn = false;
+                return false;
+            }
+
+        }else {
+            return false;
+        }
+    }
+
+    public void setToReverse(){
+        rearWheelJoint.enableMotor(true);
+        frontWheelJoint.enableMotor(true);
+        reverseOn = true;
+    }
+
+    public void setToNeutral(){
+        rearWheelJoint.enableMotor(false);
+        frontWheelJoint.enableMotor(false);
+        neutralOn = true;
+    }
+
+    public void setToForward(){
+        rearWheelJoint.enableMotor(true);
+        frontWheelJoint.enableMotor(false);
+        forwardOn = true;
+    }
+
+    public void driveMode(){
+        if(neutralOn){
+            for(int i=0; i<distsInSec.size(); i++){
+                distInSec +=distsInSec.get(i);
+
+            }
+        }
     }
 
     @Override

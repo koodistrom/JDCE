@@ -263,7 +263,7 @@ public class LevelCreator {
         chainShape.createLoop(points);
 
         fixtureDef.shape = chainShape;
-        fixtureDef.friction = 1f;
+        fixtureDef.friction = 1.5f;
         fixtureDef.isSensor = isSensor;
         bodyDef.position.set(x,y);
         bodyGround = world.createBody(bodyDef);
