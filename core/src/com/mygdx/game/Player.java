@@ -60,7 +60,7 @@ public class Player extends GameObject implements InputProcessor {
         time = 0;
         oldSpeed = 0f;
         isTurboOn = false;
-        freeRollRange = 0.001f;
+        freeRollRange = 0.005f;
         reverseOn = false;
         speed = 0f;
         neutralDist = 0f;
@@ -92,8 +92,8 @@ public class Player extends GameObject implements InputProcessor {
         shape.dispose();
         setBody(body);
 
-        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.7f,0.5f,1.5f,ww/2);
-        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.7f,0.5f,1.5f,ww/2);
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.7f,0.5f,1.2f,ww/2);
+        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.7f,0.5f,0.8f,ww/2);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
         rearWheelJointDef.bodyA=body;
@@ -106,7 +106,7 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.dampingRatio = 0.95f;
         rearWheelJointDef.frequencyHz = 1.7f;
         rearWheelJointDef.localAxisA.set(new Vector2(0,1));
-        rearWheelJointDef.maxMotorTorque = 40f;
+        rearWheelJointDef.maxMotorTorque = 30f;
         rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
 
 
@@ -328,11 +328,37 @@ public class Player extends GameObject implements InputProcessor {
 
     public void driveMode(){
         if(neutralOn){
+            if(rearWheelJoint.getJointSpeed()<0){
+                neutralDist -= neutralRange/30;
+            }
             for(int i=0; i<distsInSec.size(); i++){
                 neutralDist +=distsInSec.get(i);
+                if(neutralDist >= neutralRange){
+                    setToReverse();
+                }
 
+                if(neutralDist <= -neutralRange){
+                    setToForward();
+                }
             }
         }
+
+        if(reverseOn){
+            if (speed<0){
+                setToNeutral();
+            }
+        }
+        if(forwardOn){
+            if(speed>0){
+                setToNeutral();
+            }
+        }
+
+        motorSpeed = (-15)*60 * speed;
+        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+
+        rearWheelJoint.setMotorSpeed(motorSpeed);
+        frontWheelJoint.setMotorSpeed(motorSpeed);
     }
 
     @Override
