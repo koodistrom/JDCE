@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class MainMenuScreen extends NewScreen {
     /*public Button play;
     public Button highScores;*/
-    private Texture background;
     private float stageHeightTenth = getStageHeight() / 10;
     private float stageWidthTenth = getStageWidth() / 10;
     private float textButtonX = stageWidthTenth * 5 - (getTextButtonWidth() / 2);
@@ -36,7 +35,7 @@ public class MainMenuScreen extends NewScreen {
 
         /*play = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "New Game", getScreenWidth()/2, getScreenHeight()/2);
         highScores = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "High Scores", getScreenWidth()/2, getScreenHeight()/3);*/
-        background = new Texture(Gdx.files.internal("bluebackground.png"));
+        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
 
         TextButton playButton = new TextButton("Play", getUiSkin());
         TextButton highScoreButton = new TextButton("High Scores", getUiSkin());
@@ -119,7 +118,7 @@ public class MainMenuScreen extends NewScreen {
         }*/
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());
+        getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
         getGameStage().draw();
@@ -128,7 +127,6 @@ public class MainMenuScreen extends NewScreen {
 
 
     public void dispose() {
-        background.dispose();
         super.dispose();
     }
 }

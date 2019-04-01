@@ -39,6 +39,7 @@ public class NewScreen implements Screen {
     private BitmapFont font48;
     private FreeTypeFontGenerator generator;
     private GlyphLayout layout48;
+    private Texture background;
 
 
     public NewScreen(JDCEGame g) {
@@ -232,6 +233,7 @@ public class NewScreen implements Screen {
     public void dispose() {
         gameStage.dispose();
         uiSkin.dispose();
+        background.dispose();
     }
 
     public BitmapFont getFont48() {
@@ -248,6 +250,14 @@ public class NewScreen implements Screen {
 
     public void setLayout48(GlyphLayout layout48) {
         this.layout48 = layout48;
+    }
+
+    public Texture getBackground() {
+        return background;
+    }
+
+    public void setBackground(Texture background) {
+        this.background = background;
     }
 }
 

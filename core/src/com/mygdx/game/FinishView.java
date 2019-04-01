@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class FinishView extends NewScreen {
     Preferences highscores;
-    private Texture background;
     float finishTime;
     private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
     private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
@@ -30,7 +29,7 @@ public class FinishView extends NewScreen {
     public FinishView(JDCEGame g, float time) {
         super(g);
         highscores = Gdx.app.getPreferences("JDCE_highscores");
-        background = new Texture(Gdx.files.internal("bluebackground.png"));
+        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
         addHighScore(Utilities.secondsToString(time));
 
         /*final*/ TextButton menuButton = new TextButton("Continue", getUiSkin());
@@ -63,7 +62,7 @@ public class FinishView extends NewScreen {
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());
+        getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
         getGameStage().draw();

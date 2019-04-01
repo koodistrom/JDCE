@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LevelSelectScreen extends NewScreen {
-    private Texture background;
     private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
     private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
     private float textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
@@ -15,7 +14,7 @@ public class LevelSelectScreen extends NewScreen {
     public LevelSelectScreen(JDCEGame g) {
         super(g);
 
-        background = new Texture(Gdx.files.internal("levelselect_ph.png"));
+        setBackground(new Texture(Gdx.files.internal("levelselect_ph.png")));
 
         final TextButton levelButton1 = new TextButton("Level 1", getUiSkin());
 
@@ -41,7 +40,7 @@ public class LevelSelectScreen extends NewScreen {
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(background, 0, 0, getScreenWidth(), getScreenHeight());
+        getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
         getGameStage().draw();
