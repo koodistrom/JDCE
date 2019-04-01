@@ -18,23 +18,29 @@ public class MainMenuScreen extends NewScreen {
     /*public Button play;
     public Button highScores;*/
     private Texture background;
-    private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
-    private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
-    private float textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
-    private float imageButtonX1 = getStageWidth() * 0.25f - (getImageButtonWidth() / 2);
-    private float imageButtonX2 = getStageWidth() * 0.5f - (getImageButtonWidth() / 2);
-    private float imageButtonX3 = getStageWidth() * 0.75f - (getImageButtonWidth() / 2);
-    private float imageButtonY = 5;
+    private float stageHeightTenth = getStageHeight() / 10;
+    private float stageWidthTenth = getStageWidth() / 10;
+    private float textButtonX = stageWidthTenth * 5 - (getTextButtonWidth() / 2);
+    private float textButtonY1 = stageHeightTenth * 8 - (getTextButtonHeight() / 2);
+    private float textButtonY2 = stageHeightTenth * 5 - (getTextButtonHeight() / 2);
+    private float textButtonY3 = stageHeightTenth * 2  - (getTextButtonHeight() / 2);
+    private float imageButtonX1 = stageWidthTenth - (getImageButtonWidth() / 2);
+    private float imageButtonX2 = stageWidthTenth * 2.5f - (getImageButtonWidth() / 2);
+    private float imageButtonX3 = stageWidthTenth * 9 - (getImageButtonWidth() / 2);
+    private float imageButtonY1 = 5;
+    private float imageButtonY2 = 5;
+    private float imageButtony3 = 5;
 
     public MainMenuScreen(JDCEGame g) {
         super(g);
 
         /*play = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "New Game", getScreenWidth()/2, getScreenHeight()/2);
         highScores = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "High Scores", getScreenWidth()/2, getScreenHeight()/3);*/
-        background = new Texture(Gdx.files.internal("mainmenuscreen_ph.png"));
+        background = new Texture(Gdx.files.internal("bluebackground.png"));
 
-        /*final*/ TextButton playButton = new TextButton("Play", getUiSkin());
-        /*final*/ TextButton highScoreButton = new TextButton("High Scores", getUiSkin());
+        TextButton playButton = new TextButton("Play", getUiSkin());
+        TextButton highScoreButton = new TextButton("High Scores", getUiSkin());
+        TextButton quitButton = new TextButton("Quit", getUiSkin());
 
         playButton.setWidth(getTextButtonWidth());
         playButton.setHeight(getTextButtonHeight());
@@ -44,20 +50,25 @@ public class MainMenuScreen extends NewScreen {
         highScoreButton.setHeight(getTextButtonHeight());
         highScoreButton.setPosition(textButtonX, textButtonY2);
 
+        quitButton.setWidth(getTextButtonWidth());
+        quitButton.setHeight(getTextButtonHeight());
+        quitButton.setPosition(textButtonX, textButtonY3);
+
         getButtonEN().setWidth(getImageButtonWidth());
         getButtonEN().setHeight(getImageButtonHeight());
-        getButtonEN().setPosition(imageButtonX1, imageButtonY);
+        getButtonEN().setPosition(imageButtonX1, imageButtonY1);
 
         getButtonFI().setWidth(getImageButtonWidth());
         getButtonFI().setHeight(getImageButtonHeight());
-        getButtonFI().setPosition(imageButtonX2, imageButtonY);
+        getButtonFI().setPosition(imageButtonX2, imageButtonY1);
 
         getMuteButton().setWidth(getImageButtonWidth());
         getMuteButton().setHeight(getImageButtonHeight());
-        getMuteButton().setPosition(imageButtonX3, imageButtonY);
+        getMuteButton().setPosition(imageButtonX3, imageButtonY1);
 
         getGameStage().addActor(playButton);
         getGameStage().addActor(highScoreButton);
+        getGameStage().addActor(quitButton);
         getGameStage().addActor(getButtonEN());
         getGameStage().addActor(getButtonFI());
         getGameStage().addActor(getMuteButton());
@@ -66,7 +77,7 @@ public class MainMenuScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameScreen gs = new GameScreen(getGame());
+                LevelSelectScreen gs = new LevelSelectScreen(getGame());
                 getGame().setScreen(gs);
             }
         });
@@ -96,8 +107,8 @@ public class MainMenuScreen extends NewScreen {
     public void render(float delta) {
         getMeterViewport().apply();
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        /*Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);*/
 
         /*if(play.isClicked(getCamera())) {
             getGame().setScreen(new GameScreen(getGame()));

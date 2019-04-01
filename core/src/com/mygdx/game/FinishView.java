@@ -20,11 +20,8 @@ public class FinishView extends NewScreen {
     Preferences highscores;
     private Texture background;
     float finishTime;
-    private FreeTypeFontGenerator generator;
-    private BitmapFont font12;
     private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
     private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
-    private GlyphLayout layout;
     private String score;
     private float textX;
     private float textY;
@@ -53,19 +50,11 @@ public class FinishView extends NewScreen {
 
         //pixelCamera.setToOrtho(false, g, getScreenHeight());
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 48;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 3;
-        font12 = generator.generateFont(parameter);
-
-        GlyphLayout layout = new GlyphLayout();
         score = "Your Score: " + highscores.getString("High Score");
-        layout.setText(font12, score);
+        getLayout48().setText(getFont48(), score);
 
-        textX = Gdx.graphics.getWidth()/2 - layout.width / 2;
-        textY = Gdx.graphics.getHeight()/1.5f - layout.height;
+        textX = Gdx.graphics.getWidth()/2 - getLayout48().width / 2;
+        textY = Gdx.graphics.getHeight()/1.5f - getLayout48().height;
     }
 
     @Override
@@ -83,7 +72,7 @@ public class FinishView extends NewScreen {
         getSpriteBatch().setProjectionMatrix(getGameViewport().getCamera().combined);
 
         getSpriteBatch().begin();
-        font12.draw(getSpriteBatch(), score, textX, textY);
+        getFont48().draw(getSpriteBatch(), score, textX, textY);
         getSpriteBatch().end();
     }
 

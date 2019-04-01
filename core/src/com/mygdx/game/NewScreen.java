@@ -2,10 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -22,8 +27,8 @@ public class NewScreen implements Screen {
     private float screenHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
     private Stage gameStage;
     private Skin uiSkin;
-    private float textButtonHeight = 30;
-    private float textButtonWidth = 300;
+    private float textButtonHeight = 150;
+    private float textButtonWidth = 400;
     private float imageButtonHeight = 50;
     private float imageButtonWidth = 50;
     private Button mute;
@@ -31,6 +36,9 @@ public class NewScreen implements Screen {
     private Button languageEN;
     private ScreenViewport gameViewport;
     private FitViewport meterViewport;
+    private BitmapFont font48;
+    private FreeTypeFontGenerator generator;
+    private GlyphLayout layout48;
 
 
     public NewScreen(JDCEGame g) {
@@ -42,6 +50,14 @@ public class NewScreen implements Screen {
         meterViewport = new FitViewport(screenWidth, screenHeight);
         gameStage = new Stage(gameViewport, batch);
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 48;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 3;
+        font48 = generator.generateFont(parameter);
+        layout48 = new GlyphLayout();
 
         Texture fin = new Texture(Gdx.files.internal("fin.png"));
         TextureRegion finTextureRegion = new TextureRegion(fin);
@@ -217,4 +233,21 @@ public class NewScreen implements Screen {
         gameStage.dispose();
         uiSkin.dispose();
     }
+
+    public BitmapFont getFont48() {
+        return font48;
+    }
+
+    public void setFont48(BitmapFont font48) {
+        this.font48 = font48;
+    }
+
+    public GlyphLayout getLayout48() {
+        return layout48;
+    }
+
+    public void setLayout48(GlyphLayout layout48) {
+        this.layout48 = layout48;
+    }
 }
+

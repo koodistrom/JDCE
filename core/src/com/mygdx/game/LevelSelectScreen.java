@@ -2,7 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LevelSelectScreen extends NewScreen {
     private Texture background;
@@ -23,6 +25,14 @@ public class LevelSelectScreen extends NewScreen {
 
         getGameStage().addActor(levelButton1);
         Gdx.input.setInputProcessor(getGameStage());
+
+        levelButton1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameScreen gs = new GameScreen(getGame());
+                getGame().setScreen(gs);
+            }
+        });
     }
 
     @Override
