@@ -255,6 +255,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         thingySdkManager.setSelectedDevice(mDevice);
         System.out.println(mDevice.getType());
         System.out.println("nyt pitäis olla yhteys");
+        System.out.println(mDevice.getType());
         androidResolver.setConnected(true);
     }
 
@@ -263,6 +264,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         final Thingy thingy = new Thingy(device);
         thingySdkManager.setSelectedDevice(device);
         System.out.println("nyt pitäis olla yhteys");
+        System.out.println(mDevice.getType());
     }
 
     final BroadcastReceiver mBleStateChangedReceiver = new BroadcastReceiver() {

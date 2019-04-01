@@ -45,6 +45,9 @@ public class Player extends GameObject implements InputProcessor {
     float neutralDist;
     float neutralRange;
 
+    float ww;
+    float wh;
+
     public Player(GameScreen game) {
 
         super(game);
@@ -52,8 +55,8 @@ public class Player extends GameObject implements InputProcessor {
         fwRotation=0;
         setTexture(new Texture("noweeler.png"));
         wheel = new Texture("rengas.png");
-        float ww = wheel.getWidth()/game.PIXELS_TO_METERS;
-        float wh = wheel.getHeight()/game.PIXELS_TO_METERS;
+        ww = wheel.getWidth()/game.PIXELS_TO_METERS;
+        wh = wheel.getHeight()/game.PIXELS_TO_METERS;
         world = game.getWorld();
         x = game.getScreenWidth()/3;
         y = game.getScreenHeight()/2;
@@ -66,61 +69,10 @@ public class Player extends GameObject implements InputProcessor {
         neutralDist = 0f;
         neutralRange = 0.1f;
         distsInSec = new ArrayList<Float>();
+        neutralOn = true;
 
 
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set((getX() + getWidth()/2),
-                (getY() + getHeight()/2));
-
-        body = world.createBody(bodyDef);
-
-        Vector2[] vertices;
-        vertices= new Vector2[] {new Vector2(-0.5f,-0.8f),new Vector2(-1.4f,0.2f),
-                new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f),new Vector2(0.5f,0.4f)};
-
-        PolygonShape shape = new PolygonShape();
-        shape.set(vertices);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 0.2f;
-        fixtureDef.restitution = 0.5f;
-
-        body.createFixture(fixtureDef);
-        shape.dispose();
-        setBody(body);
-
-        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.7f,0.5f,1.2f,ww/2);
-        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.7f,0.5f,0.8f,ww/2);
-
-        WheelJointDef rearWheelJointDef = new WheelJointDef();
-        rearWheelJointDef.bodyA=body;
-        rearWheelJointDef.bodyB=rearWheel;
-        rearWheelJointDef.collideConnected=false;
-        rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
-        //rearWheelJointDef.localAnchorB.set(0,0);
-        rearWheelJointDef.enableMotor = false;
-        rearWheelJointDef.motorSpeed = -5f;
-        rearWheelJointDef.dampingRatio = 0.95f;
-        rearWheelJointDef.frequencyHz = 1.7f;
-        rearWheelJointDef.localAxisA.set(new Vector2(0,1));
-        rearWheelJointDef.maxMotorTorque = 30f;
-        rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
-
-
-        WheelJointDef frontWheelJointDef = new WheelJointDef();
-        frontWheelJointDef.bodyA=body;
-        frontWheelJointDef.bodyB=frontWheel;
-        frontWheelJointDef.collideConnected=false;
-        frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
-        //frontWheelJointDef.localAnchorB.set(0,0);
-        frontWheelJointDef.dampingRatio = 0.95f;
-        frontWheelJointDef.frequencyHz = 1.7f;
-        frontWheelJointDef.localAxisA.set(new Vector2(0,1));
-        frontWheelJointDef.maxMotorTorque = 50f;
-        frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
+        createBodies();
 
         Gdx.input.setInputProcessor(this);
     }
@@ -148,12 +100,14 @@ public class Player extends GameObject implements InputProcessor {
 
 
 
-        steering();
+
+        driveMode();
         distsInSec.add(speed);
         if(distsInSec.size()>60){
-            distsInSec.remove(distsInSec.size()-1);
+            distsInSec.remove(0);
         }
         trackTime();
+
 
 
     }
@@ -301,6 +255,7 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJoint.enableMotor(true);
         reverseOn = true;
         neutralOn = false;
+        forwardOn =false;
     }
 
     public void setToNeutral(){
@@ -308,9 +263,9 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJoint.enableMotor(false);
 
         if(forwardOn){
-            neutralDist = neutralRange;
-        }else if(reverseOn){
             neutralDist = -neutralRange;
+        }else if(reverseOn){
+            neutralDist = neutralRange;
         }
 
         distsInSec.clear();
@@ -324,41 +279,102 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJoint.enableMotor(false);
         forwardOn = true;
         neutralOn = false;
+        reverseOn = false;
     }
 
     public void driveMode(){
         if(neutralOn){
-            if(rearWheelJoint.getJointSpeed()<0){
+            /*if(rearWheelJoint.getJointSpeed()<0 && neutralDist>0){
                 neutralDist -= neutralRange/30;
-            }
+            }*/
+
             for(int i=0; i<distsInSec.size(); i++){
                 neutralDist +=distsInSec.get(i);
                 if(neutralDist >= neutralRange){
-                    setToReverse();
+                    setToForward();
+                    break;
                 }
 
                 if(neutralDist <= -neutralRange){
-                    setToForward();
+
+                    setToReverse();
+                    break;
                 }
             }
         }
 
         if(reverseOn){
-            if (speed<0){
+            if (speed>=0){
                 setToNeutral();
             }
         }
         if(forwardOn){
-            if(speed>0){
+            if(speed<=0){
                 setToNeutral();
             }
         }
 
         motorSpeed = (-15)*60 * speed;
-        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
 
         rearWheelJoint.setMotorSpeed(motorSpeed);
         frontWheelJoint.setMotorSpeed(motorSpeed);
+    }
+
+    public void createBodies(){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set((getX() + getWidth()/2),
+                (getY() + getHeight()/2));
+
+        body = world.createBody(bodyDef);
+
+        Vector2[] vertices;
+        vertices= new Vector2[] {new Vector2(-0.5f,-0.8f),new Vector2(-1.4f,0.2f),
+                new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f),new Vector2(0.5f,0.4f)};
+
+        PolygonShape shape = new PolygonShape();
+        shape.set(vertices);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0.2f;
+        fixtureDef.restitution = 0.5f;
+
+        body.createFixture(fixtureDef);
+        shape.dispose();
+        setBody(body);
+
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.7f,0.5f,1.2f,ww/2);
+        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.7f,0.5f,0.8f,ww/2);
+
+        WheelJointDef rearWheelJointDef = new WheelJointDef();
+        rearWheelJointDef.bodyA=body;
+        rearWheelJointDef.bodyB=rearWheel;
+        rearWheelJointDef.collideConnected=false;
+        rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
+        //rearWheelJointDef.localAnchorB.set(0,0);
+        rearWheelJointDef.enableMotor = false;
+        rearWheelJointDef.motorSpeed = -5f;
+        rearWheelJointDef.dampingRatio = 0.95f;
+        rearWheelJointDef.frequencyHz = 1.7f;
+        rearWheelJointDef.localAxisA.set(new Vector2(0,1));
+        rearWheelJointDef.maxMotorTorque = 30f;
+        rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
+
+
+        WheelJointDef frontWheelJointDef = new WheelJointDef();
+        frontWheelJointDef.bodyA=body;
+        frontWheelJointDef.bodyB=frontWheel;
+        frontWheelJointDef.collideConnected=false;
+        frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
+        //frontWheelJointDef.localAnchorB.set(0,0);
+        frontWheelJointDef.dampingRatio = 0.95f;
+        frontWheelJointDef.frequencyHz = 1.7f;
+        frontWheelJointDef.localAxisA.set(new Vector2(0,1));
+        frontWheelJointDef.maxMotorTorque = 50f;
+        frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
+
     }
 
     @Override
