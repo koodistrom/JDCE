@@ -54,7 +54,7 @@ public class Spline  {
 		boolean complete = false;
 
 		if(tol==0)
-			tol = 0.001f;
+			tol = 0.0001f;
 		// Loop until the curvature is within
 		// tolerance
 		while(complete==false) {

@@ -14,7 +14,7 @@ public class ExtractSVGPaths {
 	/*
 	 * Path is an absolute path i.e. /Users/..../workspace/file.svg
 	 */
-	public static ArrayList<Vector2> extract (String filePath) {
+	public static ArrayList<ArrayList<Vector2>> extract (String filePath) {
 		/*
     	Camera camera = new Camera (new Vector2(), new Vector2(100, 60), new Vector2(), new Vector2(800, 480), new Vector2(-20, -12), new Vector2(120, 72));
     	
@@ -31,33 +31,34 @@ public class ExtractSVGPaths {
 	   	display.addDrawable(gm);
 	   	display.addUpdateListener(cc);
 		*/
-		ParseSVG l = new ParseSVG (filePath);
+		ArrayList<ArrayList<Vector2>> paths = new ArrayList<ArrayList<Vector2>>();
+		ParseSVG parseSVG = new ParseSVG (filePath);
 
-    	Spline sl1 = l.paths.get(0);
-    	
-    	// Refine the spline to an appropriate level of accuracy
-		sl1.refine(0.005f);
-		
-		/*
-		 * Convert from Vertex to Vector2
-		 */
-		ArrayList<Vertex> al = l.paths.get(0).getVertices();
-		/*
- 		Vertex [] verts = new Vertex [al.size()];
-		for(int i=0; i<al.size(); i++) {
-			verts [i] = al.get(i);
-		}
-		*/
+		for(int i=0;i<parseSVG.paths.size();i++){
+			Spline sl1 = parseSVG.paths.get(i);
 
-		ArrayList<Vector2> vecs = new ArrayList<Vector2>();
-		
-		for(Vertex v: al) {
-			vecs.add(v.toVector2());
+			// Refine the spline to an appropriate level of accuracy
+			sl1.refine(0.001f);
+
+			/*
+			 * Convert from Vertex to Vector2
+			 */
+			ArrayList<Vertex> al = parseSVG.paths.get(i).getVertices();
+
+
+			ArrayList<Vector2> vecs = new ArrayList<Vector2>();
+
+			for(Vertex v: al) {
+				vecs.add(v.toVector2());
+			}
+
+			paths.add(vecs);
 		}
+
 		
 		//visualiseGeometry.lineString(verts);
 		
-		return vecs;
+		return paths;
 	}
 
 }

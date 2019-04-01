@@ -46,4 +46,8 @@ task afterEclipseImport(description: "Post processing after project generation",
     }
 }
 dependencies {
+    implementation project(':batik-parser-1.11')
+    implementation project(':batik-transcoder-1.11')
+    implementation project(':batik-i18n-1.11')
+    implementation project(':batik-util-1.11')
 }

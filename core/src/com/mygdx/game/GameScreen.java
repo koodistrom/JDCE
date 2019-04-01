@@ -48,7 +48,7 @@ public class GameScreen extends NewScreen {
         //levelCreator.createLevel(world, "test3.SVG");
         //levelCreator.createTexture(this,"test3.SVG");
 
-        modules = levelCreator.createModules( new String[] {"test6.svg"}, new float[]{1});
+        modules = levelCreator.createModules( new String[] {"test7.svg"}, new float[]{1});
 
 
 
