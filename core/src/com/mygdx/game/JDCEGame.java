@@ -17,7 +17,7 @@ public class JDCEGame extends Game {
 		if(m_platformResolver.isAndroid())
 			this.setScreen(new ConnectScreen(this));
 		else {
-			this.setScreen(new SplashScreen(this));
+			this.setScreen(new MainMenuScreen(this));
 		}
 
 	}

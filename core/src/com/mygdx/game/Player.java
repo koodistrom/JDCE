@@ -47,6 +47,7 @@ public class Player extends GameObject implements InputProcessor {
 
     float ww;
     float wh;
+    float linearDamping;
 
     public Player(GameScreen game) {
 
@@ -70,6 +71,7 @@ public class Player extends GameObject implements InputProcessor {
         neutralRange = 0.1f;
         distsInSec = new ArrayList<Float>();
         neutralOn = true;
+        linearDamping = 0.1f;
 
 
         createBodies();
@@ -94,14 +96,18 @@ public class Player extends GameObject implements InputProcessor {
 
         super.update();
 
+        if(JDCEGame.m_platformResolver.isAndroid()) {
+            speed = JDCEGame.m_platformResolver.getPedalSpeed();
+        }
+
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
         //System.out.println(body.getLinearVelocity().x);
 
 
 
+        steering();
 
-        driveMode();
         distsInSec.add(speed);
         if(distsInSec.size()>60){
             distsInSec.remove(0);
@@ -118,6 +124,7 @@ public class Player extends GameObject implements InputProcessor {
         bodyDef.type = type;
         bodyDef.position.set(x,y);
         bodyDef.angle=0;
+        bodyDef.linearDamping=linearDamping;
 
         Body ball = world.createBody(bodyDef);
 
@@ -127,6 +134,7 @@ public class Player extends GameObject implements InputProcessor {
         fixtureDef.friction=f;
         fixtureDef.shape=new CircleShape();
         fixtureDef.shape.setRadius(radius);
+
 
         ball.createFixture(fixtureDef);
         fixtureDef.shape.dispose();
@@ -183,9 +191,7 @@ public class Player extends GameObject implements InputProcessor {
 
     public void steering(){
 
-        if(JDCEGame.m_platformResolver.isAndroid()) {
-            speed = JDCEGame.m_platformResolver.getPedalSpeed();
-        }
+
 
         //vapaalla
         if(!isReverseOn() && speed < freeRollRange && speed>-freeRollRange) {
@@ -250,80 +256,13 @@ public class Player extends GameObject implements InputProcessor {
         }
     }
 
-    public void setToReverse(){
-        rearWheelJoint.enableMotor(true);
-        frontWheelJoint.enableMotor(true);
-        reverseOn = true;
-        neutralOn = false;
-        forwardOn =false;
-    }
 
-    public void setToNeutral(){
-        rearWheelJoint.enableMotor(false);
-        frontWheelJoint.enableMotor(false);
 
-        if(forwardOn){
-            neutralDist = -neutralRange;
-        }else if(reverseOn){
-            neutralDist = neutralRange;
-        }
-
-        distsInSec.clear();
-        neutralOn = true;
-        forwardOn =false;
-        reverseOn = false;
-    }
-
-    public void setToForward(){
-        rearWheelJoint.enableMotor(true);
-        frontWheelJoint.enableMotor(false);
-        forwardOn = true;
-        neutralOn = false;
-        reverseOn = false;
-    }
-
-    public void driveMode(){
-        if(neutralOn){
-            /*if(rearWheelJoint.getJointSpeed()<0 && neutralDist>0){
-                neutralDist -= neutralRange/30;
-            }*/
-
-            for(int i=0; i<distsInSec.size(); i++){
-                neutralDist +=distsInSec.get(i);
-                if(neutralDist >= neutralRange){
-                    setToForward();
-                    break;
-                }
-
-                if(neutralDist <= -neutralRange){
-
-                    setToReverse();
-                    break;
-                }
-            }
-        }
-
-        if(reverseOn){
-            if (speed>=0){
-                setToNeutral();
-            }
-        }
-        if(forwardOn){
-            if(speed<=0){
-                setToNeutral();
-            }
-        }
-
-        motorSpeed = (-15)*60 * speed;
-        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
-
-        rearWheelJoint.setMotorSpeed(motorSpeed);
-        frontWheelJoint.setMotorSpeed(motorSpeed);
-    }
 
     public void createBodies(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.linearDamping = linearDamping;
         bodyDef.position.set((getX() + getWidth()/2),
                 (getY() + getHeight()/2));
 

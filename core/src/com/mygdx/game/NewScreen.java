@@ -233,7 +233,10 @@ public class NewScreen implements Screen {
     public void dispose() {
         gameStage.dispose();
         uiSkin.dispose();
-        background.dispose();
+        if(background!= null){
+            background.dispose();
+        }
+
     }
 
     public BitmapFont getFont48() {
