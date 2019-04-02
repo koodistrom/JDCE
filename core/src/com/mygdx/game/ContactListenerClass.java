@@ -39,7 +39,7 @@ public class ContactListenerClass implements ContactListener {
         }
 
         if(playerTouches(game.rotkos,contact)){
-            game = new GameScreen(game.getGame());
+            game.reset();
 
         }
 

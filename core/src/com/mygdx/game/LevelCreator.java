@@ -353,56 +353,6 @@ public class LevelCreator {
         return modules;
     }
 
-    /*public ArrayList<LevelModule> createModules2 ( String SVG){
-
-        float lastX = 0;
-        float lastY = 0;
-
-
-        ArrayList<LevelModule> modules;
-        modules = new ArrayList<LevelModule>();
-
-        for(int i=0; i<SVGs.length; i++){
-
-            modules[i] = new LevelModule();
-            float[] points = createFromSVG(SVGs[i]);
-            points = scalePoints(points,scalers[i]);
-            modules[i].setLengthScaler(scalers[i]);
-
-            allVertices.addAll(ExtractSVGPaths.extract(SVGs[i]));
-
-
-            if(SVGs[i].equals("rotko.svg")){
-                modules[i].setBody(createBody(points, game.getWorld(), lastX, lastY-5,true));
-                game.rotkos.add(modules[i]);
-                modules[i].setPolygonRegion(createTexture(game, SVGs[i], spikes));
-            }else{
-                modules[i].setBody(createBody(points, game.getWorld(), lastX, lastY,false));
-                modules[i].setPolygonRegion(createTexture(game, SVGs[i], dirt));
-            }
-
-
-            modules[i].setFile(SVGs[i]);
-            modules[i].setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
-            modules[i].setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
-            modules[i].setX(lastX);
-
-            if(SVGs[i].equals("rotko.svg")){
-                modules[i].setY(lastY-5);
-            }else{
-                modules[i].setY(lastY);
-            }
-
-            modules[i].setGame(game);
-            lastX += points[points.length-6];
-            lastY += points[points.length-5];
-        }
-
-        goal.setX(lastX);
-        goal.setY(lastY);
-
-        return modules;
-    }*/
 
     public PolygonRegion createTexture(GameScreen game, String filePath, TextureRegion textureRegion){
         PolygonRegion polygonRegion;

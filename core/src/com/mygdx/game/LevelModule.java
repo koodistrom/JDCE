@@ -107,6 +107,7 @@ public class LevelModule implements HasBody{
     }
 
     public void draw(){
+
         game.getPolyBatch().draw(polygonRegion, x,y,length, height);
     }
 }

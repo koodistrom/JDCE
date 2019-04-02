@@ -21,8 +21,8 @@ import static com.mygdx.game.JDCEGame.m_platformResolver;
 public class GameScreen extends NewScreen {
     private World world;
     private PolygonSpriteBatch polyBatch;
-    private LevelCreator levelCreator;
-    private LevelModule[] modules;
+    private LevelCreator2 levelCreator;
+    private ArrayList<LevelModule> modules;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
     private BitmapFont font;
@@ -43,12 +43,12 @@ public class GameScreen extends NewScreen {
         batch = new SpriteBatch();*/
         polyBatch = new PolygonSpriteBatch(); // To assign at the beginning
 
-        levelCreator = new LevelCreator(this);
+        levelCreator = new LevelCreator2(this);
 
         //levelCreator.createLevel(world, "test3.SVG");
         //levelCreator.createTexture(this,"test3.SVG");
 
-        modules = levelCreator.createModules( new String[] {"test7.svg"}, new float[]{1});
+        modules = levelCreator.createModules( "test8.svg");
 
 
 
@@ -103,10 +103,11 @@ public class GameScreen extends NewScreen {
 
         polyBatch.begin();
 
+        System.out.println(modules.size());
         //polySprite.draw(polyBatch);
         //polyBatch.draw(levelCreator.polyReg, 0,0,levelCreator.polySprite.getWidth()/PIXELS_TO_METERS, levelCreator.polySprite.getHeight()/PIXELS_TO_METERS);
-        for(int i=0; i<modules.length; i++){
-            modules[i].draw();
+        for(int i=0; i<modules.size(); i++){
+            modules.get(i).draw();
         }
         polyBatch.end();
 
@@ -141,19 +142,19 @@ public class GameScreen extends NewScreen {
         this.polyBatch = polyBatch;
     }
 
-    public LevelModule[] getModules() {
+    public ArrayList<LevelModule> getModules() {
         return modules;
     }
 
-    public void setModules(LevelModule[] modules) {
+    public void setModules(ArrayList<LevelModule> modules) {
         this.modules = modules;
     }
 
-    public LevelCreator getLevelCreator() {
+    public LevelCreator2 getLevelCreator() {
         return levelCreator;
     }
 
-    public void setLevelCreator(LevelCreator levelCreator) {
+    public void setLevelCreator(LevelCreator2 levelCreator) {
         this.levelCreator = levelCreator;
     }
 
