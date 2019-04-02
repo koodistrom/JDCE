@@ -6,32 +6,52 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.ArrayList;
+
 public class LevelSelectScreen extends NewScreen {
+    private float heightUnit = getStageHeight() / 3;
+    private float widthUnit = getStageWidth()/4;
     private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
     private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
     private float textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
+    private ArrayList<ArrayList<TextButton>> buttonGrid;
+    private int levelnumber;
 
     public LevelSelectScreen(JDCEGame g) {
         super(g);
+        levelnumber = 1;
+        buttonGrid = new ArrayList<ArrayList<TextButton>>();
+        for(int i = 0; i<2;i++){
+            buttonGrid.add(new ArrayList<TextButton>());
+            for(int n=0; n<3;n++){
+                buttonGrid.get(i).add( new TextButton("Level "+levelnumber, getUiSkin()));
+
+                buttonGrid.get(i).get(n).setWidth(getTextButtonWidth());
+                buttonGrid.get(i).get(n).setHeight(getTextButtonHeight());
+                buttonGrid.get(i).get(n).setPosition(widthUnit*n, (heightUnit*i)+1);
+
+                getGameStage().addActor(buttonGrid.get(i).get(n));
+
+
+                buttonGrid.get(i).get(n).addListener(new ClickListener() {
+                    int level = levelnumber;
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+
+                        GameScreen gs = new GameScreen(getGame(),level);
+                        getGame().setScreen(gs);
+                    }
+                });
+
+                levelnumber++;
+
+            }
+        }
 
         setBackground(new Texture(Gdx.files.internal("levelselect_ph.png")));
 
-        final TextButton levelButton1 = new TextButton("Level 1", getUiSkin());
 
-        levelButton1.setWidth(getTextButtonWidth());
-        levelButton1.setHeight(getTextButtonHeight());
-        levelButton1.setPosition(textButtonX, textButtonY1);
-
-        getGameStage().addActor(levelButton1);
         Gdx.input.setInputProcessor(getGameStage());
-
-        levelButton1.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                GameScreen gs = new GameScreen(getGame());
-                getGame().setScreen(gs);
-            }
-        });
     }
 
     @Override

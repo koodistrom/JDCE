@@ -32,10 +32,11 @@ public class GameScreen extends NewScreen {
     ArrayList<HasBody> collectables = new ArrayList<HasBody>();
     Stegosaurus stegosaurus;
     Sprite sprite;
+    int levelNum;
 
-    public GameScreen(JDCEGame g) {
+    public GameScreen(JDCEGame g, int levelnum) {
         super(g);
-
+        this.levelNum = levelnum;
         world = new World(new Vector2(0, -3f),true);
         /*worldWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
         worldHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
@@ -48,7 +49,28 @@ public class GameScreen extends NewScreen {
         //levelCreator.createLevel(world, "test3.SVG");
         //levelCreator.createTexture(this,"test3.SVG");
 
-        modules = levelCreator.createModules( "test10.svg");
+        switch (levelnum){
+            case 1:
+                modules = levelCreator.createModules( "test6.svg");
+                break;
+            case 2:
+                modules = levelCreator.createModules( "test7.svg");
+                break;
+            case 3:
+                modules = levelCreator.createModules( "test8.svg");
+                break;
+            case 4:
+                modules = levelCreator.createModules( "test10.svg");
+                break;
+            case 5:
+                modules = levelCreator.createModules( "test11.svg");
+                break;
+            case 6:
+                modules = levelCreator.createModules( "test12.svg");
+                break;
+        }
+
+
 
 
 
@@ -122,7 +144,7 @@ public class GameScreen extends NewScreen {
     }
 
     public void reset(){
-        getGame().setScreen(new GameScreen(getGame()));
+        getGame().setScreen(new GameScreen(getGame(),levelNum));
         dispose();
     }
 
