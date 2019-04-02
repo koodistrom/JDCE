@@ -48,6 +48,7 @@ public class Player extends GameObject implements InputProcessor {
     float ww;
     float wh;
     float linearDamping;
+    boolean win;
 
     public Player(GameScreen game) {
 
@@ -72,6 +73,7 @@ public class Player extends GameObject implements InputProcessor {
         distsInSec = new ArrayList<Float>();
         neutralOn = true;
         linearDamping = 0.1f;
+        win = false;
 
 
         createBodies();
@@ -182,10 +184,13 @@ public class Player extends GameObject implements InputProcessor {
     public void trackTime(){
         if(x>game.getLevelCreator().goal.getX()){
             //voittaminen :ok_hand:
+            win = true;
             game.getGame().setScreen(new FinishView(game.getGame(),trackTime));
+            game.dispose();
 
         }else{
             trackTime += Gdx.graphics.getDeltaTime();
+
         }
     }
 
@@ -328,8 +333,13 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        game.reset();
-        return true;
+        if(win == false) {
+            LevelSelectScreen mms = new LevelSelectScreen(game.getGame());
+            game.getGame().setScreen(mms);
+            return true;
+        }else
+            return false;
+
     }
 
     @Override

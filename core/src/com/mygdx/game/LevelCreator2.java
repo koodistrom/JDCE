@@ -146,12 +146,15 @@ public class LevelCreator2 {
             }
 
 
-            modules.get(i).setBody(createBody(points, game.getWorld(), paths.get(i).get(0).x, paths.get(i).get(0).y,false));
+            modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0,false));
             modules.get(i).setPolygonRegion(createTexture(game, points, dirt));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
-            modules.get(i).setX(paths.get(i).get(0).x);
-            modules.get(i).setY(paths.get(i).get(0).y);
+            modules.get(i).setX(0);
+            modules.get(i).setY(0);
+
+            System.out.println( "module x: "+ modules.get(i).getX());
+            System.out.println( "module y: "+ modules.get(i).getY());
             modules.get(i).setGame(game);
 
         }

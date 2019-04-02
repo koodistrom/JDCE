@@ -42,7 +42,7 @@ public class FinishView extends NewScreen {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                MainMenuScreen mms = new MainMenuScreen(getGame());
+                LevelSelectScreen mms = new LevelSelectScreen(getGame());
                 getGame().setScreen(mms);
             }
         });
@@ -54,6 +54,7 @@ public class FinishView extends NewScreen {
 
         textX = Gdx.graphics.getWidth()/2 - getLayout48().width / 2;
         textY = Gdx.graphics.getHeight()/1.5f - getLayout48().height;
+        Gdx.input.setInputProcessor(getGameStage());
     }
 
     @Override

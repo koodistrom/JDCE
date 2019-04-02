@@ -48,7 +48,7 @@ public class GameScreen extends NewScreen {
         //levelCreator.createLevel(world, "test3.SVG");
         //levelCreator.createTexture(this,"test3.SVG");
 
-        modules = levelCreator.createModules( "test8.svg");
+        modules = levelCreator.createModules( "test10.svg");
 
 
 
@@ -116,8 +116,8 @@ public class GameScreen extends NewScreen {
 
     private void moveCamera() {
 
-        getMeterViewport().getCamera().position.set(player.getX()+2.5f,
-                player.getY()+1.5f,
+        getMeterViewport().getCamera().position.set(player.getX()+5f,
+                player.getY()+0.7f,
                 0);
     }
 
