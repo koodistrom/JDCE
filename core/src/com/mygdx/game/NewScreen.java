@@ -23,8 +23,8 @@ public class NewScreen implements Screen {
     private SpriteBatch batch;
     //private OrthographicCamera camera;
     final float PIXELS_TO_METERS = 100f;
-    private float screenWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
-    private float screenHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
+    private float screenWidth = (Gdx.graphics.getWidth()/PIXELS_TO_METERS)*1.2f;
+    private float screenHeight = (Gdx.graphics.getHeight()/PIXELS_TO_METERS)*1.2f;
     private Stage gameStage;
     private Skin uiSkin;
     private float textButtonHeight = 150;

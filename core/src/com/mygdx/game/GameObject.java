@@ -15,7 +15,7 @@ public class GameObject implements HasBody{
     protected Batch batch;
     protected float rotation;
     protected GameScreen game;
-    int a = 2;
+
 
 
     public GameObject(GameScreen game){
@@ -50,6 +50,13 @@ public class GameObject implements HasBody{
         this.texture = texture;
         width = texture.getWidth()/game.PIXELS_TO_METERS;
         height = texture.getHeight()/game.PIXELS_TO_METERS;
+    }
+
+    public void setTexture(Texture texture,float width, float height) {
+
+        this.texture = texture;
+        this.width = width;
+        this.height = height;
     }
 
     public Body getBody() {

@@ -76,6 +76,7 @@ public class Player extends GameObject implements InputProcessor {
         win = false;
 
 
+
         createBodies();
 
         Gdx.input.setInputProcessor(this);
@@ -104,7 +105,7 @@ public class Player extends GameObject implements InputProcessor {
 
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
-        //System.out.println(body.getLinearVelocity().x);
+
 
 
 
@@ -220,7 +221,7 @@ public class Player extends GameObject implements InputProcessor {
 
         }
         motorSpeed = (-15)*60 * speed;
-        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
 
         rearWheelJoint.setMotorSpeed(motorSpeed);
         frontWheelJoint.setMotorSpeed(motorSpeed);

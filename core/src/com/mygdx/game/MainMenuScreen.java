@@ -32,6 +32,8 @@ public class MainMenuScreen extends NewScreen {
 
     public MainMenuScreen(JDCEGame g) {
         super(g);
+        System.out.println("korkeus "+getScreenHeight());
+        System.out.println("leveys "+getScreenWidth());
 
         /*play = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "New Game", getScreenWidth()/2, getScreenHeight()/2);
         highScores = new Button(getGame(), 32, "arialbd.ttf", Color.BLACK, "High Scores", getScreenWidth()/2, getScreenHeight()/3);*/

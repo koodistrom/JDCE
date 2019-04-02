@@ -125,9 +125,7 @@ public class GameScreen extends NewScreen {
 
         polyBatch.begin();
 
-        System.out.println(modules.size());
-        //polySprite.draw(polyBatch);
-        //polyBatch.draw(levelCreator.polyReg, 0,0,levelCreator.polySprite.getWidth()/PIXELS_TO_METERS, levelCreator.polySprite.getHeight()/PIXELS_TO_METERS);
+        System.out.println(Gdx.graphics.getDeltaTime());
         for(int i=0; i<modules.size(); i++){
             modules.get(i).draw();
         }
