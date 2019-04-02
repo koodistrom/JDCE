@@ -318,7 +318,7 @@ public class LevelCreator {
             points = scalePoints(points,scalers[i]);
             modules[i].setLengthScaler(scalers[i]);
 
-            allVertices.addAll(ExtractSVGPaths.extract(SVGs[i]));
+            allVertices.addAll(ExtractSVGPaths.extract(SVGs[i]).get(0));
 
 
             if(SVGs[i].equals("rotko.svg")){
@@ -353,7 +353,7 @@ public class LevelCreator {
         return modules;
     }
 
-    public ArrayList<LevelModule> createModules2 ( String SVG){
+    /*public ArrayList<LevelModule> createModules2 ( String SVG){
 
         float lastX = 0;
         float lastY = 0;
@@ -402,7 +402,7 @@ public class LevelCreator {
         goal.setY(lastY);
 
         return modules;
-    }
+    }*/
 
     public PolygonRegion createTexture(GameScreen game, String filePath, TextureRegion textureRegion){
         PolygonRegion polygonRegion;
