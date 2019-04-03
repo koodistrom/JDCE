@@ -96,7 +96,7 @@ public class GameScreen extends NewScreen {
     public void render(float delta) {
         //getMeterViewport().getCamera().update();
         // Step the physics simulation forward at a rate of 60hz
-        world.step(1f/60f, 6, 2);
+        world.step(delta, 6, 2);
 
 
         moveCamera();
@@ -126,9 +126,10 @@ public class GameScreen extends NewScreen {
 
         polyBatch.begin();
 
-        for(int i=0; i<modules.size(); i++){
+        for(int i=0; i<modules.size(); i++) {
             modules.get(i).draw();
         }
+
         polyBatch.end();
 
         debugRenderer.render(world, debugMatrix);

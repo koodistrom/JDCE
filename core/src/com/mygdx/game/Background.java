@@ -25,7 +25,7 @@ public class Background {
         back.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         backreg = new TextureRegion(back);
 
-        middle = new Texture("tausta4taso2.png");
+        middle = new Texture("tausta4taso22.png");
         middle.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         midreg = new TextureRegion(middle);
 
@@ -46,6 +46,7 @@ public class Background {
         midX = game.getPlayer().getX()-4f;
         batch.draw(back,backX,y,back.getWidth()*scaler,back.getHeight()*scaler+1);
         batch.draw(middle,midX,y-5,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,sourceX,0,middle.getWidth(),middle.getHeight(),false,false);
+
 
     }
 }
