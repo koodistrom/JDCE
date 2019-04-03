@@ -23,7 +23,6 @@ import svg.parser.ExtractSVGPaths;
 
 //luokka muunneltu netistä kopioidustaluokasta: https://www.stkent.com/2015/07/03/building-smooth-paths-using-bezier-curves.html
 public class LevelCreator {
-
     Texture dirtTexture;
     TextureRegion dirt;
     Texture spikeTexture;
@@ -48,6 +47,7 @@ public class LevelCreator {
      * @return      a Path representing the twice-differentiable curve
      *              passing through all the given knots
      */
+
     public LevelCreator(GameScreen game){
 
         this.game = game;
@@ -379,4 +379,5 @@ public class LevelCreator {
         }
         return points;
     }
+
 }
