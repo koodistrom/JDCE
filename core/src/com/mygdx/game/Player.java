@@ -110,7 +110,7 @@ public class Player extends GameObject implements InputProcessor {
 
 
         steering();
-
+        //System.out.println(speed);
         distsInSec.add(speed);
         if(distsInSec.size()>60){
             distsInSec.remove(0);

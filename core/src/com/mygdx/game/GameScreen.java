@@ -51,7 +51,7 @@ public class GameScreen extends NewScreen {
 
         switch (levelnum){
             case 1:
-                modules = levelCreator.createModules( "test6.svg");
+                modules = levelCreator.createModules( "test13.svg");
                 break;
             case 2:
                 modules = levelCreator.createModules( "test7.svg");
@@ -69,10 +69,6 @@ public class GameScreen extends NewScreen {
                 modules = levelCreator.createModules( "test12.svg");
                 break;
         }
-
-
-
-
 
 
 
@@ -125,7 +121,6 @@ public class GameScreen extends NewScreen {
 
         polyBatch.begin();
 
-        System.out.println(Gdx.graphics.getDeltaTime());
         for(int i=0; i<modules.size(); i++){
             modules.get(i).draw();
         }

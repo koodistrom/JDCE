@@ -76,34 +76,7 @@ public class LevelCreator2 {
         return bodyGround;
     }
 
-    public float[] createFromSVG (String filePath){
 
-        float[] vertices;
-        lowest = 0;
-        highest = 0;
-
-        ArrayList<Vector2> verticeArray;
-
-        verticeArray = ExtractSVGPaths.extract(filePath).get(0);
-        vertices = new float[verticeArray.size()*2+4];
-        for(int i = 0; i <verticeArray.size(); i++){
-
-            vertices[i*2] = verticeArray.get(i).x;
-            vertices[i*2+1] = verticeArray.get(i).y;
-            if(verticeArray.get(i).y<lowest){
-                lowest = verticeArray.get(i).y;
-            }
-            if(verticeArray.get(i).y>highest){
-                highest = verticeArray.get(i).y;
-            }
-        }
-        bottom = lowest-3;
-        vertices[vertices.length-4] = vertices[vertices.length-6];
-        vertices[vertices.length-3] = bottom;
-        vertices[vertices.length-2] = vertices[0];
-        vertices[vertices.length-1] = bottom;
-        return vertices;
-    }
 
 
 
@@ -160,14 +133,14 @@ public class LevelCreator2 {
         }
         LevelModule rotko = new LevelModule();
         Vector2[] rotkoPoints = new Vector2[]{new Vector2(firstX-5, lowest+5), new Vector2(lastX+5,lowest+5),new Vector2(lastX+5,lowest),new Vector2(firstX-5,lowest)};
-        rotko.setBody(createBody(rotkoPoints, game.getWorld(), rotkoPoints[0].x, rotkoPoints[0].y,true));
+        rotko.setBody(createBody(rotkoPoints, game.getWorld(), 0, 0,true));
         game.rotkos.add(rotko);
         rotko.setPolygonRegion(createTexture(game, rotkoPoints, spikes));
 
         rotko.setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
         rotko.setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
-        rotko.setX(rotkoPoints[0].x);
-        rotko.setY(rotkoPoints[0].y);
+        rotko.setX(0);
+        rotko.setY(0);
         rotko.setGame(game);
         modules.add(rotko);
 
