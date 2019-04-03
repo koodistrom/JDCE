@@ -14,9 +14,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 
 public class NewScreen implements Screen {
     private JDCEGame game;
@@ -25,17 +27,25 @@ public class NewScreen implements Screen {
     final float PIXELS_TO_METERS = 100f;
     private float screenWidth = (Gdx.graphics.getWidth()/PIXELS_TO_METERS)*1.2f;
     private float screenHeight = (Gdx.graphics.getHeight()/PIXELS_TO_METERS)*1.2f;
+
     private Stage gameStage;
+
     private Skin uiSkin;
-    private float textButtonHeight = 150;
-    private float textButtonWidth = 400;
-    private float imageButtonHeight = 50;
-    private float imageButtonWidth = 50;
-    private Button mute;
+
+    private float textButtonHeight = 125;
+    private float textButtonWidth = 300;
+
+    private float imageButtonHeight = 125;
+    private float imageButtonWidth = 125;
+
+    private Button muteSoundFx;
+    private Button muteMusic;
     private Button languageFI;
     private Button languageEN;
+
     private ScreenViewport gameViewport;
     private FitViewport meterViewport;
+
     private BitmapFont font48;
     private FreeTypeFontGenerator generator;
     private GlyphLayout layout48;
@@ -60,25 +70,22 @@ public class NewScreen implements Screen {
         font48 = generator.generateFont(parameter);
         layout48 = new GlyphLayout();
 
-        Texture fin = new Texture(Gdx.files.internal("fin.png"));
-        TextureRegion finTextureRegion = new TextureRegion(fin);
-        TextureRegionDrawable finTextRegDrawable = new TextureRegionDrawable(finTextureRegion);
+
+        TextureRegionDrawable finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("fin.png")));
         languageFI = new Button(finTextRegDrawable);
 
-        Texture eng = new Texture(Gdx.files.internal("en.png"));
-        TextureRegion engTextureRegion = new TextureRegion(eng);
-        TextureRegionDrawable engTextRegDrawable = new TextureRegionDrawable(engTextureRegion);
+
+        TextureRegionDrawable engTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("en.png")));
         languageEN = new Button(engTextRegDrawable);
 
-        Texture muteOff = new Texture(Gdx.files.internal("mute_off.png"));
-        TextureRegion muteOffTextureRegion = new TextureRegion(muteOff);
-        TextureRegionDrawable muteOffTextRegDrawable = new TextureRegionDrawable(muteOffTextureRegion);
 
-        Texture muteOn = new Texture(Gdx.files.internal("mute_on.png"));
-        TextureRegion muteOnTextureRegion = new TextureRegion(muteOn);
-        TextureRegionDrawable muteOnTextRegDrawable = new TextureRegionDrawable(muteOnTextureRegion);
+        TextureRegionDrawable muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("mute_off.png")));
+        TextureRegionDrawable muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("mute_on.png")));
+        muteMusic = new Button(muteMusicOff, muteMusicOn, muteMusicOn);
 
-        mute = new Button(muteOffTextRegDrawable, muteOffTextRegDrawable, muteOnTextRegDrawable);
+        TextureRegionDrawable muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_on.png")));
+        TextureRegionDrawable muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_off.png")));
+        muteSoundFx = new Button(muteSoundFxOff, muteSoundFxOn, muteSoundFxOn);
 
     }
 
@@ -178,8 +185,16 @@ public class NewScreen implements Screen {
         return languageEN;
     }
 
-    public Button getMuteButton() {
-        return mute;
+    public Button getMuteMusicButton() {
+        return muteMusic;
+    }
+
+    public Button getMuteSoundFxButton() {
+        return muteSoundFx;
+    }
+
+    public void setMuteSoundFxButton(Button muteSoundFx) {
+        this.muteSoundFx = muteSoundFx;
     }
 
     public void setImageButtonHeight(float height) {
@@ -262,5 +277,6 @@ public class NewScreen implements Screen {
     public void setBackground(Texture background) {
         this.background = background;
     }
+
 }
 
