@@ -33,6 +33,7 @@ public class GameScreen extends NewScreen {
     Stegosaurus stegosaurus;
     Sprite sprite;
     int levelNum;
+    Background background;
 
     public GameScreen(JDCEGame g, int levelnum) {
         super(g);
@@ -88,6 +89,7 @@ public class GameScreen extends NewScreen {
         debugRenderer = new Box2DDebugRenderer();
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+        background = new Background(this);
     }
 
     @Override
@@ -110,10 +112,13 @@ public class GameScreen extends NewScreen {
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         debugMatrix = getSpriteBatch().getProjectionMatrix();
+
         getSpriteBatch().begin();
+        background.draw();
 
         player. draw();
         //collectable.update();
+
 
         levelCreator.goal.draw();
 
