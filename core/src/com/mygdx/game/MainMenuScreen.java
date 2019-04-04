@@ -15,18 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class MainMenuScreen extends NewScreen {
-    private float stageHeightTenth;
-    private float stageWidthTenth;
     private float textButtonX;
-    private float textButtonY1;
-    private float textButtonY2;
-    private float textButtonY3;
-    private float imageButtonX1;
-    private float imageButtonX2;
-    private float imageButtonX3;
-    private float imageButtonY1;
-    private float imageButtonY2;
-    private float imageButtonY3;
+    private float playButtonY;
+    private float highScoreButtonY;
+    private float quitButtonY;
+    private float ENbuttonX;
+    private float FIbuttonX;
+    private float languageButtonY;
 
     private TextButton playButton;
     private TextButton highScoreButton;
@@ -60,16 +55,22 @@ public class MainMenuScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen gs = new LevelSelectScreen(getGame());
-                getGame().setScreen(gs);
+                getGame().setScreen(new LevelSelectScreen(getGame()));
             }
         });
 
         highScoreButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                HighScoreScreen hss = new HighScoreScreen(getGame());
-                getGame().setScreen(hss);
+                getGame().setScreen(new HighScoreScreen(getGame()));
+            }
+        });
+
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+                System.exit(-1);
             }
         });
 
@@ -100,8 +101,6 @@ public class MainMenuScreen extends NewScreen {
         getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
-
-
         getGameStage().draw();
     }
 
@@ -118,49 +117,58 @@ public class MainMenuScreen extends NewScreen {
         super.dispose();
     }
 
+    @Override
     public void setupButtonBounds() {
-        stageHeightTenth = getStageHeight() / 10;
-        stageWidthTenth = getStageWidth() / 10;
-        textButtonX = stageWidthTenth * 5 - (getTextButtonWidth() / 2);
-        textButtonY1 = stageHeightTenth * 9 - (getTextButtonHeight() / 2);
-        textButtonY2 = stageHeightTenth * 6.333f - (getTextButtonHeight() / 2);
-        textButtonY3 = stageHeightTenth * 3.666f  - (getTextButtonHeight() / 2);
-        imageButtonX1 = stageWidthTenth - (getImageButtonWidth() / 2);
-        imageButtonX2 = stageWidthTenth * 2.5f - (getImageButtonWidth() / 2);
-        imageButtonX3 = stageWidthTenth * 9 - (getImageButtonWidth() / 2);
-        imageButtonY1 = stageHeightTenth * 1 - (getImageButtonHeight() / 2);
-        imageButtonY2 = textButtonY1; //stageHeightTenth * 9;
-        imageButtonY3 = textButtonY2; //stageHeightTenth * 8;
+        updateTenths();
+
+        setTextButtonHeight(getGameStage().getHeight() / 6);
+        setTextButtonWidth(getGameStage().getWidth() / 3);
+        setImageButtonWidth(getTextButtonHeight());
+        setImageButtonHeight(getTextButtonHeight());
+
+        textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
+        playButtonY = getStageHeightTenth() * 9 - (getTextButtonHeight() / 2);
+        highScoreButtonY = getStageHeightTenth() * 6.333f - (getTextButtonHeight() / 2);
+        quitButtonY = getStageHeightTenth() * 3.666f  - (getTextButtonHeight() / 2);
+
+        ENbuttonX = getStageWidthTenth() - (getImageButtonWidth() / 2);
+        FIbuttonX = getStageWidthTenth() * 2.5f - (getImageButtonWidth() / 2);
+        languageButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
+
+        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
+        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
+        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
+        setMuteSoundEffectsX(getMuteMusicX());
     }
 
     public void setupButtons() {
         playButton.setWidth(getTextButtonWidth());
         playButton.setHeight(getTextButtonHeight());
-        playButton.setPosition(textButtonX, textButtonY1);
+        playButton.setPosition(textButtonX, playButtonY);
 
         highScoreButton.setWidth(getTextButtonWidth());
         highScoreButton.setHeight(getTextButtonHeight());
-        highScoreButton.setPosition(textButtonX, textButtonY2);
+        highScoreButton.setPosition(textButtonX, highScoreButtonY);
 
         quitButton.setWidth(getTextButtonWidth());
         quitButton.setHeight(getTextButtonHeight());
-        quitButton.setPosition(textButtonX, textButtonY3);
+        quitButton.setPosition(textButtonX, quitButtonY);
 
         getButtonEN().setWidth(getImageButtonWidth());
         getButtonEN().setHeight(getImageButtonHeight());
-        getButtonEN().setPosition(imageButtonX1, imageButtonY1);
+        getButtonEN().setPosition(ENbuttonX, languageButtonY);
 
         getButtonFI().setWidth(getImageButtonWidth());
         getButtonFI().setHeight(getImageButtonHeight());
-        getButtonFI().setPosition(imageButtonX2, imageButtonY1);
+        getButtonFI().setPosition(FIbuttonX, languageButtonY);
 
         getMuteMusicButton().setWidth(getImageButtonWidth());
         getMuteMusicButton().setHeight(getImageButtonHeight());
-        getMuteMusicButton().setPosition(imageButtonX3, imageButtonY2);
+        getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
 
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
-        getMuteSoundFxButton().setPosition(imageButtonX3, imageButtonY3);
+        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
     }
 }
 

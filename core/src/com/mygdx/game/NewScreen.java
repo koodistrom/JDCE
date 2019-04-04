@@ -30,18 +30,29 @@ public class NewScreen implements Screen {
 
     private Stage gameStage;
 
+    private float stageWidthTenth;
+    private float stageHeightTenth;
+
     private Skin uiSkin;
 
-    private float textButtonHeight = 125;
-    private float textButtonWidth = 300;
+    private float textButtonHeight;
+    private float textButtonWidth;
 
-    private float imageButtonHeight = 125;
-    private float imageButtonWidth = 125;
+    private float imageButtonHeight;
+    private float imageButtonWidth;
 
+    private Button backButton;
     private Button muteSoundFx;
     private Button muteMusic;
     private Button languageFI;
     private Button languageEN;
+
+    private float backButtonX;
+    private float backButtonY;
+    private float muteMusicX;
+    private float muteMusicY;
+    private float muteSoundEffectsX;
+    private float MuteSoundEffectsY;
 
     private ScreenViewport gameViewport;
     private FitViewport meterViewport;
@@ -62,6 +73,8 @@ public class NewScreen implements Screen {
         gameStage = new Stage(gameViewport, batch);
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 
+        setupButtonBounds();
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 48;
@@ -70,6 +83,8 @@ public class NewScreen implements Screen {
         font48 = generator.generateFont(parameter);
         layout48 = new GlyphLayout();
 
+        TextureRegionDrawable backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
+        backButton = new Button(backButtonTextRegDrawable);
 
         TextureRegionDrawable finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("fin.png")));
         languageFI = new Button(finTextRegDrawable);
@@ -227,6 +242,38 @@ public class NewScreen implements Screen {
     public void resize(int width, int height) {
         gameViewport.update(width, height, true);
         meterViewport.update(width, height, true);
+
+        setupButtonBounds();
+    }
+
+    public void setupButtonBounds() {
+        updateTenths();
+
+        textButtonHeight = gameStage.getHeight() / 6;
+        textButtonWidth = gameStage.getWidth() / 4;
+        imageButtonHeight = textButtonHeight;
+        imageButtonWidth = imageButtonHeight;
+
+        backButtonX = getStageWidthTenth() - (getImageButtonWidth() / 2);
+        backButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
+        muteMusicY = stageHeightTenth * 9 - (getImageButtonHeight() / 2);
+        MuteSoundEffectsY = stageHeightTenth * 6.333f - (getImageButtonHeight() / 2);
+        muteMusicX = stageWidthTenth * 9 - (getImageButtonWidth() / 2);
+        muteSoundEffectsX = muteMusicX;
+    }
+
+    public void setupButtons() {
+        getBackButton().setWidth(getImageButtonWidth());
+        getBackButton().setHeight(getImageButtonHeight());
+        getBackButton().setPosition(getBackButtonX(), getBackButtonY());
+
+        getMuteMusicButton().setWidth(getImageButtonWidth());
+        getMuteMusicButton().setHeight(getImageButtonHeight());
+        getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
+
+        getMuteSoundFxButton().setWidth(getImageButtonWidth());
+        getMuteSoundFxButton().setHeight(getImageButtonHeight());
+        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
     }
 
     @Override
@@ -278,5 +325,69 @@ public class NewScreen implements Screen {
         this.background = background;
     }
 
+    public float getMuteMusicX() {
+        return muteMusicX;
+    }
+
+    public void setMuteMusicX(float muteMusicX) {
+        this.muteMusicX = muteMusicX;
+    }
+
+    public float getMuteMusicY() {
+        return muteMusicY;
+    }
+
+    public void setMuteMusicY(float muteMusicY) {
+        this.muteMusicY = muteMusicY;
+    }
+
+    public float getMuteSoundEffectsX() {
+        return muteSoundEffectsX;
+    }
+
+    public void setMuteSoundEffectsX(float muteSoundEffectsX) {
+        this.muteSoundEffectsX = muteSoundEffectsX;
+    }
+
+    public float getMuteSoundEffectsY() {
+        return MuteSoundEffectsY;
+    }
+
+    public void setMuteSoundEffectsY(float muteSoundEffectsY) {
+        MuteSoundEffectsY = muteSoundEffectsY;
+    }
+
+    public float getStageWidthTenth() {
+        return stageWidthTenth;
+    }
+
+    public float getStageHeightTenth() {
+        return stageHeightTenth;
+    }
+
+    public void updateTenths() {
+        stageHeightTenth = gameStage.getHeight() / 10;
+        stageWidthTenth = gameStage.getWidth() / 10;
+    }
+
+    public Button getBackButton() {
+        return backButton;
+    }
+
+    public float getBackButtonX() {
+        return backButtonX;
+    }
+
+    public void setBackButtonX(float backButtonX) {
+        this.backButtonX = backButtonX;
+    }
+
+    public float getBackButtonY() {
+        return backButtonY;
+    }
+
+    public void setBackButtonY(float backButtonY) {
+        this.backButtonY = backButtonY;
+    }
 }
 
