@@ -13,11 +13,11 @@ public class Background {
     TextureRegion frontreg;
     Batch batch;
     float y;
-    float backX;
+    float x;
     float midX;
-    float frontX;
+    int frontSourceX;
     float scaler;
-    int sourceX;
+    int midSourceX;
     GameScreen game;
 
     public Background(GameScreen game){
@@ -35,18 +35,18 @@ public class Background {
         scaler = game.getScreenHeight()/back.getHeight();
         batch = game.getSpriteBatch();
         this.game = game;
-        sourceX = 0;
+        midSourceX = 0;
     }
 
     public void draw(){
         y= game.getPlayer().getY()-4.5f;
-        backX= game.getPlayer().getX()-4f;
+        x= game.getPlayer().getX()-4f;
         //sourceX+=1;
-        sourceX=(int)(game.getPlayer().getX()*10);
-        midX = game.getPlayer().getX()-4f;
-        batch.draw(back,backX,y,back.getWidth()*scaler,back.getHeight()*scaler+1);
-        batch.draw(middle,midX,y-5,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,sourceX,0,middle.getWidth(),middle.getHeight(),false,false);
-
+        midSourceX=(int)(game.getPlayer().getX()*5);
+        frontSourceX=(int)(game.getPlayer().getX()*10);
+        batch.draw(back,x,y,back.getWidth()*scaler,back.getHeight()*scaler+1);
+        batch.draw(middle,x,y-3,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,midSourceX,0,middle.getWidth(),middle.getHeight(),false,false);
+        batch.draw(front,x,y-5,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,frontSourceX,0,front.getWidth(),front.getHeight(),false,false);
 
     }
 }

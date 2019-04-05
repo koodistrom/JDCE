@@ -29,6 +29,7 @@ public class JDCEThingyListener implements ThingyListener {
         if (!mConnectedBleDeviceList.contains(device)) {
             mConnectedBleDeviceList.add(device);
         }
+
     }
 
     @Override

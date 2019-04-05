@@ -52,10 +52,10 @@ public class GameScreen extends NewScreen {
 
         switch (levelnum){
             case 1:
-                modules = levelCreator.createModules( "test13.svg");
+                modules = levelCreator.createModules( "testing (1).svg");
                 break;
             case 2:
-                modules = levelCreator.createModules( "test7.svg");
+                modules = levelCreator.createModules( "test14.svg");
                 break;
             case 3:
                 modules = levelCreator.createModules( "test8.svg");
@@ -96,7 +96,7 @@ public class GameScreen extends NewScreen {
     public void render(float delta) {
         //getMeterViewport().getCamera().update();
         // Step the physics simulation forward at a rate of 60hz
-        world.step(delta, 6, 2);
+        world.step(1/60f, 6, 2);
 
 
         moveCamera();

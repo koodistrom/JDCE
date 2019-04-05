@@ -37,9 +37,11 @@ public class Player extends GameObject implements InputProcessor {
     Timer timer;
     boolean isTurboOn;
     float freeRollRange;
+
     boolean reverseOn;
     boolean forwardOn;
     boolean neutralOn;
+
     Float speed;
     ArrayList<Float> distsInSec;
     float neutralDist;
@@ -49,6 +51,7 @@ public class Player extends GameObject implements InputProcessor {
     float wh;
     float linearDamping;
     boolean win;
+
 
     public Player(GameScreen game) {
 
@@ -66,12 +69,16 @@ public class Player extends GameObject implements InputProcessor {
         oldSpeed = 0f;
         isTurboOn = false;
         freeRollRange = 0.005f;
-        reverseOn = false;
+
         speed = 0f;
         neutralDist = 0f;
         neutralRange = 0.1f;
         distsInSec = new ArrayList<Float>();
+
+        forwardOn = false;
+        reverseOn = false;
         neutralOn = true;
+
         linearDamping = 0.1f;
         win = false;
 
@@ -147,40 +154,7 @@ public class Player extends GameObject implements InputProcessor {
 
 
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if(keycode == Input.Keys.RIGHT) {
 
-            speed = 1/60f;
-
-
-
-        }
-        if(keycode == Input.Keys.LEFT) {
-            speed = -1/60f;
-
-
-        }
-        return true;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.RIGHT) {
-            speed = 0f;
-
-        }
-        if(keycode == Input.Keys.LEFT) {
-            speed = 0f;
-
-        }
-
-        if(keycode == Input.Keys.ESCAPE) {
-            game.reset();
-
-        }
-        return true;
-    }
 
     public void trackTime(){
         if(x>game.getLevelCreator().goal.getX()){
@@ -201,27 +175,24 @@ public class Player extends GameObject implements InputProcessor {
 
         //vapaalla
         if(!isReverseOn() && speed < freeRollRange && speed>-freeRollRange) {
-            rearWheelJoint.enableMotor(false);
-            frontWheelJoint.enableMotor(false);
+            setOnNeutral();
 
         }
 
         //backward
         if(speed<-freeRollRange) {
-            rearWheelJoint.enableMotor(true);
-            frontWheelJoint.enableMotor(true);
+            setOnReverse();
 
-            reverseOn = true;
+
         }
 
         //forward
         if(speed > freeRollRange ) {
-            rearWheelJoint.enableMotor(true);
-            frontWheelJoint.enableMotor(false);
+            setOnForward();
 
         }
-        motorSpeed = (-15)*60 * speed;
-        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        motorSpeed = (-15)*60 * speed * ((rearWheelJoint.getJointSpeed()/-100)+1);
+        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
 
         rearWheelJoint.setMotorSpeed(motorSpeed);
         frontWheelJoint.setMotorSpeed(motorSpeed);
@@ -262,8 +233,32 @@ public class Player extends GameObject implements InputProcessor {
         }
     }
 
+    public void setOnReverse() {
+        reverseOn = true;
+        neutralOn = false;
+        forwardOn = false;
 
+        rearWheelJoint.enableMotor(true);
+        frontWheelJoint.enableMotor(true);
+    }
 
+    public void setOnNeutral() {
+        rearWheelJoint.enableMotor(false);
+        frontWheelJoint.enableMotor(false);
+
+        reverseOn = false;
+        neutralOn = true;
+        forwardOn = false;
+    }
+
+    public void setOnForward() {
+        rearWheelJoint.enableMotor(true);
+        frontWheelJoint.enableMotor(false);
+
+        reverseOn = false;
+        neutralOn = false;
+        forwardOn = true;
+    }
 
     public void createBodies(){
         BodyDef bodyDef = new BodyDef();
@@ -283,15 +278,15 @@ public class Player extends GameObject implements InputProcessor {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.2f;
+        fixtureDef.density = 0.5f;
         fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
         shape.dispose();
         setBody(body);
 
-        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.7f,0.5f,1.2f,ww/2);
-        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.7f,0.5f,0.8f,ww/2);
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.5f,0.5f,1.2f,ww/2);
+        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.5f,0.5f,0.8f,ww/2);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
         rearWheelJointDef.bodyA=body;
@@ -304,7 +299,7 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.dampingRatio = 0.95f;
         rearWheelJointDef.frequencyHz = 1.7f;
         rearWheelJointDef.localAxisA.set(new Vector2(0,1));
-        rearWheelJointDef.maxMotorTorque = 30f;
+        rearWheelJointDef.maxMotorTorque = 2.5f;
         rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
 
 
@@ -317,9 +312,43 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJointDef.dampingRatio = 0.95f;
         frontWheelJointDef.frequencyHz = 1.7f;
         frontWheelJointDef.localAxisA.set(new Vector2(0,1));
-        frontWheelJointDef.maxMotorTorque = 50f;
+        frontWheelJointDef.maxMotorTorque = 2f;
         frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
+    }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.RIGHT) {
+
+            speed = 2f/60f;
+
+
+
+        }
+        if(keycode == Input.Keys.LEFT) {
+            speed = -2f/60f;
+
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.RIGHT) {
+            speed = 0f;
+
+        }
+        if(keycode == Input.Keys.LEFT) {
+            speed = 0f;
+
+        }
+
+        if(keycode == Input.Keys.ESCAPE) {
+            game.reset();
+
+        }
+        return true;
     }
 
     @Override
