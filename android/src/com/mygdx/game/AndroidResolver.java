@@ -12,11 +12,16 @@ public class AndroidResolver implements PlatformResolver {
     ArrayList<BluetoothDevice> devices;
     ArrayList<String> deviceNames;
 
+
+
+    boolean deviceAdded;
+
     public AndroidResolver(AndroidLauncher androidLauncher) {
         this.androidLauncher = androidLauncher;
         speed = 0;
         devices = new ArrayList<BluetoothDevice>();
         deviceNames = new ArrayList<String>();
+        deviceAdded = false;
     }
 
     @Override
@@ -56,6 +61,20 @@ public class AndroidResolver implements PlatformResolver {
     public void addDevice(BluetoothDevice device){
         devices.add(device);
         deviceNames.add(device.getName());
+        deviceAdded = true;
+    }
+
+    public String getNewDeviceName(){
+        deviceAdded = false;
+        return deviceNames.get(deviceNames.size()-1);
+    }
+
+    public boolean isDeviceAdded() {
+        return deviceAdded;
+    }
+
+    public void setDeviceAdded(boolean deviceAdded) {
+        this.deviceAdded = deviceAdded;
     }
 
 }

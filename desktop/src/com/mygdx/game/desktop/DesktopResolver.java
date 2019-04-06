@@ -28,6 +28,6 @@ public class DesktopResolver implements PlatformResolver {
 
     @Override
     public boolean isConnected() {
-        return true;
+        return false;
     }
 }
