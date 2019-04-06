@@ -51,6 +51,7 @@ public class Player extends GameObject implements InputProcessor {
     float wh;
     float linearDamping;
     boolean win;
+    boolean addSpeed;
 
 
     public Player(GameScreen game) {
@@ -81,7 +82,7 @@ public class Player extends GameObject implements InputProcessor {
 
         linearDamping = 0.1f;
         win = false;
-
+        addSpeed = false;
 
 
         createBodies();
@@ -171,10 +172,10 @@ public class Player extends GameObject implements InputProcessor {
 
     public void steering(){
 
-
+        motorSpeed = (-15)*60 * speed * ((rearWheelJoint.getJointSpeed()/-100)+1);
 
         //vapaalla
-        if(!isReverseOn() && speed < freeRollRange && speed>-freeRollRange) {
+        if(!isReverseOn() && motorSpeed>rearWheelJoint.getJointSpeed() && speed>-freeRollRange) {
             setOnNeutral();
 
         }
@@ -187,12 +188,18 @@ public class Player extends GameObject implements InputProcessor {
         }
 
         //forward
-        if(speed > freeRollRange ) {
+        if( motorSpeed<rearWheelJoint.getJointSpeed() ) {
             setOnForward();
 
         }
-        motorSpeed = (-15)*60 * speed * ((rearWheelJoint.getJointSpeed()/-100)+1);
+
         System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        //System.out.println("kerroin: "+ (rearWheelJoint.getJointSpeed()/-100)+1);
+
+        //desktoptestaukseen
+        if(addSpeed==true){
+            speed +=0.00001f;
+        }
 
         rearWheelJoint.setMotorSpeed(motorSpeed);
         frontWheelJoint.setMotorSpeed(motorSpeed);
@@ -316,18 +323,20 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
     }
 
+    //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){ }
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
-
-            speed = 2f/60f;
-
-
+            speed = 1f/60f;
+            addSpeed = true;
 
         }
         if(keycode == Input.Keys.LEFT) {
-            speed = -2f/60f;
-
+            if(speed==0){
+                speed = -1f/60f;
+            }else{
+                speed -=0.001f;
+            }
 
         }
         return true;
@@ -337,7 +346,7 @@ public class Player extends GameObject implements InputProcessor {
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
             speed = 0f;
-
+            addSpeed = false;
         }
         if(keycode == Input.Keys.LEFT) {
             speed = 0f;
