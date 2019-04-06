@@ -1,14 +1,22 @@
 package com.mygdx.game;
 
+import android.bluetooth.BluetoothDevice;
+
+import java.util.ArrayList;
+
 public class AndroidResolver implements PlatformResolver {
     float speed;
     float calculatedSpeed;
     boolean connected;
     AndroidLauncher androidLauncher;
+    ArrayList<BluetoothDevice> devices;
+    ArrayList<String> deviceNames;
 
     public AndroidResolver(AndroidLauncher androidLauncher) {
         this.androidLauncher = androidLauncher;
         speed = 0;
+        devices = new ArrayList<BluetoothDevice>();
+        deviceNames = new ArrayList<String>();
     }
 
     @Override
@@ -43,6 +51,11 @@ public class AndroidResolver implements PlatformResolver {
     @Override
     public boolean isConnected() {
         return connected;
+    }
+
+    public void addDevice(BluetoothDevice device){
+        devices.add(device);
+        deviceNames.add(device.getName());
     }
 
 }

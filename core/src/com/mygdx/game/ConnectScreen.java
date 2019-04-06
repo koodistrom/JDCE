@@ -7,14 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.ArrayList;
+
 public class ConnectScreen extends NewScreen {
     private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
     private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
     private Label connectionInfo;
+    private ArrayList<String> devices;
     public ConnectScreen(JDCEGame g) {
         super(g);
         final TextButton connectButton = new TextButton("connect", getUiSkin());
-
+        devices = new ArrayList<String>();
         connectionInfo = new Label("connecting", getUiSkin());
         connectionInfo.setWidth(getTextButtonWidth());
         connectionInfo.setHeight(getTextButtonHeight());

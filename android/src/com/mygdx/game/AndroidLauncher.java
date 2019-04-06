@@ -211,9 +211,10 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         public void onScanResult(final int callbackType, @NonNull final ScanResult result) {
             // do nothing
             final BluetoothDevice device = result.getDevice();
+            androidResolver.addDevice(device);
             if(device.getName().equals("JDCE1")){
                 mDevice = device;
-                System.out.println("laite: "+mDevice);
+                System.out.println("laite: "+mDevice.getBluetoothClass());
                 stopScan();
                 connect();
             }
