@@ -313,7 +313,7 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.dampingRatio = 0.95f;
         rearWheelJointDef.frequencyHz = 1.7f;
         rearWheelJointDef.localAxisA.set(new Vector2(0,1));
-        rearWheelJointDef.maxMotorTorque = 2.5f;
+        rearWheelJointDef.maxMotorTorque = 1.5f;
         rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
 
 
@@ -326,7 +326,7 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJointDef.dampingRatio = 0.95f;
         frontWheelJointDef.frequencyHz = 1.7f;
         frontWheelJointDef.localAxisA.set(new Vector2(0,1));
-        frontWheelJointDef.maxMotorTorque = 2f;
+        frontWheelJointDef.maxMotorTorque = 1.5f;
         frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
     }
 
