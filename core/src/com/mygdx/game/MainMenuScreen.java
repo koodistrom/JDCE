@@ -11,8 +11,17 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import java.util.Locale;
+
+import static com.badlogic.gdx.graphics.Color.BLACK;
 
 public class MainMenuScreen extends NewScreen {
     private float textButtonX;
@@ -26,7 +35,20 @@ public class MainMenuScreen extends NewScreen {
     private TextButton playButton;
     private TextButton highScoreButton;
     private TextButton quitButton;
+    private TextButton confirmAffirmative;
+    private TextButton confirmNegative;
 
+
+    private String playButtonText;
+    private String highScoreButtonText;
+    private String quitButtonText;
+    private String quitConfirmText;
+    private String confirmAffirmativeText;
+    private String confirmNegativeText;
+
+    private Label title;
+    private Table quitConfirmTable;
+    private boolean isQuitConfirmOn = false;
 
     public MainMenuScreen(JDCEGame g) {
         super(g);
@@ -37,11 +59,20 @@ public class MainMenuScreen extends NewScreen {
 
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
 
-        playButton = new TextButton("Play", getUiSkin());
-        highScoreButton = new TextButton("High Scores", getUiSkin());
-        quitButton = new TextButton("Quit", getUiSkin());
+        quitConfirmTable = new Table();
+//        quitConfirmTable.setDebug(true);
 
+        playButton = new TextButton(playButtonText, getUiSkin());
+        highScoreButton = new TextButton(highScoreButtonText, getUiSkin());
+        quitButton = new TextButton(quitButtonText, getUiSkin());
+        confirmAffirmative = new TextButton(confirmAffirmativeText, getUiSkin());
+        confirmNegative = new TextButton(confirmNegativeText, getUiSkin());
+
+        quitConfirmTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("orangebackground.png"))));
+
+        updateTexts();
         setupButtons();
+        setUpTable();
 
         getGameStage().addActor(playButton);
         getGameStage().addActor(highScoreButton);
@@ -50,48 +81,41 @@ public class MainMenuScreen extends NewScreen {
         getGameStage().addActor(getButtonFI());
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
+        getGameStage().addActor(quitConfirmTable);
+
         Gdx.input.setInputProcessor(getGameStage());
 
-        playButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new LevelSelectScreen(getGame()));
-            }
-        });
+        clickListeners();
 
-        highScoreButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new HighScoreScreen(getGame()));
-            }
-        });
+    }
 
-        quitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-                System.exit(-1);
-            }
-        });
+    public void setUpTable() {
+        title = new Label(quitConfirmText, getUiSkin());
+        updateTable();
+        quitConfirmTable.add(title).height(25).spaceBottom(30);
+        quitConfirmTable.center().top();
+        quitConfirmTable.row();
+        quitConfirmTable.add(confirmAffirmative).height(50).width(100).spaceBottom(30);
+        quitConfirmTable.row();
+        quitConfirmTable.add(confirmNegative).height(50).width(100).spaceBottom(30);
 
-        getMuteMusicButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+    }
 
-            }
-        });
-
-        getMuteSoundFxButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
+    public void updateTable() {
+        title.setText(quitConfirmText);
+        quitConfirmTable.setSize(getStageWidth() / 4, getStageHeight() / 3.5f);
+        quitConfirmTable.setPosition(getGameStage().getWidth() / 2 - (quitConfirmTable.getWidth() / 2),
+                getGameStage().getHeight() / 2 - (quitConfirmTable.getHeight() / 2));
     }
 
     @Override
     public void render(float delta) {
+        if(isQuitConfirmOn) {
+            quitConfirmTable.setVisible(true);
+        } else {
+            quitConfirmTable.setVisible(false);
+        }
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         getMeterViewport().apply();
@@ -111,6 +135,7 @@ public class MainMenuScreen extends NewScreen {
 
         setupButtonBounds();
         setupButtons();
+        updateTable();
     }
 
     public void dispose() {
@@ -169,6 +194,98 @@ public class MainMenuScreen extends NewScreen {
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
+
+        playButton.setText(playButtonText);
+        highScoreButton.setText(highScoreButtonText);
+        quitButton.setText(quitButtonText);
+        confirmAffirmative.setText(confirmAffirmativeText);
+        confirmNegative.setText(confirmNegativeText);
+
+        getGameStage().setDebugAll(true);
+    }
+
+    public void clickListeners() {
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (isQuitConfirmOn == false) {
+                    getGame().setScreen(new LevelSelectScreen(getGame()));
+                }
+            }
+        });
+
+        highScoreButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (isQuitConfirmOn == false) {
+                    getGame().setScreen(new HighScoreScreen(getGame()));
+                }
+            }
+        });
+
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isQuitConfirmOn = true;
+            }
+        });
+
+        confirmAffirmative.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+                System.exit(-1);
+            }
+        });
+
+        confirmNegative.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isQuitConfirmOn = false;
+            }
+        });
+
+        getMuteMusicButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        getMuteSoundFxButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        getButtonFI().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().updateLanguage(new Locale("fi", "FI"));
+                updateTexts();
+                updateTable();
+                setupButtons();
+            }
+        });
+
+        getButtonEN().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().updateLanguage(new Locale("en", "UK"));
+                updateTexts();
+                updateTable();
+                setupButtons();
+            }
+        });
+    }
+    public void updateTexts() {
+        playButtonText = getGame().getBundle().get("play");
+        highScoreButtonText = getGame().getBundle().get("highscores");
+        quitButtonText = getGame().getBundle().get("quit");
+        confirmAffirmativeText = getGame().getBundle().get("affirmative");
+        confirmNegativeText = getGame().getBundle().get("negative");
+        quitConfirmText = getGame().getBundle().get("quitConfirmText");
     }
 }
 
