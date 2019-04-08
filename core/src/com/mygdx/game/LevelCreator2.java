@@ -34,6 +34,11 @@ public class LevelCreator2 {
     float highest;
     float bottom;
 
+    float firstX;
+    float firstY;
+    float lastX;
+    float lastY;
+
     int verticeIndex = 0;
 
     public LevelCreator2(GameScreen game){
@@ -42,7 +47,7 @@ public class LevelCreator2 {
         allVertices = new ArrayList<Vector2>();
         goal = new GameObject(game);
         goal.setTexture(new Texture("finish.png"));
-        dirtTexture = new Texture("dirt.jpg");
+        dirtTexture = new Texture("looppaavamaa.png");
         dirtTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         dirt = new TextureRegion(dirtTexture);
 
@@ -66,7 +71,7 @@ public class LevelCreator2 {
         chainShape.createLoop(points);
 
         fixtureDef.shape = chainShape;
-        fixtureDef.friction = 1.5f;
+        fixtureDef.friction = 1.0f;
         fixtureDef.isSensor = isSensor;
         bodyDef.position.set(x,y);
         bodyGround = world.createBody(bodyDef);
@@ -84,10 +89,10 @@ public class LevelCreator2 {
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract(SVG);
         System.out.println("vektoreita: "+paths.size());
-        float firstX = paths.get(0).get(0).x;
-        float firstY = paths.get(0).get(0).y;
-        float lastX = 0;
-        float lastY = 0;
+        firstX = paths.get(0).get(0).x;
+        firstY = paths.get(0).get(0).y;
+        lastX = 0;
+        lastY = 0;
         lowest = 0;
         highest = 0;
 
@@ -179,4 +184,6 @@ public class LevelCreator2 {
         }
         return points;
     }
+
+
 }

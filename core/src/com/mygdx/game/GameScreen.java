@@ -23,6 +23,7 @@ public class GameScreen extends NewScreen {
     private PolygonSpriteBatch polyBatch;
     private LevelCreator2 levelCreator;
     private ArrayList<LevelModule> modules;
+    private ArrayList<HasBody> collisionCheckModules;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
     private BitmapFont font;
@@ -70,6 +71,7 @@ public class GameScreen extends NewScreen {
                 modules = levelCreator.createModules( "test12.svg");
                 break;
         }
+
 
 
 

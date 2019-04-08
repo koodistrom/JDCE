@@ -16,9 +16,12 @@ public class ContactListenerClass implements ContactListener {
     Fixture fixtureTouched;
     HasBody objectTouched;
 
+    private ArrayList<HasBody> collisionCheckModules;
 
     public ContactListenerClass (GameScreen game){
         this.game =game;
+        collisionCheckModules = new ArrayList<HasBody>();
+        collisionCheckModules.addAll(game.getModules());
         playerFixs = new Fixture[]{
                 game.getPlayer().body.getFixtureList().get(0),
                 game.getPlayer().frontWheel.getFixtureList().get(0),
@@ -34,13 +37,14 @@ public class ContactListenerClass implements ContactListener {
             Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
             game.getPlayer().turboOn();
             objectTouched.deledDis();
-
-
         }
 
         if(playerTouches(game.rotkos,contact)){
             game.reset();
+        }
 
+        if(playerTouches(collisionCheckModules,contact)){
+            game.getPlayer().isOnGround = true;
         }
 
     }
@@ -48,6 +52,9 @@ public class ContactListenerClass implements ContactListener {
     @Override
     public void endContact(Contact contact) {
 
+        if(playerTouches(collisionCheckModules,contact)){
+            game.getPlayer().isOnGround = false;
+        }
     }
 
     @Override

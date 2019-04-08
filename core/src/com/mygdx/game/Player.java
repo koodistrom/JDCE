@@ -52,6 +52,7 @@ public class Player extends GameObject implements InputProcessor {
     float linearDamping;
     boolean win;
     boolean addSpeed;
+    boolean isOnGround;
 
 
     public Player(GameScreen game) {
@@ -83,7 +84,7 @@ public class Player extends GameObject implements InputProcessor {
         linearDamping = 0.1f;
         win = false;
         addSpeed = false;
-
+        isOnGround = false;
 
         createBodies();
 
@@ -193,6 +194,7 @@ public class Player extends GameObject implements InputProcessor {
 
         }
 
+        airControl();
         System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
         //System.out.println("kerroin: "+ (rearWheelJoint.getJointSpeed()/-100)+1);
 
@@ -267,6 +269,11 @@ public class Player extends GameObject implements InputProcessor {
         forwardOn = true;
     }
 
+    public void airControl(){
+        //body.applyTorque(speed*10,true);
+        body.applyAngularImpulse(speed,false);
+    }
+
     public void createBodies(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -277,8 +284,8 @@ public class Player extends GameObject implements InputProcessor {
         body = world.createBody(bodyDef);
 
         Vector2[] vertices;
-        vertices= new Vector2[] {new Vector2(-0.5f,-0.8f),new Vector2(-1.4f,0.2f),
-                new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f),new Vector2(0.5f,0.4f)};
+        vertices= new Vector2[] {new Vector2(0.5f,-0.5f),new Vector2(-1.4f,0.2f),
+                new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f)};
 
         PolygonShape shape = new PolygonShape();
         shape.set(vertices);
@@ -292,7 +299,7 @@ public class Player extends GameObject implements InputProcessor {
         shape.dispose();
         setBody(body);
 
-        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.5f,0.5f,1.2f,ww/2);
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.5f,0.5f,0.8f,ww/2);
         frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.5f,0.5f,0.8f,ww/2);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
