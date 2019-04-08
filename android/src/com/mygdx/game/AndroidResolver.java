@@ -2,6 +2,8 @@ package com.mygdx.game;
 
 import android.bluetooth.BluetoothDevice;
 
+import com.dsi.ant.plugins.antplus.common.FitFileCommon;
+
 import java.util.ArrayList;
 
 public class AndroidResolver implements PlatformResolver {
@@ -59,14 +61,31 @@ public class AndroidResolver implements PlatformResolver {
     }
 
     public void addDevice(BluetoothDevice device){
-        devices.add(device);
-        deviceNames.add(device.getName());
-        deviceAdded = true;
+
+        boolean alreadyFound = false;
+        for(int i = 0; i<devices.size(); i++){
+            if (devices.get(i).getAddress().equals(device.getAddress())) {
+                alreadyFound = true;
+            }
+        }
+        if(alreadyFound == false){
+            devices.add(device);
+            deviceNames.add(device.getName());
+            deviceAdded = true;
+        }
+
+
     }
 
     public String getNewDeviceName(){
         deviceAdded = false;
         return deviceNames.get(deviceNames.size()-1);
+    }
+
+    @Override
+    public void connectTo(int index) {
+        androidLauncher.connect(devices.get(index));
+
     }
 
     public boolean isDeviceAdded() {

@@ -20,16 +20,16 @@ public class Background {
     int midSourceX;
     GameScreen game;
 
-    public Background(GameScreen game){
-        back = new Texture("tausta4taso1.jpg");
+    public Background(GameScreen game, String backPath, String midPath, String frontPath){
+        back = new Texture(backPath);
         back.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         backreg = new TextureRegion(back);
 
-        middle = new Texture("tausta4taso22.png");
+        middle = new Texture(midPath);
         middle.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         midreg = new TextureRegion(middle);
 
-        front = new Texture("tausta4taso3.png");
+        front = new Texture(frontPath);
         front.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         frontreg = new TextureRegion(front);
         scaler = game.getScreenHeight()/back.getHeight();
@@ -46,7 +46,7 @@ public class Background {
         frontSourceX=(int)(game.getPlayer().getX()*10);
         batch.draw(back,x,y,back.getWidth()*scaler,back.getHeight()*scaler+1);
         batch.draw(middle,x,y-3,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,midSourceX,0,middle.getWidth(),middle.getHeight(),false,false);
-        batch.draw(front,x,y-5,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,frontSourceX,0,front.getWidth(),front.getHeight(),false,false);
+        batch.draw(front,x,y-4,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,frontSourceX,0,front.getWidth(),front.getHeight(),false,false);
 
     }
 }

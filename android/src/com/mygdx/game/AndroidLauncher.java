@@ -212,7 +212,9 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
             // do nothing
             final BluetoothDevice device = result.getDevice();
             androidResolver.addDevice(device);
-            if(device.getName().equals("JDCE1")){
+
+            System.out.println("Laite löytyi: "+device);
+            if(device.getName().equals("JDCE12")){
                 mDevice = device;
                 System.out.println("laite: "+mDevice.getBluetoothClass());
                 stopScan();
@@ -262,12 +264,13 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         androidResolver.setConnected(true);
     }
 
-    private void connect(final BluetoothDevice device) {
+    public void connect(final BluetoothDevice device) {
         thingySdkManager.connectToThingy(this, device, ThingyService.class);
         final Thingy thingy = new Thingy(device);
         thingySdkManager.setSelectedDevice(device);
         System.out.println("nyt pitäis olla yhteys");
-        System.out.println("tyyppi: "+mDevice.getType());
+        System.out.println("tyyppi: "+device.getType());
+        androidResolver.setConnected(true);
     }
 
     final BroadcastReceiver mBleStateChangedReceiver = new BroadcastReceiver() {

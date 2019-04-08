@@ -96,7 +96,7 @@ public class GameScreen extends NewScreen {
         debugRenderer = new Box2DDebugRenderer();
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        background = new Background(this);
+        background = new Background(this,"tausta4taso1.jpg","tausta4taso22.png","tausta4taso3.png");
     }
 
     @Override

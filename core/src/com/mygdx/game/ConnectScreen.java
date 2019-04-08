@@ -44,6 +44,7 @@ public class ConnectScreen extends NewScreen {
 
         table.row();
         table.add(connectionInfo);
+        table.row();
 
         //getGameStage().addActor(connectButton);
         getGameStage().addActor(table);
@@ -62,7 +63,19 @@ public class ConnectScreen extends NewScreen {
             getGame().setScreen(gs);
         }
 
-        //if(getGame().m_platformResolver.)
+        if(getGame().m_platformResolver.isDeviceAdded()){
+            devices.add(getGame().m_platformResolver.getNewDeviceName());
+            Label foundDevice = new Label(getGame().m_platformResolver.getNewDeviceName(), getUiSkin());
+            foundDevice.addListener(new ClickListener() {
+                int index = devices.size()-1;
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    getGame().m_platformResolver.connectTo(index);
+                }
+            });
+            table.add(foundDevice);
+            table.row();
+        }
 
         getSpriteBatch().begin();
 

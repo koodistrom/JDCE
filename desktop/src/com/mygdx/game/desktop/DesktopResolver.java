@@ -30,4 +30,19 @@ public class DesktopResolver implements PlatformResolver {
     public boolean isConnected() {
         return false;
     }
+
+    @Override
+    public boolean isDeviceAdded() {
+        return false;
+    }
+
+    @Override
+    public String getNewDeviceName() {
+        return null;
+    }
+
+    @Override
+    public void connectTo(int index) {
+
+    }
 }

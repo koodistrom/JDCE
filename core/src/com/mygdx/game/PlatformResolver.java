@@ -9,5 +9,8 @@ public interface PlatformResolver {
     public void connect();
 
     public boolean isConnected();
+    public boolean isDeviceAdded();
+    public String getNewDeviceName();
+    public void connectTo(int index);
 
 }
