@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,10 +32,12 @@ public class GameScreen extends NewScreen {
     Collectable collectable;
     ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
     ArrayList<HasBody> collectables = new ArrayList<HasBody>();
+    ArrayList<Asset> assets;
     Stegosaurus stegosaurus;
     Sprite sprite;
     int levelNum;
     Background background;
+    Texture spruce;
 
     public GameScreen(JDCEGame g, int levelnum) {
         super(g);
@@ -47,9 +50,8 @@ public class GameScreen extends NewScreen {
         polyBatch = new PolygonSpriteBatch(); // To assign at the beginning
 
         levelCreator = new LevelCreator2(this);
-
-        //levelCreator.createLevel(world, "test3.SVG");
-        //levelCreator.createTexture(this,"test3.SVG");
+        assets = new ArrayList<Asset>();
+        spruce = new Texture("kuusi2.png");
 
         switch (levelnum){
             case 1:
@@ -57,15 +59,18 @@ public class GameScreen extends NewScreen {
                 break;
             case 2:
                 modules = levelCreator.createModules( "test14.svg");
+                assets = levelCreator.createAssets(spruce,new float[]{1,1.5f,3,4,5,40.2f,31,54,80,99});
                 break;
             case 3:
                 modules = levelCreator.createModules( "test8.svg");
                 break;
             case 4:
                 modules = levelCreator.createModules( "test10.svg");
+
                 break;
             case 5:
                 modules = levelCreator.createModules( "test11.svg");
+
                 break;
             case 6:
                 modules = levelCreator.createModules( "test12.svg");
@@ -118,8 +123,14 @@ public class GameScreen extends NewScreen {
         getSpriteBatch().begin();
         background.draw();
 
+        for(int i=0; i<assets.size(); i++) {
+            assets.get(i).draw();
+        }
+
         player. draw();
         //collectable.update();
+
+
 
 
         levelCreator.goal.draw();
@@ -131,6 +142,7 @@ public class GameScreen extends NewScreen {
         for(int i=0; i<modules.size(); i++) {
             modules.get(i).draw();
         }
+
 
         polyBatch.end();
 

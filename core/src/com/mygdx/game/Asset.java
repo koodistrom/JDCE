@@ -5,29 +5,33 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Asset extends GameObject {
-    public Asset(GameScreen game) {
+    public Asset(GameScreen game,Float xPercentage, Texture texture)  {
         super(game);
+        setTexture(texture);
+
+        setWidth(getWidth()*0.5f);
+        setHeight(getHeight()*0.5f);
+        setLocationInLevel(xPercentage, game.getLevelCreator());
     }
 
-    public void setLocationInLevel(Float xPercentage, LevelCreator2 levelCreator, Texture texture) {
+    public void setLocationInLevel(Float xPercentage, LevelCreator2 levelCreator) {
+
         for (int i=0; i<levelCreator.allVertices.size(); i++){
-            if(levelCreator.allVertices.get(i).x>xPercentage*(levelCreator.lastX/100)){
+            float absolutePos = xPercentage*(levelCreator.lastX/100);
+            if(levelCreator.allVertices.get(i).x>absolutePos){
 
 
                 Vector2 oneBefore = levelCreator.allVertices.get(i-1);
 
                 Vector2 oneAfter = levelCreator.allVertices.get(i);
+                float xFactor = (absolutePos-oneBefore.x)/(oneAfter.x-oneBefore.x);
+                float y = oneBefore.y+(oneAfter.y-oneBefore.y)*xFactor;
 
-                Vector2 positiontoground = new Vector2(0,1);
-                positiontoground.setAngle(rotation+90);
-                setLocation(levelCreator.allVertices.get(i).x + positiontoground.x, levelCreator.allVertices.get(i).y+ positiontoground.y);
+                        setLocation(absolutePos-(getWidth()/2), y-0.1f);
 
-                System.out.println(positiontoground);
+
                 break;
             }
         }
-
-
-        body.setTransform(getX() + getWidth()/2,getY() + getHeight()/2, MathUtils.degreesToRadians*rotation);
     }
 }

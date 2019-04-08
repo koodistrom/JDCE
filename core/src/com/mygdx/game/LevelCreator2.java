@@ -121,6 +121,10 @@ public class LevelCreator2 {
                     lastX = paths.get(i).get(n).x;
                     lastY = paths.get(i).get(n).y;
                 }
+
+                if(n<paths.get(i).size()-2){
+                    allVertices.add(paths.get(i).get(n));
+                }
             }
 
 
@@ -183,6 +187,14 @@ public class LevelCreator2 {
             points[i]*=scaler;
         }
         return points;
+    }
+
+    public ArrayList<Asset> createAssets(Texture texture, float[] xs){
+        ArrayList<Asset> assets = new ArrayList<Asset>();
+        for(int i = 0; i<xs.length; i++){
+            assets.add(new Asset(game, xs[i], texture));
+        }
+        return assets;
     }
 
 
