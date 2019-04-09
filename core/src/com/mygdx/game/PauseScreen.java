@@ -16,6 +16,15 @@ public class PauseScreen extends NewScreen {
     private TextButton retryButton;
     private TextButton mainMenuButton;
 
+    private float textButtonX;
+    private float continueButtonY;
+    private float retryButtonY;
+    private float mainMenuButtonY;
+
+    /*private String
+    private String
+    private String*/
+
     public PauseScreen(JDCEGame g) {
         super(g);
 
