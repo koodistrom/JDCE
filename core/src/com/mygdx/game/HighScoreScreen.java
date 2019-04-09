@@ -131,5 +131,12 @@ public class HighScoreScreen extends NewScreen {
             }
         }
     }
+    //addHighScore(Utilities.secondsToString(time),levelNum);
+    public void addHighScore(String score, int levelNum) {
+        String level = String.valueOf(levelNum);
+        String valueToSave = highscores.getString(level, "")+score+"#";
+        highscores.putString(level, valueToSave);
+        highscores.flush();
+    }
 }
 
