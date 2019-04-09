@@ -1,16 +1,31 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class HighScoreScreen extends NewScreen {
+    Preferences highscores;
+    Table table;
+    Label highscoreLabel;
     public HighScoreScreen(JDCEGame g) {
         super(g);
 
+        table = new Table();
+        table.setDebug(true);
+        table.setFillParent(true);
+        highscoreLabel = new Label("Highscores", getUiSkin());
+        table.add(highscoreLabel);
+        table.row();
+        highscores = Gdx.app.getPreferences("JDCE_highscores");
+
+        displayHighScores(2);
         setupButtonBounds();
 
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
@@ -43,6 +58,7 @@ public class HighScoreScreen extends NewScreen {
             }
         });
 
+        getGameStage().addActor(table);
     }
 
     @Override
@@ -97,6 +113,23 @@ public class HighScoreScreen extends NewScreen {
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
+    }
+
+
+
+    public void displayHighScores(int levelNum) {
+        String level = String.valueOf(levelNum);
+        String highscoreString = highscores.getString(level, "");
+        String scoreToDisplay = "";
+        for(int i=0;i<highscoreString.length();i++){
+            if(highscoreString.charAt(i)!='#'){
+                scoreToDisplay += highscoreString.charAt(i);
+            }else {
+                table.add(new Label(scoreToDisplay, getUiSkin()));
+                table.row();
+                scoreToDisplay = "";
+            }
+        }
     }
 }
 

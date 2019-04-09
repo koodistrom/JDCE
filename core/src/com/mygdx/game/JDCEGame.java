@@ -16,11 +16,13 @@ public class JDCEGame extends Game {
     private static I18NBundle myBundle;
     SpriteBatch batch;
 	protected static PlatformResolver m_platformResolver = null;
+	boolean noSensor;
 
 	@Override
 	public void create () {
 		Locale defaultLocale = Locale.getDefault();
 		updateLanguage(new Locale("en", "UK"));
+		noSensor = true;
 
         System.out.println(myBundle.getLocale());
         System.out.println(myBundle.get("play"));
