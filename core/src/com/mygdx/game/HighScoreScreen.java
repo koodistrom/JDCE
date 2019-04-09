@@ -123,27 +123,32 @@ public class HighScoreScreen extends NewScreen {
         String scoreToDisplay = "";
         String name = "";
         Boolean addToName= true;
-        for(int i=0;i<highscoreString.length();i++){
-            if(highscoreString.charAt(i)!='#'&&highscoreString.charAt(i)!='%'){
-                if(addToName){
-                    name += highscoreString.charAt(i);
-                }else{
-                    scoreToDisplay += highscoreString.charAt(i);
+
+        if(highscoreString.length()!=0) {
+            for (int i = 0; i < highscoreString.length(); i++) {
+                if (highscoreString.charAt(i) != '#' && highscoreString.charAt(i) != '%') {
+                    if (addToName) {
+                        name += highscoreString.charAt(i);
+                    } else {
+                        scoreToDisplay += highscoreString.charAt(i);
+                    }
+
+                } else if (highscoreString.charAt(i) == '%') {
+                    table.add(new Label(name, getUiSkin()));
+
+                    name = "";
+                    addToName = false;
+
+                } else if (highscoreString.charAt(i) == '#') {
+                    table.add(new Label(Utilities.secondsToString(Float.valueOf(scoreToDisplay)), getUiSkin()));
+                    table.row();
+                    scoreToDisplay = "";
+                    addToName = true;
                 }
 
-            }else if(highscoreString.charAt(i)=='#'){
-                table.add(new Label(scoreToDisplay, getUiSkin()));
-                table.row();
-                scoreToDisplay = "";
-                addToName = true;
-
-            }else if(highscoreString.charAt(i)=='%'){
-                table.add(new Label(name, getUiSkin()));
-
-                scoreToDisplay = "";
-                addToName = false;
             }
         }
+
     }
     //addHighScore(Utilities.secondsToString(time),levelNum);
     public void addHighScore(String score, int levelNum) {

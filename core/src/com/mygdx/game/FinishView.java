@@ -133,10 +133,51 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         getSpriteBatch().end();*/
     }
 
-    public void addHighScore(String score, int levelNum) {
+    public void addHighScore(float score, int levelNum) {
 
         String level = String.valueOf(levelNum);
-        String valueToSave = highscores.getString(level, "")+name+"%"+score+"#";
+        String HSOfLevel = highscores.getString(level, "");
+        String comparisonTime ="";
+        String valueToSave="";
+        String lastEntry="";
+        boolean entryMade=false;
+        boolean addToTime = false;
+        int numOfEntries = 0;
+        for(int i=0;i<HSOfLevel.length();i++){
+            lastEntry+=HSOfLevel.charAt(i);
+
+            if (HSOfLevel.charAt(i) != '#' && HSOfLevel.charAt(i) != '%') {
+                if (addToTime) {
+                    comparisonTime += HSOfLevel.charAt(i);
+                }
+
+            } else if (HSOfLevel.charAt(i) == '%') {
+
+                comparisonTime = "";
+                addToTime = true;
+
+            } else if (HSOfLevel.charAt(i) == '#') {
+                numOfEntries++;
+                addToTime = false;
+                if(Float.valueOf(comparisonTime)>score&&!entryMade){
+                   valueToSave+=name+"%"+String.valueOf(score)+"#";
+                   numOfEntries++;
+                   entryMade=true;
+                }
+
+                if(numOfEntries<10) {
+                    valueToSave += lastEntry;
+                }
+                lastEntry="";
+            }
+            if(numOfEntries>10){
+                break;
+            }
+        }
+        if(numOfEntries<10&&!entryMade){
+            valueToSave+=name+"%"+String.valueOf(score)+"#";
+        }
+
         highscores.putString(level, valueToSave);
         highscores.flush();
     }
@@ -215,7 +256,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             }
         }
         if(name.length()<=nameLenghtLimit){
-            addHighScore(Utilities.secondsToString(time),levelNum);
+            addHighScore( time,levelNum);
 
         }else{
             Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");
