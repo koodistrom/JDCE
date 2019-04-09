@@ -21,27 +21,34 @@ public class PauseScreen extends NewScreen {
     private float retryButtonY;
     private float mainMenuButtonY;
 
-    /*private String
-    private String
-    private String*/
+    private String continueButtonText;
+    private String retryButtonText;
+    private String mainMenuButtonText;
+    private String pausedText;
 
-    public PauseScreen(JDCEGame g) {
+    public PauseScreen(JDCEGame g, int levelnum) {
         super(g);
 
         setupButtonBounds();
 
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
 
+        continueButton = new TextButton(continueButtonText, getUiSkin());
+        retryButton = new TextButton(retryButtonText, getUiSkin());
+        mainMenuButton = new TextButton(mainMenuButtonText, getUiSkin());
 
         updateTexts();
         setupButtons();
 
+        getGameStage().addActor(continueButton);
+        getGameStage().addActor(retryButton);
+        getGameStage().addActor(mainMenuButton);
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
 
         Gdx.input.setInputProcessor(getGameStage());
 
-        clickListeners();
+        clickListeners(levelnum);
     }
 
     @Override
@@ -51,11 +58,21 @@ public class PauseScreen extends NewScreen {
         getMeterViewport().apply();
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
+        getLayout48().setText(getFont48(), pausedText);
+
         getSpriteBatch().begin();
         getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
         getGameStage().draw();
+
+        getGameViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getGameViewport().getCamera().combined);
+
+        getSpriteBatch().begin();
+        getFont48().draw(getSpriteBatch(), pausedText, getStageWidthTenth() * 5 - getLayout48().width / 2,
+                getStageHeightTenth() * 9 - getLayout48().height / 2);
+        getSpriteBatch().end();
     }
 
     @Override
@@ -80,14 +97,10 @@ public class PauseScreen extends NewScreen {
         setImageButtonWidth(getTextButtonHeight());
         setImageButtonHeight(getTextButtonHeight());
 
-        /*textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
-        playButtonY = getStageHeightTenth() * 9 - (getTextButtonHeight() / 2);
-        highScoreButtonY = getStageHeightTenth() * 6.333f - (getTextButtonHeight() / 2);
-        quitButtonY = getStageHeightTenth() * 3.666f  - (getTextButtonHeight() / 2);
-
-        ENbuttonX = getStageWidthTenth() - (getImageButtonWidth() / 2);
-        FIbuttonX = getStageWidthTenth() * 2.5f - (getImageButtonWidth() / 2);
-        languageButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);*/
+        textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
+        continueButtonY = getStageHeightTenth() * 6.333f - (getTextButtonHeight() / 2);
+        retryButtonY = getStageHeightTenth() * 3.666f - (getTextButtonHeight() / 2);
+        mainMenuButtonY = getStageHeightTenth() - (getTextButtonHeight() / 2);
 
         setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
         setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
@@ -97,17 +110,17 @@ public class PauseScreen extends NewScreen {
 
     @Override
     public void setupButtons() {
-        /*playButton.setWidth(getTextButtonWidth());
-        playButton.setHeight(getTextButtonHeight());
-        playButton.setPosition(textButtonX, playButtonY);
+        continueButton.setWidth(getTextButtonWidth());
+        continueButton.setHeight(getTextButtonHeight());
+        continueButton.setPosition(textButtonX, continueButtonY);
 
-        highScoreButton.setWidth(getTextButtonWidth());
-        highScoreButton.setHeight(getTextButtonHeight());
-        highScoreButton.setPosition(textButtonX, highScoreButtonY);
+        retryButton.setWidth(getTextButtonWidth());
+        retryButton.setHeight(getTextButtonHeight());
+        retryButton.setPosition(textButtonX, retryButtonY);
 
-        quitButton.setWidth(getTextButtonWidth());
-        quitButton.setHeight(getTextButtonHeight());
-        quitButton.setPosition(textButtonX, quitButtonY);*/
+        mainMenuButton.setWidth(getTextButtonWidth());
+        mainMenuButton.setHeight(getTextButtonHeight());
+        mainMenuButton.setPosition(textButtonX, mainMenuButtonY);
 
         getMuteMusicButton().setWidth(getImageButtonWidth());
         getMuteMusicButton().setHeight(getImageButtonHeight());
@@ -117,55 +130,35 @@ public class PauseScreen extends NewScreen {
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
 
-        /*playButton.setText(playButtonText);
-        highScoreButton.setText(highScoreButtonText);
-        quitButton.setText(quitButtonText);
-        confirmAffirmative.setText(confirmAffirmativeText);
-        confirmNegative.setText(confirmNegativeText);*/
+        continueButton.setText(continueButtonText);
+        retryButton.setText(retryButtonText);
+        mainMenuButton.setText(mainMenuButtonText);
 
         getGameStage().setDebugAll(true);
     }
 
-    public void clickListeners() {
-        /*playButton.addListener(new ClickListener() {
+    public void clickListeners(int levelnum) {
+        continueButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new LevelSelectScreen(getGame()));
-                }
+
             }
         });
 
-        highScoreButton.addListener(new ClickListener() {
+        retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new HighScoreScreen(getGame()));
-                }
+
             }
         });
 
-        quitButton.addListener(new ClickListener() {
+        mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                isQuitConfirmOn = true;
+
             }
         });
 
-        confirmAffirmative.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-                System.exit(-1);
-            }
-        });
-
-        confirmNegative.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                isQuitConfirmOn = false;
-            }
-        });*/
 
         getMuteMusicButton().addListener(new ClickListener() {
             @Override
@@ -183,11 +176,9 @@ public class PauseScreen extends NewScreen {
 
     }
     public void updateTexts() {
-        /*playButtonText = getGame().getBundle().get("play");
-        highScoreButtonText = getGame().getBundle().get("highscores");
-        quitButtonText = getGame().getBundle().get("quit");
-        confirmAffirmativeText = getGame().getBundle().get("affirmative");
-        confirmNegativeText = getGame().getBundle().get("negative");
-        quitConfirmText = getGame().getBundle().get("quitConfirmText");*/
+        continueButtonText = getGame().getBundle().get("continue");
+        retryButtonText = getGame().getBundle().get("retry");
+        mainMenuButtonText = getGame().getBundle().get("mainmenu");
+        pausedText = getGame().getBundle().get("paused");
     }
 }
