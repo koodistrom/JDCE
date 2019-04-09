@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,7 +34,7 @@ import no.nordicsemi.android.thingylib.ThingySdkManager;
 import no.nordicsemi.android.thingylib.utils.ThingyUtils;
 
 public class AndroidLauncher extends AndroidApplication implements ThingySdkManager.ServiceConnectionListener {
-    ConnectingService connectingService;
+
     ThingySdkManager thingySdkManager;
     ThingyService.ThingyBinder thingyBinder;
     private JDCEThingyListener thingyListener;
@@ -66,11 +65,6 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         thingyBinder = (ThingyService.ThingyBinder) thingySdkManager.getThingyBinder();
 
 
-
-
-		connectingService= new ConnectingService();
-        Intent intent = new Intent(this,ConnectingService.class);
-        startService(intent);
 
 	}
 

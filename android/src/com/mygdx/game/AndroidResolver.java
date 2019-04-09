@@ -2,8 +2,6 @@ package com.mygdx.game;
 
 import android.bluetooth.BluetoothDevice;
 
-import com.dsi.ant.plugins.antplus.common.FitFileCommon;
-
 import java.util.ArrayList;
 
 public class AndroidResolver implements PlatformResolver {
