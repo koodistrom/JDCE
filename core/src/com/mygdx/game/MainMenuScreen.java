@@ -24,6 +24,8 @@ import java.util.Locale;
 import static com.badlogic.gdx.graphics.Color.BLACK;
 
 public class MainMenuScreen extends NewScreen {
+    //private Table mainMenuTable;
+
     private float textButtonX;
     private float playButtonY;
     private float highScoreButtonY;
@@ -59,6 +61,8 @@ public class MainMenuScreen extends NewScreen {
 
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
 
+        /*mainMenuTable = new Table();
+        mainMenuTable.setDebug(true);*/
         quitConfirmTable = new Table();
 //        quitConfirmTable.setDebug(true);
 
@@ -72,7 +76,9 @@ public class MainMenuScreen extends NewScreen {
 
         updateTexts();
         setupButtons();
-        setUpTable();
+        setUpQuitConfirmTable();
+        //setUpMainMenuTable();
+
 
         getGameStage().addActor(playButton);
         getGameStage().addActor(highScoreButton);
@@ -82,6 +88,7 @@ public class MainMenuScreen extends NewScreen {
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(quitConfirmTable);
+        //getGameStage().addActor(mainMenuTable);
 
         Gdx.input.setInputProcessor(getGameStage());
 
@@ -89,9 +96,9 @@ public class MainMenuScreen extends NewScreen {
 
     }
 
-    public void setUpTable() {
+    public void setUpQuitConfirmTable() {
         title = new Label(quitConfirmText, getUiSkin());
-        updateTable();
+        updateTables();
         quitConfirmTable.add(title).height(25).spaceBottom(30);
         quitConfirmTable.center().top();
         quitConfirmTable.row();
@@ -101,11 +108,25 @@ public class MainMenuScreen extends NewScreen {
 
     }
 
-    public void updateTable() {
+   /* public void setUpMainMenuTable() {
+        updateTables();
+        mainMenuTable.top().center();
+        mainMenuTable.add(playButton).width(getTextButtonWidth()).height(getTextButtonHeight()).colspan(2).spaceBottom(50).spaceLeft(100);
+        mainMenuTable.add(getMuteMusicButton()).spaceBottom(50).spaceRight(100);
+        mainMenuTable.row();
+        mainMenuTable.add(quitButton).width(getTextButtonWidth()).height(getTextButtonHeight()).colspan(2).spaceBottom(50);
+        mainMenuTable.add(getMuteSoundFxButton()).spaceBottom(50).spaceRight(100);
+        mainMenuTable.row();
+        mainMenuTable.add(getButtonFI()).spaceBottom(50);
+        mainMenuTable.add(getButtonEN()).spaceBottom(50);
+    }*/
+
+    public void updateTables() {
         title.setText(quitConfirmText);
         quitConfirmTable.setSize(getStageWidth() / 4, getStageHeight() / 3.5f);
         quitConfirmTable.setPosition(getGameStage().getWidth() / 2 - (quitConfirmTable.getWidth() / 2),
                 getGameStage().getHeight() / 2 - (quitConfirmTable.getHeight() / 2));
+        //mainMenuTable.setSize(getStageWidth(), getStageHeight());
     }
 
     @Override
@@ -135,7 +156,7 @@ public class MainMenuScreen extends NewScreen {
 
         setupButtonBounds();
         setupButtons();
-        updateTable();
+        updateTables();
     }
 
     public void dispose() {
@@ -166,6 +187,7 @@ public class MainMenuScreen extends NewScreen {
         setMuteSoundEffectsX(getMuteMusicX());
     }
 
+    @Override
     public void setupButtons() {
         playButton.setWidth(getTextButtonWidth());
         playButton.setHeight(getTextButtonHeight());
@@ -264,7 +286,7 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 getGame().updateLanguage(new Locale("fi", "FI"));
                 updateTexts();
-                updateTable();
+                updateTables();
                 setupButtons();
             }
         });
@@ -274,7 +296,7 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 getGame().updateLanguage(new Locale("en", "UK"));
                 updateTexts();
-                updateTable();
+                updateTables();
                 setupButtons();
             }
         });

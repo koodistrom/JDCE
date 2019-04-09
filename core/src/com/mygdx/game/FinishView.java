@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,42 +21,84 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class FinishView extends NewScreen {
     Preferences highscores;
     float finishTime;
-    private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
-    private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
+    /*private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
+    private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);*/
     private String score;
-    private float textX;
-    private float textY;
+    private String loseMessage;
+/*    private float textX;
+    private float textY;*/
+    private Table winTable;
+    private Table loseTable;
+    private TextButton menuButton;
+    private TextButton retryButton;
     //private OrthographicCamera pixelCamera;
 
-    public FinishView(JDCEGame g, float time) {
+    public FinishView(JDCEGame g, float time, boolean isItAWin, int levelNum) {
         super(g);
         highscores = Gdx.app.getPreferences("JDCE_highscores");
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
         addHighScore(Utilities.secondsToString(time));
 
-        /*final*/ TextButton menuButton = new TextButton("Continue", getUiSkin());
-        menuButton.setWidth(getTextButtonWidth());
-        menuButton.setHeight(getTextButtonHeight());
-        menuButton.setPosition(textButtonX, textButtonY1);
+        winTable = new Table();
+        loseTable = new Table();
+        score = getGame().getBundle().get("yourTime") + " " + highscores.getString("High Score");
+        loseMessage = getGame().getBundle().get("loseMessage");
 
-        getGameStage().addActor(menuButton);
+        winTable.setDebug(true);
+        loseTable.setDebug(true);
 
-        menuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen mms = new LevelSelectScreen(getGame());
-                getGame().setScreen(mms);
-            }
-        });
+        menuButton = new TextButton(getGame().getBundle().get("continue"), getUiSkin());
+        retryButton = new TextButton(getGame().getBundle().get("retry"), getUiSkin());
+
+        //menuButton.setPosition(textButtonX, textButtonY1);
+
+        if(isItAWin) {
+            setUpWinTable();
+            getGameStage().addActor(winTable);
+        } else {
+            setUpLoseTable();
+            getGameStage().addActor(loseTable);
+        }
+
+        getGameStage().addActor(getMuteMusicButton());
+        getGameStage().addActor(getMuteSoundFxButton());
+
+        clickListeners(levelNum);
 
         //pixelCamera.setToOrtho(false, g, getScreenHeight());
 
-        score = "Your Score: " + highscores.getString("High Score");
-        getLayout48().setText(getFont48(), score);
+        //getLayout48().setText(getFont48(), score);
 
-        textX = Gdx.graphics.getWidth()/2 - getLayout48().width / 2;
-        textY = Gdx.graphics.getHeight()/1.5f - getLayout48().height;
+        /*textX = Gdx.graphics.getWidth()/2 - getLayout48().width / 2;
+        textY = Gdx.graphics.getHeight()/1.5f - getLayout48().height;*/
         Gdx.input.setInputProcessor(getGameStage());
+    }
+
+    public void setUpWinTable() {
+        updateTables();
+        winTable.add(new Label(score, getUiSkin())).height(50).spaceBottom(30);
+        winTable.center();
+        winTable.row();
+        winTable.add(menuButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
+        winTable.row();
+        winTable.add(retryButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
+
+    }
+
+    public void setUpLoseTable() {
+        updateTables();
+        loseTable.add(new Label(loseMessage, getUiSkin())).height(50).spaceBottom(30);
+        loseTable.center();
+        loseTable.row();
+        loseTable.add(menuButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
+        loseTable.row();
+        loseTable.add(retryButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
+
+    }
+
+    public void updateTables() {
+        winTable.setFillParent(true);
+        loseTable.setFillParent(true);
     }
 
     @Override
@@ -75,13 +118,74 @@ public class FinishView extends NewScreen {
         getGameViewport().apply();
         getSpriteBatch().setProjectionMatrix(getGameViewport().getCamera().combined);
 
-        getSpriteBatch().begin();
+        /*getSpriteBatch().begin();
         getFont48().draw(getSpriteBatch(), score, textX, textY);
-        getSpriteBatch().end();
+        getSpriteBatch().end();*/
     }
 
     public void addHighScore(String score) {
         highscores.putString("High Score", score);
         highscores.flush();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        getGameViewport().update(width, height, true);
+        getMeterViewport().update(width, height, true);
+
+        setupButtonBounds();
+        setupButtons();
+        updateTables();
+    }
+
+    public void setupButtonBounds() {
+        updateTenths();
+
+        setTextButtonHeight(getGameStage().getHeight() / 6);
+        setTextButtonWidth(getGameStage().getWidth() / 3);
+        setImageButtonWidth(getTextButtonHeight());
+        setImageButtonHeight(getTextButtonHeight());
+
+
+        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
+        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
+        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
+        setMuteSoundEffectsX(getMuteMusicX());
+    }
+
+    public void setupButtons() {
+        getMuteMusicButton().setWidth(getImageButtonWidth());
+        getMuteMusicButton().setHeight(getImageButtonHeight());
+        getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
+
+        getMuteSoundFxButton().setWidth(getImageButtonWidth());
+        getMuteSoundFxButton().setHeight(getImageButtonHeight());
+        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
+
+        getGameStage().setDebugAll(true);
+    }
+
+    public void clickListeners(final int levelNum) {
+        menuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new LevelSelectScreen(getGame()));
+                dispose();
+            }
+        });
+
+        retryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new GameScreen(getGame(), levelNum));
+                dispose();
+            }
+        });
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
     }
 }

@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 
@@ -38,6 +40,8 @@ public class GameScreen extends NewScreen {
     int levelNum;
     Background background;
     Texture spruce;
+    private Table pauseTable;
+    private boolean gamePaused = false;
 
     public GameScreen(JDCEGame g, int levelnum) {
         super(g);
@@ -48,6 +52,11 @@ public class GameScreen extends NewScreen {
 
         batch = new SpriteBatch();*/
         polyBatch = new PolygonSpriteBatch(); // To assign at the beginning
+
+        pauseTable = new Table();
+        pauseTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("orangebackground.png"))));
+
+        getGameStage().addActor(pauseTable);
 
         levelCreator = new LevelCreator2(this);
         assets = new ArrayList<Asset>();
@@ -145,6 +154,8 @@ public class GameScreen extends NewScreen {
 
 
         polyBatch.end();
+
+        getGameStage().draw();
 
         debugRenderer.render(world, debugMatrix);
     }
