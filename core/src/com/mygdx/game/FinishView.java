@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class FinishView extends NewScreen {
+public class FinishView extends NewScreen implements Input.TextInputListener {
     Preferences highscores;
     float finishTime;
     /*private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
@@ -31,19 +32,26 @@ public class FinishView extends NewScreen {
     private Table loseTable;
     private TextButton menuButton;
     private TextButton retryButton;
+    private String name;
+    private float time;
+    private int levelNum;
+    private int nameLenghtLimit;
     //private OrthographicCamera pixelCamera;
 
     public FinishView(JDCEGame g, float time, boolean isItAWin, int levelNum) {
         super(g);
+        this.time = time;
+        this.levelNum= levelNum;
         highscores = Gdx.app.getPreferences("JDCE_highscores");
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
 
-
+        nameLenghtLimit = 10;
         winTable = new Table();
         loseTable = new Table();
         score = getGame().getBundle().get("yourTime") + " " + highscores.getString("High Score");
         loseMessage = getGame().getBundle().get("loseMessage");
 
+        name = "";
         winTable.setDebug(true);
         loseTable.setDebug(true);
 
@@ -53,7 +61,8 @@ public class FinishView extends NewScreen {
         //menuButton.setPosition(textButtonX, textButtonY1);
 
         if(isItAWin) {
-            addHighScore(Utilities.secondsToString(time),levelNum);
+            enterName();
+
             setUpWinTable();
             getGameStage().addActor(winTable);
         } else {
@@ -125,10 +134,15 @@ public class FinishView extends NewScreen {
     }
 
     public void addHighScore(String score, int levelNum) {
+
         String level = String.valueOf(levelNum);
-        String valueToSave = highscores.getString(level, "")+score+"#";
+        String valueToSave = highscores.getString(level, "")+name+"%"+score+"#";
         highscores.putString(level, valueToSave);
         highscores.flush();
+    }
+
+    public void enterName(){
+        Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");
     }
 
     @Override
@@ -189,6 +203,28 @@ public class FinishView extends NewScreen {
     @Override
     public void dispose() {
         super.dispose();
+
+    }
+
+    @Override
+    public void input(String text) {
+        name = "";
+        for(int i=0; i<text.length();i++){
+            if(text.charAt(i)!='#'&&text.charAt(i)!='%'){
+                name+=text.charAt(i);
+            }
+        }
+        if(name.length()<=nameLenghtLimit){
+            addHighScore(Utilities.secondsToString(time),levelNum);
+
+        }else{
+            Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");
+        }
+
+    }
+
+    @Override
+    public void canceled() {
 
     }
 }
