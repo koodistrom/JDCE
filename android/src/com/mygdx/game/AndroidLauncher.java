@@ -3,6 +3,7 @@ package com.mygdx.game;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +47,8 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     private AndroidResolver androidResolver;
     private JDCEGame game;
     boolean permissions;
-
+    boolean bluetoothOn;
+    public static final int REQUEST_ENABLE_BT = 1020;
 
 
 	@Override
@@ -71,6 +73,9 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     @Override
     protected void onStart() {
         super.onStart();
+        if (!isBleEnabled()) {
+            enableBle();
+        }
         System.out.println("onStart kutsuttu ");
         thingySdkManager.bindService(this, ThingyService.class);
 
@@ -133,9 +138,12 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         return true;
     }
 
+
+
     public void prepareForScanning(final boolean nfcInitiated) {
         System.out.println("preparoidaan");
         System.out.println("luvat: "+ checkIfRequiredPermissionsGranted());
+
         if (checkIfRequiredPermissionsGranted()) {
             if (isLocationEnabled()) {
                 permissions = true;
@@ -283,11 +291,29 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
                         BluetoothAdapter.ERROR);
                 switch (state) {
                     case BluetoothAdapter.STATE_OFF:
-
+                        //teksti yhdistäsaatana
+                        enableBle();
                         break;
                 }
             }
         }
     };
+
+    /**
+     * Checks whether the Bluetooth adapter is enabled.
+     */
+    private boolean isBleEnabled() {
+        final BluetoothManager bm = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+        final BluetoothAdapter ba = bm.getAdapter();
+        return ba != null && ba.isEnabled();
+    }
+
+    /**
+     * Tries to start Bluetooth adapter.
+     */
+    private void enableBle() {
+        final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+    }
 
 }
