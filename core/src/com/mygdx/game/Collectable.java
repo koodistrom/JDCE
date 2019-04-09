@@ -17,22 +17,7 @@ public class Collectable extends GameObject {
         setHeight(getHeight()/2);
         setWidth(getWidth()/2);
         setLocation(10f,0f);
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set((getX() + getWidth()/2),
-                (getY() + getHeight()/2));
-
-        body = game.getWorld().createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-
-        fixtureDef.shape=new CircleShape();
-        fixtureDef.shape.setRadius(getWidth()/2);
-
-        fixtureDef.isSensor = true;
-
-        body.createFixture(fixtureDef);
-        setBody(body);
+        createBody();
         game.collectables.add(this);
     }
 
@@ -45,9 +30,10 @@ public class Collectable extends GameObject {
     }
 
 
-    public void setLocationInLevel(Float x, LevelCreator levelCreator) {
+    public void setLocationInLevel(Float xPercentage, LevelCreator2 levelCreator) {
         for (int i=0; i<levelCreator.allVertices.size(); i++){
-            if(levelCreator.allVertices.get(i).x>x){
+            float absolutePos = xPercentage*(levelCreator.lastX/100);
+            if(levelCreator.allVertices.get(i).x>absolutePos){
 
 
                 Vector2 oneBefore = levelCreator.allVertices.get(i-1);
@@ -57,7 +43,12 @@ public class Collectable extends GameObject {
                 rotation = angle.angle();
                 Vector2 positiontoground = new Vector2(0,1);
                 positiontoground.setAngle(rotation+90);
-                setLocation(levelCreator.allVertices.get(i).x + positiontoground.x, levelCreator.allVertices.get(i).y+ positiontoground.y);
+
+                float xFactor = (absolutePos-oneBefore.x)/(oneAfter.x-oneBefore.x);
+                float y = oneBefore.y+(oneAfter.y-oneBefore.y)*xFactor;
+
+                setLocation(absolutePos-(getWidth()/2) + positiontoground.x, y-0.1f+ positiontoground.y);
+                //setLocation(levelCreator.allVertices.get(i).x + positiontoground.x, levelCreator.allVertices.get(i).y+ positiontoground.y);
                 System.out.println(angle.angle());
                 System.out.println(positiontoground);
                 break;
@@ -66,6 +57,25 @@ public class Collectable extends GameObject {
 
 
         body.setTransform(getX() + getWidth()/2,getY() + getHeight()/2, MathUtils.degreesToRadians*rotation);
+    }
+
+    public void createBody(){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        /*bodyDef.position.set((getX() + getWidth()/2),
+                (getY() + getHeight()/2));
+        */
+        body = game.getWorld().createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        fixtureDef.shape=new CircleShape();
+        fixtureDef.shape.setRadius(getWidth()/2);
+
+        fixtureDef.isSensor = true;
+
+        body.createFixture(fixtureDef);
+        setBody(body);
     }
 
     @Override

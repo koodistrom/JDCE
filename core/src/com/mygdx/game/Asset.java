@@ -27,7 +27,7 @@ public class Asset extends GameObject {
                 float xFactor = (absolutePos-oneBefore.x)/(oneAfter.x-oneBefore.x);
                 float y = oneBefore.y+(oneAfter.y-oneBefore.y)*xFactor;
 
-                        setLocation(absolutePos-(getWidth()/2), y-0.1f);
+                setLocation(absolutePos-(getWidth()/2), y-0.1f);
 
 
                 break;
