@@ -45,6 +45,8 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     private Handler mProgressHandler = new Handler();
     private BluetoothDevice mDevice;
     private AndroidResolver androidResolver;
+    private JDCEGame game;
+    boolean permissions;
 
 
 
@@ -57,7 +59,8 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         thingySdkManager = ThingySdkManager.getInstance();
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useWakelock=true;
-		initialize(new JDCEGame(), config);
+		game = new JDCEGame();
+		initialize(game, config);
 
 		thingyListener = new JDCEThingyListener(thingySdkManager, androidResolver);
         thingyBinder = (ThingyService.ThingyBinder) thingySdkManager.getThingyBinder();
@@ -141,6 +144,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         System.out.println("luvat: "+ checkIfRequiredPermissionsGranted());
         if (checkIfRequiredPermissionsGranted()) {
             if (isLocationEnabled()) {
+                permissions = true;
                 if (thingyBinder != null) {
                     thingyBinder.setScanningState(true);
                     if (nfcInitiated) {
@@ -151,7 +155,10 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
                     startScan();
                 }
             } else {
+                permissions = false;
                 System.out.println("sijaintilupapuuttuu");
+
+
             }
         }
     }

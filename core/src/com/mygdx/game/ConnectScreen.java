@@ -11,8 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.ArrayList;
 
 public class ConnectScreen extends NewScreen {
-    private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
-    private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
+
     private Label connectionInfo;
     private ArrayList<String> devices;
     private Table table;
@@ -20,30 +19,29 @@ public class ConnectScreen extends NewScreen {
         super(g);
         table = new Table();
         table.setDebug(true);
-        table.setBounds(textButtonX,(getStageHeight() / 5)*2f, getStageWidth() / 2f, getStageHeight() / 2f );
-        final TextButton connectButton = new TextButton("connect", getUiSkin());
+        table.setFillParent(true);
+        //table.setBounds(textButtonX,(getStageHeight() / 5)*2f, getStageWidth() / 2f, getStageHeight() / 2f );
+        final TextButton connectButton = new TextButton("scan devices", getUiSkin());
         devices = new ArrayList<String>();
-        connectionInfo = new Label("connecting", getUiSkin());
-        /*connectionInfo.setWidth(getTextButtonWidth());
-        connectionInfo.setHeight(getTextButtonHeight());
-        connectionInfo.setPosition(textButtonX, textButtonY1-1);
+        connectionInfo = new Label("start scan", getUiSkin());
 
-        connectButton.setWidth(getTextButtonWidth());
-        connectButton.setHeight(getTextButtonHeight());
-        connectButton.setPosition(textButtonX, textButtonY1);*/
 
         connectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            JDCEGame.m_platformResolver.connect();
+                if(JDCEGame.m_platformResolver.scan()){
+                    connectionInfo.setText("scanning");
+                }else{
+                    connectionInfo.setText("please allow use of location data from settings");
+                }
             }
         });
 
 
-        table.add(connectButton);
+        table.add(connectButton).width(getStageWidth() / 5f).height(getStageHeight() / 5f );
 
         table.row();
-        table.add(connectionInfo);
+        table.add(connectionInfo).pad(getStageHeight() / 50f);
         table.row();
 
         //getGameStage().addActor(connectButton);
@@ -73,7 +71,7 @@ public class ConnectScreen extends NewScreen {
                     getGame().m_platformResolver.connectTo(index);
                 }
             });
-            table.add(foundDevice);
+            table.add(foundDevice).pad(getStageHeight() / 50f);
             table.row();
         }
 

@@ -6,7 +6,7 @@ public interface PlatformResolver {
 
     public boolean isAndroid();
 
-    public void connect();
+    public boolean scan();
 
     public boolean isConnected();
     public boolean isDeviceAdded();

@@ -51,8 +51,9 @@ public class AndroidResolver implements PlatformResolver {
     }
 
     @Override
-    public void connect() {
+    public boolean scan() {
         androidLauncher.prepareForScanning(true);
+        return androidLauncher.permissions;
     }
 
     @Override

@@ -85,9 +85,9 @@ public class LevelCreator2 {
 
 
 
-    public ArrayList<LevelModule> createModules ( String SVG){
+    public ArrayList<LevelModule> createModules ( String fileName){
 
-        ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract(SVG);
+        ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
         System.out.println("vektoreita: "+paths.size());
         firstX = paths.get(0).get(0).x;
         firstY = paths.get(0).get(0).y;
@@ -129,7 +129,7 @@ public class LevelCreator2 {
 
 
             modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0,false));
-            modules.get(i).setPolygonRegion(createTexture(game, points, dirt));
+            modules.get(i).setPolygonRegion(createPolygonRegion(game, points, dirt));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
             modules.get(i).setX(0);
@@ -144,7 +144,7 @@ public class LevelCreator2 {
         Vector2[] rotkoPoints = new Vector2[]{new Vector2(firstX-5, lowest+5), new Vector2(lastX+5,lowest+5),new Vector2(lastX+5,lowest),new Vector2(firstX-5,lowest)};
         rotko.setBody(createBody(rotkoPoints, game.getWorld(), 0, 0,true));
         game.rotkos.add(rotko);
-        rotko.setPolygonRegion(createTexture(game, rotkoPoints, spikes));
+        rotko.setPolygonRegion(createPolygonRegion(game, rotkoPoints, spikes));
 
         rotko.setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
         rotko.setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
@@ -159,7 +159,7 @@ public class LevelCreator2 {
         return modules;
     }
 
-    public PolygonRegion createTexture(GameScreen game, Vector2[] vectors, TextureRegion textureRegion){
+    public PolygonRegion createPolygonRegion(GameScreen game, Vector2[] vectors, TextureRegion textureRegion){
         PolygonRegion polygonRegion;
         float[] vertices= new float[vectors.length*2];
         for(int i=0; i<vectors.length;i++){

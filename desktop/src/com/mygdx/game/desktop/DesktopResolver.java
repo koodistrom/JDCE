@@ -22,8 +22,8 @@ public class DesktopResolver implements PlatformResolver {
     }
 
     @Override
-    public void connect() {
-
+    public boolean scan() {
+        return false;
     }
 
     @Override

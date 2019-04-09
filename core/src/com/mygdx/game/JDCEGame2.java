@@ -68,7 +68,7 @@ public class JDCEGame2 extends ApplicationAdapter {
         levelCreator = new LevelCreator(this);
 
         //levelCreator.createLevel(world, "test3.SVG");
-        //levelCreator.createTexture(this,"test3.SVG");
+        //levelCreator.createPolygonRegion(this,"test3.SVG");
 
         modules = levelCreator.createModules( new String[] {"test2.svg"}, new float[]{1});
 
