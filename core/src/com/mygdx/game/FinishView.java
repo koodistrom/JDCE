@@ -37,7 +37,7 @@ public class FinishView extends NewScreen {
         super(g);
         highscores = Gdx.app.getPreferences("JDCE_highscores");
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
-        addHighScore(Utilities.secondsToString(time));
+
 
         winTable = new Table();
         loseTable = new Table();
@@ -53,6 +53,7 @@ public class FinishView extends NewScreen {
         //menuButton.setPosition(textButtonX, textButtonY1);
 
         if(isItAWin) {
+            addHighScore(Utilities.secondsToString(time),levelNum);
             setUpWinTable();
             getGameStage().addActor(winTable);
         } else {
@@ -123,8 +124,10 @@ public class FinishView extends NewScreen {
         getSpriteBatch().end();*/
     }
 
-    public void addHighScore(String score) {
-        highscores.putString("High Score", score);
+    public void addHighScore(String score, int levelNum) {
+        String level = String.valueOf(levelNum);
+        String valueToSave = highscores.getString(level, "")+score+"#";
+        highscores.putString(level, valueToSave);
         highscores.flush();
     }
 
