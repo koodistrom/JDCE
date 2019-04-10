@@ -71,7 +71,7 @@ public class ConnectScreen extends NewScreen {
                     getGame().m_platformResolver.connectTo(index);
                 }
             });
-            table.add(foundDevice).pad(getStageHeight() / 50f);
+            table.add(foundDevice).pad(getStageHeight() / 50f).width(getStageWidth() / 6f).height(getStageHeight() / 5f);
             table.row();
         }
 

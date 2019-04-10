@@ -65,25 +65,25 @@ public class GameScreen extends NewScreen {
 
         switch (levelnum){
             case 1:
-                modules = levelCreator.createModules( "testing (1).svg");
+                modules = levelCreator.createModules( "rata1.svg");
                 break;
             case 2:
-                modules = levelCreator.createModules( "test15.svg");
+                modules = levelCreator.createModules( "rata2.svg");
                 assets = levelCreator.createAssets(spruce,new float[]{1,1.5f,3,4,5,40.2f,31,54,80,99});
                 break;
             case 3:
-                modules = levelCreator.createModules( "test8.svg");
+                modules = levelCreator.createModules( "rata3.svg");
                 break;
             case 4:
-                modules = levelCreator.createModules( "test10.svg");
+                modules = levelCreator.createModules( "rata4.svg");
 
                 break;
             case 5:
-                modules = levelCreator.createModules( "test11.svg");
+                modules = levelCreator.createModules( "rata5.svg");
 
                 break;
             case 6:
-                modules = levelCreator.createModules( "test12.svg");
+                modules = levelCreator.createModules( "rata6.svg");
                 break;
         }
 
