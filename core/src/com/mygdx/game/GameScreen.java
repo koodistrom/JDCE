@@ -69,7 +69,7 @@ public class GameScreen extends NewScreen {
                 break;
             case 2:
                 modules = levelCreator.createModules( "rata2.svg");
-                assets = levelCreator.createAssets(spruce,new float[]{1,1.5f,3,4,5,40.2f,31,54,80,99});
+                //assets = levelCreator.createAssets(spruce,new float[]{10,21});
                 break;
             case 3:
                 modules = levelCreator.createModules( "rata3.svg");

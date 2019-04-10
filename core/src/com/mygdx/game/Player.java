@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -53,6 +56,9 @@ public class Player extends GameObject implements InputProcessor {
     boolean win;
     boolean addSpeed;
     boolean isOnGround;
+    TextureAtlas pedalingAtlas;
+    Animation<TextureRegion> pedalingAnimation;
+
 
 
     public Player(GameScreen game) {
@@ -85,6 +91,8 @@ public class Player extends GameObject implements InputProcessor {
         win = false;
         addSpeed = false;
         isOnGround = false;
+        pedalingAtlas = new TextureAtlas("animations/pedaling.atlas");
+        pedalingAnimation = new Animation<TextureRegion>(0.033f, pedalingAtlas.findRegions("pedaling"), Animation.PlayMode.LOOP);
 
         createBodies();
 
