@@ -58,6 +58,8 @@ public class Player extends GameObject implements InputProcessor {
     boolean isOnGround;
     TextureAtlas pedalingAtlas;
     Animation<TextureRegion> pedalingAnimation;
+    float stateTime;
+    TextureRegion currentFrame;
 
 
 
@@ -91,19 +93,29 @@ public class Player extends GameObject implements InputProcessor {
         win = false;
         addSpeed = false;
         isOnGround = false;
-        pedalingAtlas = new TextureAtlas("animations/pedaling.atlas");
-        pedalingAnimation = new Animation<TextureRegion>(0.033f, pedalingAtlas.findRegions("pedaling"), Animation.PlayMode.LOOP);
 
+        System.out.println("korkeus: "+getHeight()+" leveys: "+getWidth());
+
+        pedalingAtlas = new TextureAtlas("animations/pedaling.atlas");
+        pedalingAnimation = new Animation<TextureRegion>(0.025f, pedalingAtlas.findRegions("pedaling"), Animation.PlayMode.LOOP);
+        stateTime = 0;
+        setHeight(pedalingAnimation.getKeyFrame(stateTime, true).getRegionHeight()/(game.PIXELS_TO_METERS*2));
+        setWidth(pedalingAnimation.getKeyFrame(stateTime, true).getRegionWidth()/(game.PIXELS_TO_METERS*2));
+        System.out.println("korkeus: "+getHeight()+" leveys: "+getWidth());
+        currentFrame = pedalingAnimation.getKeyFrame(stateTime, true);
         createBodies();
 
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
-    public void draw(){
-        super.draw();
+    public void draw(TextureRegion textureRegion){
+        super.draw(textureRegion);
         float ww = wheel.getWidth()/game.PIXELS_TO_METERS;
         float wh = wheel.getHeight()/game.PIXELS_TO_METERS;
+
+
+
         batch.draw(wheel, rearWheel.getPosition().x-(ww/2), rearWheel.getPosition().y-(wh/2),ww/2, wh/2,
                 ww,wh,1,1, rwRotation,0,0, wheel.getWidth(), wheel.getHeight(),false,false);
 
@@ -119,6 +131,12 @@ public class Player extends GameObject implements InputProcessor {
         if(JDCEGame.m_platformResolver.isAndroid()) {
             speed = JDCEGame.m_platformResolver.getPedalSpeed();
         }
+
+        stateTime += speed;
+        if(stateTime<0){
+            stateTime=1-stateTime;
+        }
+        currentFrame = pedalingAnimation.getKeyFrame(stateTime, true);
 
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
@@ -203,7 +221,7 @@ public class Player extends GameObject implements InputProcessor {
         }
 
         airControl();
-        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
         //System.out.println("kerroin: "+ (rearWheelJoint.getJointSpeed()/-100)+1);
 
         //desktoptestaukseen
@@ -314,8 +332,9 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.bodyA=body;
         rearWheelJointDef.bodyB=rearWheel;
         rearWheelJointDef.collideConnected=false;
-        rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
-        //rearWheelJointDef.localAnchorB.set(0,0);
+        rearWheelJointDef.localAnchorA.set(-0.4f,-1f);
+        //rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
+
         rearWheelJointDef.enableMotor = false;
         rearWheelJointDef.motorSpeed = -5f;
         rearWheelJointDef.dampingRatio = 0.95f;
@@ -329,8 +348,9 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJointDef.bodyA=body;
         frontWheelJointDef.bodyB=frontWheel;
         frontWheelJointDef.collideConnected=false;
-        frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
-        //frontWheelJointDef.localAnchorB.set(0,0);
+        frontWheelJointDef.localAnchorA.set(0.9f,-1f);
+        //frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
+
         frontWheelJointDef.dampingRatio = 0.95f;
         frontWheelJointDef.frequencyHz = 1.7f;
         frontWheelJointDef.localAxisA.set(new Vector2(0,1));

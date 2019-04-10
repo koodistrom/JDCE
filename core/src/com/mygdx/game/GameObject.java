@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class GameObject implements HasBody{
@@ -39,6 +40,13 @@ public class GameObject implements HasBody{
 
         batch.draw(texture, x, y,width/2, height/2,
                 width,height,1,1, rotation,0,0, texture.getWidth(), texture.getHeight(),false,false);
+    }
+
+    public void draw(TextureRegion textureRegion){
+
+
+        batch.draw(textureRegion, x, y,width/2, height/2,
+                width,height,1,1, rotation);
     }
 
     public Texture getTexture() {

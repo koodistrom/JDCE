@@ -137,14 +137,14 @@ public class GameScreen extends NewScreen {
             assets.get(i).draw();
         }
 
-        player. draw();
+        player. draw(player.currentFrame);
         //collectable.update();
 
 
 
 
         levelCreator.goal.draw();
-
+        debugRenderer.render(world, debugMatrix);
         getSpriteBatch().end();
 
         polyBatch.begin();
@@ -158,7 +158,7 @@ public class GameScreen extends NewScreen {
 
         getGameStage().draw();
 
-        debugRenderer.render(world, debugMatrix);
+
     }
 
     private void moveCamera() {
