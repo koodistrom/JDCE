@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,13 +12,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import java.util.Locale;
 
 
 public class NewScreen implements Screen {
@@ -54,7 +59,7 @@ public class NewScreen implements Screen {
     private float muteSoundEffectsX;
     private float MuteSoundEffectsY;
 
-    private ScreenViewport gameViewport;
+    private ScreenViewport pixelViewport;
     private FitViewport meterViewport;
 
     private BitmapFont font48;
@@ -68,9 +73,9 @@ public class NewScreen implements Screen {
         batch = game.getBatch();
         /*camera = new OrthographicCamera();
         camera.setToOrtho(false, screenWidth, screenHeight);*/
-        gameViewport = new ScreenViewport();
+        pixelViewport = new ScreenViewport();
         meterViewport = new FitViewport(screenWidth, screenHeight);
-        gameStage = new Stage(gameViewport, batch);
+        gameStage = new Stage(pixelViewport, batch);
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 
         setupButtonBounds();
@@ -104,130 +109,6 @@ public class NewScreen implements Screen {
 
     }
 
-    public float getStageWidth() {
-        return getGameStage().getWidth();
-    }
-
-    public float getStageHeight() {
-        return getGameStage().getHeight();
-    }
-
-    public void setGame(JDCEGame g) {
-        game = g;
-    }
-
-    public JDCEGame getGame() {
-        return game;
-    }
-
-    public void setSpriteBatch(SpriteBatch sb) {
-        batch = sb;
-    }
-
-    public SpriteBatch getSpriteBatch() {
-        return batch;
-    }
-
-    public FitViewport getMeterViewport() {
-        return meterViewport;
-    }
-
-    public void setMeterViewport(FitViewport meterViewport) {
-        this.meterViewport = meterViewport;
-    }
-
-    public ScreenViewport getGameViewport() {
-        return gameViewport;
-    }
-
-    public void setGameViewport(ScreenViewport gameViewport) {
-        this.gameViewport = gameViewport;
-    }
-
-    public void setScreenWidth(float width) {
-        screenWidth = width;
-    }
-
-    public float getScreenWidth() {
-        return screenWidth;
-    }
-
-    public void setScreenHeight(float height) {
-        screenHeight = height;
-    }
-
-    public float getScreenHeight() {
-        return screenHeight;
-    }
-
-    public void setGameStage(Stage s) {
-        gameStage = s;
-    }
-
-    public Stage getGameStage() {
-        return gameStage;
-    }
-
-    public void setUiSkin(Skin s) {
-        uiSkin = s;
-    }
-
-    public Skin getUiSkin() {
-        return uiSkin;
-    }
-
-    public void setTextButtonHeight(float height) {
-        textButtonHeight = height;
-    }
-
-    public float getTextButtonHeight() {
-        return textButtonHeight;
-    }
-
-    public void setTextButtonWidth(float width) {
-        textButtonWidth = width;
-    }
-
-    public float getTextButtonWidth() {
-        return textButtonWidth;
-    }
-
-    public Button getButtonFI() {
-        return languageFI;
-    }
-
-    public Button getButtonEN() {
-        return languageEN;
-    }
-
-    public Button getMuteMusicButton() {
-        return muteMusic;
-    }
-
-    public Button getMuteSoundFxButton() {
-        return muteSoundFx;
-    }
-
-    public void setMuteSoundFxButton(Button muteSoundFx) {
-        this.muteSoundFx = muteSoundFx;
-    }
-
-    public void setImageButtonHeight(float height) {
-        imageButtonHeight = height;
-    }
-
-    public float getImageButtonHeight() {
-        return imageButtonHeight;
-    }
-
-    public void setImageButtonWidth(float width) {
-        imageButtonWidth = width;
-    }
-
-    public float getImageButtonWidth() {
-        return imageButtonWidth;
-    }
-
     @Override
     public void show() {
 
@@ -235,15 +116,30 @@ public class NewScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        getPixelViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);
+
+        getSpriteBatch().begin();
+        getSpriteBatch().draw(getBackground(), 0, 0, getPixelViewport().getWorldWidth(), getPixelViewport().getWorldHeight());
+        getSpriteBatch().end();
+
+        getGameStage().draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        gameViewport.update(width, height, true);
+        setScreenHeight(height / PIXELS_TO_METERS * 1.2f);
+        setScreenWidth(width / PIXELS_TO_METERS * 1.2f);
+
+        pixelViewport.update(width, height, true);
         meterViewport.update(width, height, true);
 
         setupButtonBounds();
+        setupButtons();
+        updateTables();
     }
 
     public void setupButtonBounds() {
@@ -300,6 +196,78 @@ public class NewScreen implements Screen {
         }
 
     }
+
+    public void clickListeners() {
+        getButtonFI().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().updateLanguage(new Locale("fi", "FI"));
+                updateTexts();
+                updateTables();
+                setupButtons();
+            }
+        });
+
+        getButtonEN().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().updateLanguage(new Locale("en", "UK"));
+                updateTexts();
+                updateTables();
+                setupButtons();
+            }
+        });
+
+        getMuteMusicButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        getMuteSoundFxButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+    }
+
+/*    public void clickListeners(final int levelNum) {
+        getButtonFI().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().updateLanguage(new Locale("fi", "FI"));
+                updateTexts();
+                updateTables();
+                setupButtons();
+            }
+        });
+
+        getButtonEN().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().updateLanguage(new Locale("en", "UK"));
+                updateTexts();
+                updateTables();
+                setupButtons();
+            }
+        });
+
+        getMuteMusicButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        getMuteSoundFxButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+    }*/
 
     public BitmapFont getFont48() {
         return font48;
@@ -388,6 +356,138 @@ public class NewScreen implements Screen {
 
     public void setBackButtonY(float backButtonY) {
         this.backButtonY = backButtonY;
+    }
+
+    public void updateTexts() {
+
+    }
+
+    public void updateTables() {
+
+    }
+
+    public float getStageWidth() {
+        return getGameStage().getWidth();
+    }
+
+    public float getStageHeight() {
+        return getGameStage().getHeight();
+    }
+
+    public void setGame(JDCEGame g) {
+        game = g;
+    }
+
+    public JDCEGame getGame() {
+        return game;
+    }
+
+    public void setSpriteBatch(SpriteBatch sb) {
+        batch = sb;
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return batch;
+    }
+
+    public FitViewport getMeterViewport() {
+        return meterViewport;
+    }
+
+    public void setMeterViewport(FitViewport meterViewport) {
+        this.meterViewport = meterViewport;
+    }
+
+    public ScreenViewport getPixelViewport() {
+        return pixelViewport;
+    }
+
+    public void setGameViewport(ScreenViewport pixelViewport) {
+        this.pixelViewport = pixelViewport;
+    }
+
+    public void setScreenWidth(float width) {
+        screenWidth = width;
+    }
+
+    public float getScreenWidth() {
+        return screenWidth;
+    }
+
+    public void setScreenHeight(float height) {
+        screenHeight = height;
+    }
+
+    public float getScreenHeight() {
+        return screenHeight;
+    }
+
+    public void setGameStage(Stage s) {
+        gameStage = s;
+    }
+
+    public Stage getGameStage() {
+        return gameStage;
+    }
+
+    public void setUiSkin(Skin s) {
+        uiSkin = s;
+    }
+
+    public Skin getUiSkin() {
+        return uiSkin;
+    }
+
+    public void setTextButtonHeight(float height) {
+        textButtonHeight = height;
+    }
+
+    public float getTextButtonHeight() {
+        return textButtonHeight;
+    }
+
+    public void setTextButtonWidth(float width) {
+        textButtonWidth = width;
+    }
+
+    public float getTextButtonWidth() {
+        return textButtonWidth;
+    }
+
+    public Button getButtonFI() {
+        return languageFI;
+    }
+
+    public Button getButtonEN() {
+        return languageEN;
+    }
+
+    public Button getMuteMusicButton() {
+        return muteMusic;
+    }
+
+    public Button getMuteSoundFxButton() {
+        return muteSoundFx;
+    }
+
+    public void setMuteSoundFxButton(Button muteSoundFx) {
+        this.muteSoundFx = muteSoundFx;
+    }
+
+    public void setImageButtonHeight(float height) {
+        imageButtonHeight = height;
+    }
+
+    public float getImageButtonHeight() {
+        return imageButtonHeight;
+    }
+
+    public void setImageButtonWidth(float width) {
+        imageButtonWidth = width;
+    }
+
+    public float getImageButtonWidth() {
+        return imageButtonWidth;
     }
 }
 

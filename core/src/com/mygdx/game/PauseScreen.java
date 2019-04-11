@@ -26,8 +26,14 @@ public class PauseScreen extends NewScreen {
     private String mainMenuButtonText;
     private String pausedText;
 
-    public PauseScreen(JDCEGame g, int levelnum) {
+    private int levelNumber;
+    private int worldNumber;
+
+    public PauseScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
+
+        this.levelNumber = levelNumber;
+        this.worldNumber = worldNumber;
 
         setupButtonBounds();
 
@@ -48,17 +54,18 @@ public class PauseScreen extends NewScreen {
 
         Gdx.input.setInputProcessor(getGameStage());
 
-        clickListeners(levelnum);
+        clickListeners();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        super.render(delta);
+        /*Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         getMeterViewport().apply();
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
-        getLayout48().setText(getFont48(), pausedText);
+
 
         getSpriteBatch().begin();
         getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
@@ -66,8 +73,10 @@ public class PauseScreen extends NewScreen {
 
         getGameStage().draw();
 
-        getGameViewport().apply();
-        getSpriteBatch().setProjectionMatrix(getGameViewport().getCamera().combined);
+        getPixelViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);*/
+
+        getLayout48().setText(getFont48(), pausedText);
 
         getSpriteBatch().begin();
         getFont48().draw(getSpriteBatch(), pausedText, getStageWidthTenth() * 5 - getLayout48().width / 2,
@@ -75,41 +84,40 @@ public class PauseScreen extends NewScreen {
         getSpriteBatch().end();
     }
 
-    @Override
+/*    @Override
     public void resize(int width, int height) {
-        getGameViewport().update(width, height, true);
+        getPixelViewport().update(width, height, true);
         getMeterViewport().update(width, height, true);
 
         setupButtonBounds();
         setupButtons();
-    }
-
-    public void dispose() {
-        super.dispose();
-    }
+    }*/
 
     @Override
     public void setupButtonBounds() {
-        updateTenths();
+        super.setupButtonBounds();
+        /*updateTenths();
 
         setTextButtonHeight(getGameStage().getHeight() / 6);
         setTextButtonWidth(getGameStage().getWidth() / 3);
         setImageButtonWidth(getTextButtonHeight());
         setImageButtonHeight(getTextButtonHeight());
 
+        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
+        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
+        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
+        setMuteSoundEffectsX(getMuteMusicX());*/
+
         textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
         continueButtonY = getStageHeightTenth() * 6.333f - (getTextButtonHeight() / 2);
         retryButtonY = getStageHeightTenth() * 3.666f - (getTextButtonHeight() / 2);
         mainMenuButtonY = getStageHeightTenth() - (getTextButtonHeight() / 2);
-
-        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
-        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
-        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
-        setMuteSoundEffectsX(getMuteMusicX());
     }
 
     @Override
     public void setupButtons() {
+        super.setupButtons();
+
         continueButton.setWidth(getTextButtonWidth());
         continueButton.setHeight(getTextButtonHeight());
         continueButton.setPosition(textButtonX, continueButtonY);
@@ -122,13 +130,13 @@ public class PauseScreen extends NewScreen {
         mainMenuButton.setHeight(getTextButtonHeight());
         mainMenuButton.setPosition(textButtonX, mainMenuButtonY);
 
-        getMuteMusicButton().setWidth(getImageButtonWidth());
+        /*getMuteMusicButton().setWidth(getImageButtonWidth());
         getMuteMusicButton().setHeight(getImageButtonHeight());
         getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
 
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
-        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
+        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
 
         continueButton.setText(continueButtonText);
         retryButton.setText(retryButtonText);
@@ -137,28 +145,30 @@ public class PauseScreen extends NewScreen {
         getGameStage().setDebugAll(true);
     }
 
-    public void clickListeners(int levelnum) {
+    public void clickListeners() {
+        super.clickListeners();
+
         continueButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
             }
         });
 
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
             }
         });
 
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                getGame().setScreen(new MainMenuScreen(getGame()));
             }
         });
-
+/*
 
         getMuteMusicButton().addListener(new ClickListener() {
             @Override
@@ -172,9 +182,11 @@ public class PauseScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
 
             }
-        });
+        });*/
 
     }
+
+    @Override
     public void updateTexts() {
         continueButtonText = getGame().getBundle().get("continue");
         retryButtonText = getGame().getBundle().get("retry");

@@ -193,7 +193,7 @@ public class Player extends GameObject implements InputProcessor {
         if(x>game.getLevelCreator().goal.getX()){
             //voittaminen :ok_hand:
             win = true;
-            game.getGame().setScreen(new FinishView(game.getGame(),trackTime, win, game.levelNum));
+            game.getGame().setScreen(new FinishView(game.getGame(),trackTime, win, game.levelNum, game.worldNumber));
             game.dispose();
 
         }else{
@@ -424,11 +424,12 @@ public class Player extends GameObject implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(win == false) {
-            LevelSelectScreen mms = new LevelSelectScreen(game.getGame());
+            LevelSelectScreen mms = new LevelSelectScreen(game.getGame(), game.worldNumber);
             game.getGame().setScreen(mms);
             return true;
-        }else
+        } else {
             return false;
+        }
 
     }
 

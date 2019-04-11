@@ -38,15 +38,17 @@ public class GameScreen extends NewScreen {
     Stegosaurus stegosaurus;
     Sprite sprite;
     int levelNum;
+    int worldNumber;
     Background background;
     Texture spruce;
     private Table pauseTable;
     private boolean gamePaused = false;
 
 
-    public GameScreen(JDCEGame g, int levelnum) {
+    public GameScreen(JDCEGame g, int levelnum, int worldNumber) {
         super(g);
         this.levelNum = levelnum;
+        this.worldNumber = worldNumber;
         world = new World(new Vector2(0, -3f),true);
         /*worldWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
         worldHeight = Gdx.graphics.getHeight()/PIXELS_TO_METERS;
@@ -115,7 +117,6 @@ public class GameScreen extends NewScreen {
         // Step the physics simulation forward at a rate of 60hz
         world.step(1/60f, 6, 2);
 
-
         moveCamera();
         m_platformResolver.getPedalSpeed();
         player.update();
@@ -150,7 +151,6 @@ public class GameScreen extends NewScreen {
             modules.get(i).draw();
         }
 
-
         polyBatch.end();
 
         getSpriteBatch().begin();
@@ -171,7 +171,7 @@ public class GameScreen extends NewScreen {
     }
 
     public void reset(){
-        getGame().setScreen(new GameScreen(getGame(),levelNum));
+        getGame().setScreen(new GameScreen(getGame(), levelNum, worldNumber));
         dispose();
     }
 

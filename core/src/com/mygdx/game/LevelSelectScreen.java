@@ -19,9 +19,11 @@ public class LevelSelectScreen extends NewScreen {
     private float textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
     private ArrayList<ArrayList<TextButton>> buttonGrid;
     private int levelnumber;
+    private int worldNumber;
 
-    public LevelSelectScreen(JDCEGame g) {
+    public LevelSelectScreen(JDCEGame g, final int worldNumber) {
         super(g);
+        this.worldNumber = worldNumber;
         int posX;
         int posY;
         levelnumber = 1;
@@ -46,7 +48,7 @@ public class LevelSelectScreen extends NewScreen {
                     public void clicked(InputEvent event, float x, float y) {
                         /*MyTextInputListener listener = new MyTextInputListener();
                         Gdx.input.getTextInput(listener, "What is your name?", "Name", "Write your name here");*/
-                        GameScreen gs = new GameScreen(getGame(),level);
+                        GameScreen gs = new GameScreen(getGame(),level, worldNumber);
                         getGame().setScreen(gs);
                     }
                 });
@@ -66,14 +68,9 @@ public class LevelSelectScreen extends NewScreen {
         getGameStage().addActor(getBackButton());
         Gdx.input.setInputProcessor(getGameStage());
 
-        getBackButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new MainMenuScreen(getGame()));
-            }
-        });
+        clickListeners();
 
-        getMuteMusicButton().addListener(new ClickListener() {
+        /*getMuteMusicButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -85,37 +82,38 @@ public class LevelSelectScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
 
             }
-        });
+        });*/
 
         Gdx.input.setInputProcessor(getGameStage());
     }
 
-    @Override
+    /*@Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        getMeterViewport().apply();
+        getPixelViewport().apply();
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
+        getSpriteBatch().draw(getBackground(), 0, 0, getPixelViewport().getWorldWidth(), getPixelViewport().getWorldHeight());
         getSpriteBatch().end();
 
         getGameStage().draw();
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void resize(int width, int height) {
-        getGameViewport().update(width, height, true);
+        getPixelViewport().update(width, height, true);
         getMeterViewport().update(width, height, true);
 
         setupButtonBounds();
         setupButtons();
-    }
+    }*/
 
     public void setupButtonBounds() {
-        updateTenths();
+        super.setupButtonBounds();
+        /*updateTenths();
 
         setTextButtonHeight(getGameStage().getHeight() / 6);
         setTextButtonWidth(getGameStage().getWidth() / 3);
@@ -127,7 +125,7 @@ public class LevelSelectScreen extends NewScreen {
         setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
         setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
         setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
-        setMuteSoundEffectsX(getMuteMusicX());
+        setMuteSoundEffectsX(getMuteMusicX());*/
 
         levelSelectTextButtonHeight = getTextButtonHeight();
         levelSelectTextButtonWidth = levelSelectTextButtonHeight;
@@ -140,6 +138,7 @@ public class LevelSelectScreen extends NewScreen {
     }
 
     public void setupButtons() {
+        super.setupButtons();
         levelnumber = 1;
         int posX;
         int posY;
@@ -158,7 +157,7 @@ public class LevelSelectScreen extends NewScreen {
             }
         }
 
-        getBackButton().setWidth(getImageButtonWidth());
+        /*getBackButton().setWidth(getImageButtonWidth());
         getBackButton().setHeight(getImageButtonHeight());
         getBackButton().setPosition(getBackButtonX(), getBackButtonY());
 
@@ -168,7 +167,7 @@ public class LevelSelectScreen extends NewScreen {
 
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
-        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
+        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
     }
 
     public float getStageWidth() {
@@ -177,5 +176,17 @@ public class LevelSelectScreen extends NewScreen {
 
     public float getStageHeight() {
         return getGameStage().getHeight();
+    }
+
+    @Override
+    public void clickListeners() {
+        super.clickListeners();
+
+        getBackButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new WorldSelectScreen(getGame()));
+            }
+        });
     }
 }

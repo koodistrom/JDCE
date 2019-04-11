@@ -34,14 +34,16 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
     private TextButton retryButton;
     private String name;
     private float time;
-    private int levelNum;
+    private int levelNumber;
+    private int worldNumber;
     private int nameLenghtLimit;
     //private OrthographicCamera pixelCamera;
 
-    public FinishView(JDCEGame g, float time, boolean isItAWin, int levelNum) {
+    public FinishView(JDCEGame g, float time, boolean isItAWin, int levelNumber, int worldNumber) {
         super(g);
         this.time = time;
-        this.levelNum= levelNum;
+        this.levelNumber = levelNumber;
+        this.worldNumber = worldNumber;
         highscores = Gdx.app.getPreferences("JDCE_highscores");
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
 
@@ -73,7 +75,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
 
-        clickListeners(levelNum);
+        clickListeners();
 
         //pixelCamera.setToOrtho(false, g, getScreenHeight());
 
@@ -105,15 +107,18 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         loseTable.add(retryButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
 
     }
-
+    @Override
     public void updateTables() {
         winTable.setFillParent(true);
         loseTable.setFillParent(true);
     }
 
+/*
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        super.render(delta);
+        */
+/*Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         getMeterViewport().apply();
@@ -123,24 +128,28 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
-        getGameStage().draw();
+        getGameStage().draw();*//*
 
-        getGameViewport().apply();
-        getSpriteBatch().setProjectionMatrix(getGameViewport().getCamera().combined);
 
-        /*getSpriteBatch().begin();
+        getPixelViewport().apply();
+        getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);
+
+        */
+/*getSpriteBatch().begin();
         getFont48().draw(getSpriteBatch(), score, textX, textY);
-        getSpriteBatch().end();*/
+        getSpriteBatch().end();*//*
+
     }
+*/
 
     public void addHighScore(float score, int levelNum) {
 
         String level = String.valueOf(levelNum);
         String HSOfLevel = highscores.getString(level, "");
-        String comparisonTime ="";
-        String valueToSave="";
-        String lastEntry="";
-        boolean entryMade=false;
+        String comparisonTime = "";
+        String valueToSave = "";
+        String lastEntry = "";
+        boolean entryMade = false;
         boolean addToTime = false;
         int numOfEntries = 0;
         for(int i=0;i<HSOfLevel.length();i++){
@@ -186,16 +195,17 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");
     }
 
-    @Override
+    /*@Override
     public void resize(int width, int height) {
-        getGameViewport().update(width, height, true);
+        getPixelViewport().update(width, height, true);
         getMeterViewport().update(width, height, true);
 
         setupButtonBounds();
         setupButtons();
         updateTables();
-    }
+    }*/
 
+    /*@Override
     public void setupButtonBounds() {
         updateTenths();
 
@@ -209,8 +219,9 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
         setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
         setMuteSoundEffectsX(getMuteMusicX());
-    }
+    }*/
 
+/*    @Override
     public void setupButtons() {
         getMuteMusicButton().setWidth(getImageButtonWidth());
         getMuteMusicButton().setHeight(getImageButtonHeight());
@@ -221,13 +232,14 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
 
         getGameStage().setDebugAll(true);
-    }
+    }*/
 
-    public void clickListeners(final int levelNum) {
+    @Override
+    public void clickListeners() {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new LevelSelectScreen(getGame()));
+                getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
                 dispose();
             }
         });
@@ -235,7 +247,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new GameScreen(getGame(), levelNum));
+                getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
                 dispose();
             }
         });
@@ -256,7 +268,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             }
         }
         if(name.length()<=nameLenghtLimit){
-            addHighScore( time,levelNum);
+            addHighScore(time, levelNumber);
 
         }else{
             Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");

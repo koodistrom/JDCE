@@ -121,6 +121,7 @@ public class MainMenuScreen extends NewScreen {
         mainMenuTable.add(getButtonEN()).spaceBottom(50);
     }*/
 
+   @Override
     public void updateTables() {
         title.setText(quitConfirmText);
         quitConfirmTable.setSize(getStageWidth() / 4, getStageHeight() / 3.5f);
@@ -131,14 +132,17 @@ public class MainMenuScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
+
         if(isQuitConfirmOn) {
             quitConfirmTable.setVisible(true);
         } else {
             quitConfirmTable.setVisible(false);
         }
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        /*Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         getMeterViewport().apply();
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
@@ -146,31 +150,33 @@ public class MainMenuScreen extends NewScreen {
         getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
         getSpriteBatch().end();
 
-        getGameStage().draw();
+        getGameStage().draw();*/
     }
 
-    @Override
+    /*@Override
     public void resize(int width, int height) {
-        getGameViewport().update(width, height, true);
+        getPixelViewport().update(width, height, true);
         getMeterViewport().update(width, height, true);
 
         setupButtonBounds();
         setupButtons();
         updateTables();
-    }
-
-    public void dispose() {
-        super.dispose();
-    }
+    }*/
 
     @Override
     public void setupButtonBounds() {
-        updateTenths();
+        super.setupButtonBounds();
+        /*updateTenths();
 
         setTextButtonHeight(getGameStage().getHeight() / 6);
         setTextButtonWidth(getGameStage().getWidth() / 3);
         setImageButtonWidth(getTextButtonHeight());
         setImageButtonHeight(getTextButtonHeight());
+
+        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
+        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
+        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
+        setMuteSoundEffectsX(getMuteMusicX());*/
 
         textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
         playButtonY = getStageHeightTenth() * 9 - (getTextButtonHeight() / 2);
@@ -180,15 +186,12 @@ public class MainMenuScreen extends NewScreen {
         ENbuttonX = getStageWidthTenth() - (getImageButtonWidth() / 2);
         FIbuttonX = getStageWidthTenth() * 2.5f - (getImageButtonWidth() / 2);
         languageButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
-
-        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
-        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
-        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
-        setMuteSoundEffectsX(getMuteMusicX());
     }
 
     @Override
     public void setupButtons() {
+        super.setupButtons();
+
         playButton.setWidth(getTextButtonWidth());
         playButton.setHeight(getTextButtonHeight());
         playButton.setPosition(textButtonX, playButtonY);
@@ -209,13 +212,13 @@ public class MainMenuScreen extends NewScreen {
         getButtonFI().setHeight(getImageButtonHeight());
         getButtonFI().setPosition(FIbuttonX, languageButtonY);
 
-        getMuteMusicButton().setWidth(getImageButtonWidth());
+        /*getMuteMusicButton().setWidth(getImageButtonWidth());
         getMuteMusicButton().setHeight(getImageButtonHeight());
         getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
 
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
-        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
+        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
 
         playButton.setText(playButtonText);
         highScoreButton.setText(highScoreButtonText);
@@ -226,12 +229,15 @@ public class MainMenuScreen extends NewScreen {
         getGameStage().setDebugAll(true);
     }
 
+    @Override
     public void clickListeners() {
+        super.clickListeners();
+
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new LevelSelectScreen(getGame()));
+                    getGame().setScreen(new WorldSelectScreen(getGame()));
                 }
             }
         });
@@ -267,40 +273,9 @@ public class MainMenuScreen extends NewScreen {
             }
         });
 
-        getMuteMusicButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        getMuteSoundFxButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        getButtonFI().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().updateLanguage(new Locale("fi", "FI"));
-                updateTexts();
-                updateTables();
-                setupButtons();
-            }
-        });
-
-        getButtonEN().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().updateLanguage(new Locale("en", "UK"));
-                updateTexts();
-                updateTables();
-                setupButtons();
-            }
-        });
     }
+
+    @Override
     public void updateTexts() {
         playButtonText = getGame().getBundle().get("play");
         highScoreButtonText = getGame().getBundle().get("highscores");

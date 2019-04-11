@@ -37,34 +37,17 @@ public class HighScoreScreen extends NewScreen {
         getGameStage().addActor(getBackButton());
         Gdx.input.setInputProcessor(getGameStage());
 
-        getBackButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new MainMenuScreen(getGame()));
-            }
-        });
-
-        getMuteMusicButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        getMuteSoundFxButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
         getGameStage().addActor(table);
+        getGameStage().setDebugAll(true);
+
+        clickListeners();
     }
 
-    @Override
+    /*@Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         getMeterViewport().apply();
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
@@ -73,20 +56,22 @@ public class HighScoreScreen extends NewScreen {
         getSpriteBatch().end();
 
         getGameStage().draw();
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void resize(int width, int height) {
-        getGameViewport().update(width, height, true);
+        super.resize(width, height);
+        *//*getPixelViewport().update(width, height, true);
         getMeterViewport().update(width, height, true);
 
-        setupButtonBounds();
+        setupButtonBounds();*//*
         setupButtons();
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void setupButtonBounds() {
-        updateTenths();
+        super.setupButtonBounds();
+        *//*updateTenths();
 
         setTextButtonHeight(getGameStage().getHeight() / 6);
         setTextButtonWidth(getGameStage().getWidth() / 3);
@@ -98,9 +83,10 @@ public class HighScoreScreen extends NewScreen {
         setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
         setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
         setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
-        setMuteSoundEffectsX(getMuteMusicX());
-    }
+        setMuteSoundEffectsX(getMuteMusicX());*//*
+    }*/
 
+   /* @Override
     public void setupButtons() {
         getBackButton().setWidth(getImageButtonWidth());
         getBackButton().setHeight(getImageButtonHeight());
@@ -113,7 +99,7 @@ public class HighScoreScreen extends NewScreen {
         getMuteSoundFxButton().setWidth(getImageButtonWidth());
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());
-    }
+    }*/
 
 
 
@@ -156,6 +142,18 @@ public class HighScoreScreen extends NewScreen {
         String valueToSave = highscores.getString(level, "")+score+"#";
         highscores.putString(level, valueToSave);
         highscores.flush();
+    }
+
+    @Override
+    public void clickListeners() {
+        super.clickListeners();
+
+        getBackButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new MainMenuScreen(getGame()));
+            }
+        });
     }
 }
 
