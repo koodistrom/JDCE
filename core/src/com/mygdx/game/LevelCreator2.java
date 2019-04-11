@@ -79,7 +79,7 @@ public class LevelCreator2 {
     public ArrayList<LevelModule> createModules ( String fileName,String textureFileName){
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
-        System.out.println("vektoreita: "+paths.size());
+
         firstX = paths.get(0).get(0).x;
         firstY = paths.get(0).get(0).y;
         lastX = 0;
@@ -97,11 +97,10 @@ public class LevelCreator2 {
             modules.add( new LevelModule());
             Vector2[] points =new Vector2[paths.get(i).size()];
 
-
             for(int n=0; n<paths.get(i).size();n++){
 
                 points[n]=paths.get(i).get(n);
-                System.out.println("Vektoreihin listätty " +points[n]);
+
                 if(paths.get(i).get(n).y<lowest){
                     lowest = paths.get(i).get(n).y;
                 }
@@ -123,17 +122,18 @@ public class LevelCreator2 {
             modules.get(i).setPolygonRegion(createPolygonRegion(game, points, textureFileName));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
+            modules.get(i).outlines = createOutlines(points);
+
             modules.get(i).setX(0);
             modules.get(i).setY(0);
 
-            System.out.println( "module x: "+ modules.get(i).getX());
-            System.out.println( "module y: "+ modules.get(i).getY());
             modules.get(i).setGame(game);
 
         }
         LevelModule rotko = new LevelModule();
         Vector2[] rotkoPoints = new Vector2[]{new Vector2(firstX-5, lowest+5), new Vector2(lastX+5,lowest+5),new Vector2(lastX+5,lowest),new Vector2(firstX-5,lowest)};
         rotko.setBody(createBody(rotkoPoints, game.getWorld(), 0, 0,true));
+        rotko.outlines = createOutlines(rotkoPoints);
         game.rotkos.add(rotko);
         rotko.setPolygonRegion(createPolygonRegion(game, rotkoPoints, "spikes.png"));
 
@@ -176,6 +176,18 @@ public class LevelCreator2 {
         return polygonRegion;
 
     }
+
+    public float[] createOutlines(Vector2[] vectors){
+        float[] vertices= new float[vectors.length*2];
+        for(int i=0; i<vectors.length;i++){
+            vertices[i*2]= vectors[i].x;
+            vertices[i*2+1]= vectors[i].y;
+            //System.out.println(vertices[i*2]);
+        }
+        return vertices;
+    }
+
+
 
     public float[] scalePoints(float[] points, float scaler){
         for(int i=1; i<points.length;i+=2){

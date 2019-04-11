@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -40,6 +41,7 @@ public class GameScreen extends NewScreen {
     int levelNum;
     int worldNumber;
     Background background;
+    ShapeRenderer shapeRenderer;
 
     private Table pauseTable;
     private boolean gamePaused = false;
@@ -63,6 +65,7 @@ public class GameScreen extends NewScreen {
 
         levelCreator = new LevelCreator2(this);
         assets = new ArrayList<Asset>();
+        shapeRenderer = new ShapeRenderer();
 
 
         switch (levelnum){
@@ -132,6 +135,9 @@ public class GameScreen extends NewScreen {
 
         getMeterViewport().apply();
 
+        Gdx.gl.glLineWidth(2);
+
+        shapeRenderer.setProjectionMatrix(getMeterViewport().getCamera().combined);
         polyBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
         getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
@@ -148,7 +154,7 @@ public class GameScreen extends NewScreen {
         //collectable.update();
 
         levelCreator.goal.draw();
-        debugRenderer.render(world, debugMatrix);
+        //debugRenderer.render(world, debugMatrix);
 
         getSpriteBatch().end();
 
@@ -159,6 +165,12 @@ public class GameScreen extends NewScreen {
         }
 
         polyBatch.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        for(int i=0; i<modules.size(); i++) {
+            modules.get(i).drawOutlines();
+        }
+        shapeRenderer.end();
 
         getSpriteBatch().begin();
 

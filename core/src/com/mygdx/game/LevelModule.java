@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -15,6 +16,7 @@ public class LevelModule implements HasBody{
     float y;
     float lengthScaler;
     float heightScaler;
+    float[] outlines;
     GameScreen game;
 
     public String getFile() {
@@ -114,5 +116,10 @@ public class LevelModule implements HasBody{
     public void drawMap(float scale){
 
         game.getPolyBatch().draw(polygonRegion, x/scale,y/scale,length/scale, height/scale);
+    }
+
+    public void drawOutlines(){
+        game.shapeRenderer.setColor(Color.BLACK);
+        game.shapeRenderer.polygon(outlines);
     }
 }
