@@ -71,23 +71,23 @@ public class GameScreen extends NewScreen {
         switch (levelnum){
             case 1:
                 modules = levelCreator.createModules( "rata1.svg","lumitausta.png");
-                assets = levelCreator.createAssets("kuusi1.png",new float[]{5,17,16,10,21,78,90});
+                assets = levelCreator.createAssets("kuusi1.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 background = new Background(this,"tausta4taso1.jpg","tausta4taso2.png","tausta4taso3.png");
                 break;
             case 2:
                 modules = levelCreator.createModules( "test14.svg","aavikkotausta.png");
-                assets = levelCreator.createAssets("puu1.png",new float[]{5,17,16,10,21,78,90});
+                assets = levelCreator.createAssets("puu1.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 background = new Background(this,"tausta3taso1.jpg","tausta3taso2.png","tausta3taso3.png");
                 break;
             case 3:
                 modules = levelCreator.createModules( "rata3.svg","tausta.png");
                 background = new Background(this,"tausta2taso1.jpg","tausta2taso2.png","tausta2taso3.png");
-                assets = levelCreator.createAssets("puu2.png",new float[]{5,17,16,10,21,78,90});
+                assets = levelCreator.createAssets("puu2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
             case 4:
                 modules = levelCreator.createModules( "rata4.svg","looppaavamaa.png");
                 background = new Background(this,"tausta4taso1.jpg","tausta1taso2.png","tausta1taso3.png");
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,17,16,10,21,78,90});
+                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
             case 5:
                 modules = levelCreator.createModules( "rata5.svg","lumitausta.png");

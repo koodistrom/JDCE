@@ -126,7 +126,7 @@ public class LevelCreator2 {
 
             modules.get(i).setX(0);
             modules.get(i).setY(0);
-
+            modules.get(i).vectors = paths.get(i);
             modules.get(i).setGame(game);
 
         }
@@ -142,7 +142,7 @@ public class LevelCreator2 {
         rotko.setX(0);
         rotko.setY(0);
         rotko.setGame(game);
-        modules.add(rotko);
+        //modules.add(rotko);
 
         goal.setX(lastX);
         goal.setY(lastY);
