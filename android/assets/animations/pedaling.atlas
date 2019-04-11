@@ -1,0 +1,322 @@
+
+pedaling.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 9
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 33
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 29
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 38
+pedaling
+  rotate: false
+  xy: 964, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 35
+pedaling
+  rotate: false
+  xy: 964, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 23
+
+pedaling2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 25
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 37
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 27
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 30
+pedaling
+  rotate: false
+  xy: 964, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 31
+pedaling
+  rotate: false
+  xy: 964, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 10
+
+pedaling3.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 11
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 12
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 13
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 14
+pedaling
+  rotate: false
+  xy: 964, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 15
+pedaling
+  rotate: false
+  xy: 964, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 16
+
+pedaling4.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 17
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 39
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 19
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 26
+pedaling
+  rotate: false
+  xy: 964, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 28
+pedaling
+  rotate: false
+  xy: 964, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 34
+
+pedaling5.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 2
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 5
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 18
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 32
+pedaling
+  rotate: false
+  xy: 964, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 40
+pedaling
+  rotate: false
+  xy: 964, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 20
+
+pedaling6.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 21
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 22
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 1
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 36
+pedaling
+  rotate: false
+  xy: 964, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 3
+pedaling
+  rotate: false
+  xy: 964, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 4
+
+pedaling7.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pedaling
+  rotate: false
+  xy: 2, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 24
+pedaling
+  rotate: false
+  xy: 2, 544
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 6
+pedaling
+  rotate: false
+  xy: 964, 1086
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 7
+pedaling
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: 8
