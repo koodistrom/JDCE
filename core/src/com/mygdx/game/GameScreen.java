@@ -70,7 +70,7 @@ public class GameScreen extends NewScreen {
                 modules = levelCreator.createModules( "rata1.svg");
                 break;
             case 2:
-                modules = levelCreator.createModules( "rata2.svg");
+                modules = levelCreator.createModules( "test14.svg");
                 //assets = levelCreator.createAssets(spruce,new float[]{10,21});
                 break;
             case 3:
@@ -143,6 +143,7 @@ public class GameScreen extends NewScreen {
 
         levelCreator.goal.draw();
         debugRenderer.render(world, debugMatrix);
+
         getSpriteBatch().end();
 
         polyBatch.begin();
@@ -156,6 +157,8 @@ public class GameScreen extends NewScreen {
         getSpriteBatch().begin();
 
         player. draw(player.currentFrame);
+
+
         getSpriteBatch().end();
 
         getGameStage().draw();

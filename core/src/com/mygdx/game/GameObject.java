@@ -42,12 +42,6 @@ public class GameObject implements HasBody{
                 width,height,1,1, rotation,0,0, texture.getWidth(), texture.getHeight(),false,false);
     }
 
-    public void draw(TextureRegion textureRegion){
-
-
-        batch.draw(textureRegion, x, y,width/2, height/2,
-                width,height,1,1, rotation);
-    }
 
     public Texture getTexture() {
         return texture;

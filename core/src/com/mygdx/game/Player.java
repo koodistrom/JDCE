@@ -114,18 +114,18 @@ public class Player extends GameObject implements InputProcessor {
         Gdx.input.setInputProcessor(this);
     }
 
-    @Override
     public void draw(TextureRegion textureRegion){
-        super.draw(textureRegion);
-
-
-
 
         batch.draw(wheel, rearWheel.getPosition().x-(ww/2), rearWheel.getPosition().y-(wh/2),ww/2, wh/2,
                 ww,wh,1,1, rwRotation,0,0, wheel.getWidth(), wheel.getHeight(),false,false);
 
         batch.draw(wheel, frontWheel.getPosition().x-(ww/2), frontWheel.getPosition().y-(wh/2),ww/2, wh/2,
                 ww,wh,1,1, fwRotation,0,0, wheel.getWidth(), wheel.getHeight(),false,false);
+
+        batch.draw(textureRegion, x-0.35f, y+0.54f,(getWidth()/2)+0.35f, (getHeight()/2)-0.54f,
+                getWidth(),getHeight(),1,1, rotation);
+
+
     }
 
     @Override
@@ -315,8 +315,8 @@ public class Player extends GameObject implements InputProcessor {
         body = world.createBody(bodyDef);
 
         Vector2[] vertices;
-        vertices= new Vector2[] {new Vector2(0.5f,-0.5f),new Vector2(-1.4f,0.2f),
-                new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f)};
+        vertices= new Vector2[] {new Vector2(0.0f,0.25f),new Vector2(-1.75f,0.6f),
+                new Vector2(1.3f,1.34f), new Vector2(1.3f,1.14f)};
 
         /*vertices= new Vector2[] {new Vector2(0.5f,-0.2f),new Vector2(-1.4f,0.5f),
                 new Vector2(1.3f,1.1f), new Vector2(1.3f,0.9f)};*/
@@ -327,7 +327,7 @@ public class Player extends GameObject implements InputProcessor {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.5f;
+        fixtureDef.density = 0.6f;
         fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
@@ -341,14 +341,14 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.bodyA=body;
         rearWheelJointDef.bodyB=rearWheel;
         rearWheelJointDef.collideConnected=false;
-        rearWheelJointDef.localAnchorA.set(-0.4f,-1f);
+        rearWheelJointDef.localAnchorA.set(-0.75f,-0.56f);
         //rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
         //rearWheelJointDef.localAnchorA.set(-0.4f,-0.48f);
 
         rearWheelJointDef.enableMotor = false;
         rearWheelJointDef.motorSpeed = -5f;
         rearWheelJointDef.dampingRatio = 0.95f;
-        rearWheelJointDef.frequencyHz = 1.7f;
+        rearWheelJointDef.frequencyHz = 2.5f;
         rearWheelJointDef.localAxisA.set(new Vector2(0,1));
         rearWheelJointDef.maxMotorTorque = 1.5f;
         rearWheelJoint = (WheelJoint) world.createJoint(rearWheelJointDef);
@@ -359,18 +359,18 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJointDef.bodyB=frontWheel;
         frontWheelJointDef.collideConnected=false;
 
-        frontWheelJointDef.localAnchorA.set(0.9f,-1f);
+        frontWheelJointDef.localAnchorA.set(0.55f,-0.46f);
         //frontWheelJointDef.localAnchorA.set(0.9f,-0.48f);
 
         frontWheelJointDef.dampingRatio = 0.95f;
-        frontWheelJointDef.frequencyHz = 1.7f;
+        frontWheelJointDef.frequencyHz = 2f;
         frontWheelJointDef.localAxisA.set(new Vector2(0,1));
         frontWheelJointDef.maxMotorTorque = 1.5f;
         frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
 
         MassData data = body.getMassData();
 
-        data.center.set(0.35f, -0.54f);
+        data.center.set(0.0f, -0.3f);
         body.setMassData(data);
     }
 
