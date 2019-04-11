@@ -19,10 +19,7 @@ import svg.parser.ExtractSVGPaths;
 
 public class LevelCreator2 {
 
-    Texture dirtTexture;
-    TextureRegion dirt;
-    Texture spikeTexture;
-    TextureRegion spikes;
+
     PolygonRegion polyReg;
     PolygonSprite polySprite;
     PolygonSprite polygonSprites[];
@@ -47,13 +44,7 @@ public class LevelCreator2 {
         allVertices = new ArrayList<Vector2>();
         goal = new GameObject(game);
         goal.setTexture(new Texture("finish.png"));
-        dirtTexture = new Texture("looppaavamaa.png");
-        dirtTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
-        dirt = new TextureRegion(dirtTexture);
 
-        spikeTexture = new Texture("spikes.png");
-        spikeTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
-        spikes = new TextureRegion(spikeTexture);
 
 
         //textureRegion.setRegion(0,0,texture.getWidth()*100,texture.getHeight()*100);
@@ -85,7 +76,7 @@ public class LevelCreator2 {
 
 
 
-    public ArrayList<LevelModule> createModules ( String fileName){
+    public ArrayList<LevelModule> createModules ( String fileName,String textureFileName){
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
         System.out.println("vektoreita: "+paths.size());
@@ -129,7 +120,7 @@ public class LevelCreator2 {
 
 
             modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0,false));
-            modules.get(i).setPolygonRegion(createPolygonRegion(game, points, dirt));
+            modules.get(i).setPolygonRegion(createPolygonRegion(game, points, textureFileName));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
             modules.get(i).setX(0);
@@ -144,7 +135,7 @@ public class LevelCreator2 {
         Vector2[] rotkoPoints = new Vector2[]{new Vector2(firstX-5, lowest+5), new Vector2(lastX+5,lowest+5),new Vector2(lastX+5,lowest),new Vector2(firstX-5,lowest)};
         rotko.setBody(createBody(rotkoPoints, game.getWorld(), 0, 0,true));
         game.rotkos.add(rotko);
-        rotko.setPolygonRegion(createPolygonRegion(game, rotkoPoints, spikes));
+        rotko.setPolygonRegion(createPolygonRegion(game, rotkoPoints, "spikes.png"));
 
         rotko.setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
         rotko.setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
@@ -159,7 +150,11 @@ public class LevelCreator2 {
         return modules;
     }
 
-    public PolygonRegion createPolygonRegion(GameScreen game, Vector2[] vectors, TextureRegion textureRegion){
+    public PolygonRegion createPolygonRegion(GameScreen game, Vector2[] vectors, String fileName){
+        Texture texture = new Texture("earth/"+fileName);
+        texture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        TextureRegion textureRegion = new TextureRegion(texture);
+
         PolygonRegion polygonRegion;
         float[] vertices= new float[vectors.length*2];
         for(int i=0; i<vectors.length;i++){
@@ -189,8 +184,9 @@ public class LevelCreator2 {
         return points;
     }
 
-    public ArrayList<Asset> createAssets(Texture texture, float[] xs){
+    public ArrayList<Asset> createAssets(String fileName, float[] xs){
         ArrayList<Asset> assets = new ArrayList<Asset>();
+        Texture texture = new Texture("trees/"+fileName);
         for(int i = 0; i<xs.length; i++){
             assets.add(new Asset(game, xs[i], texture));
         }

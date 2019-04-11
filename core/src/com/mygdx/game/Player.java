@@ -122,7 +122,7 @@ public class Player extends GameObject implements InputProcessor {
         batch.draw(wheel, frontWheel.getPosition().x-(ww/2), frontWheel.getPosition().y-(wh/2),ww/2, wh/2,
                 ww,wh,1,1, fwRotation,0,0, wheel.getWidth(), wheel.getHeight(),false,false);
 
-        batch.draw(textureRegion, x-0.35f, y+0.54f,(getWidth()/2)+0.35f, (getHeight()/2)-0.54f,
+        batch.draw(textureRegion, x, y,(getWidth()/2)+0.35f, (getHeight()/2)-0.54f,
                 getWidth(),getHeight(),1,1, rotation);
 
 
@@ -131,7 +131,12 @@ public class Player extends GameObject implements InputProcessor {
     @Override
     public void update(){
 
-        super.update();
+
+        x = (body.getPosition().x) - (getWidth()/2)-0.35f;
+        y = (body.getPosition().y) - (getHeight()/2)+0.54f;
+
+        rotation = (float)(Math.toDegrees(body.getAngle()));
+
 
         if(JDCEGame.m_platformResolver.isAndroid()) {
             speed = JDCEGame.m_platformResolver.getPedalSpeed();

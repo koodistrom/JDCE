@@ -14,39 +14,43 @@ public class Background {
     Batch batch;
     float y;
     float x;
-    float midX;
-    int frontSourceX;
+
+
     float scaler;
-    int midSourceX;
+
+    float sourceY;
+    float sourceX;
     GameScreen game;
 
     public Background(GameScreen game, String backPath, String midPath, String frontPath){
-        back = new Texture(backPath);
+        back = new Texture("background/"+backPath);
         back.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         backreg = new TextureRegion(back);
 
-        middle = new Texture(midPath);
-        middle.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        middle = new Texture("background/"+midPath);
+        middle.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.ClampToEdge);
         midreg = new TextureRegion(middle);
 
-        front = new Texture(frontPath);
-        front.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        front = new Texture("background/"+frontPath);
+        front.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.ClampToEdge);
         frontreg = new TextureRegion(front);
         scaler = game.getScreenHeight()/back.getHeight();
         batch = game.getSpriteBatch();
         this.game = game;
-        midSourceX = 0;
+
     }
 
     public void draw(){
-        y= game.getPlayer().getY()-4.5f;
-        x= game.getPlayer().getX()-4f;
-        //sourceX+=1;
-        midSourceX=(int)(game.getPlayer().getX()*5);
-        frontSourceX=(int)(game.getPlayer().getX()*10);
-        batch.draw(back,x,y,back.getWidth()*scaler,back.getHeight()*scaler+1);
-        batch.draw(middle,x,y-3,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,midSourceX,0,middle.getWidth(),middle.getHeight(),false,false);
-        batch.draw(front,x,y-4,0,0,back.getWidth()*scaler,back.getHeight()*scaler+1,1,1,0,frontSourceX,0,front.getWidth(),front.getHeight(),false,false);
+        y= game.getPlayer().getY()-4f;
+        x= game.getPlayer().getX()-3f;
+
+
+        sourceY = game.getPlayer().getY();
+        sourceX=game.getPlayer().getX();
+        batch.draw(back,x,y,game.getScreenWidth()+1,game.getScreenHeight()+1);
+        batch.draw(middle,x,y,0,0,game.getScreenWidth()+1,game.getScreenHeight()+1,1,1,0,(int)(sourceX*0.7),-300,(int)(game.getScreenWidth()*game.PIXELS_TO_METERS*1.2),(int)(game.getScreenHeight()*game.PIXELS_TO_METERS*1.2),false,false);
+        batch.draw(front,x,y,0,0,game.getScreenWidth()+1,game.getScreenHeight()+1,1,1,0,(int)(sourceX*1.5),-(int)(sourceY*0.3)-300,(int)(game.getScreenWidth()*game.PIXELS_TO_METERS*1.2),(int)(game.getScreenHeight()*game.PIXELS_TO_METERS*1.2),false,false);
+
 
     }
 }
