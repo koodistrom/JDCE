@@ -131,17 +131,14 @@ public class GameScreen extends NewScreen {
         debugMatrix = getSpriteBatch().getProjectionMatrix();
 
         getSpriteBatch().begin();
+
         background.draw();
 
         for(int i=0; i<assets.size(); i++) {
             assets.get(i).draw();
         }
 
-        player. draw(player.currentFrame);
         //collectable.update();
-
-
-
 
         levelCreator.goal.draw();
         debugRenderer.render(world, debugMatrix);
@@ -155,6 +152,11 @@ public class GameScreen extends NewScreen {
 
 
         polyBatch.end();
+
+        getSpriteBatch().begin();
+
+        player. draw(player.currentFrame);
+        getSpriteBatch().end();
 
         getGameStage().draw();
 

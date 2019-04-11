@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
@@ -70,8 +71,8 @@ public class Player extends GameObject implements InputProcessor {
         fwRotation=0;
         setTexture(new Texture("noweeler.png"));
         wheel = new Texture("rengas.png");
-        ww = wheel.getWidth()/game.PIXELS_TO_METERS;
-        wh = wheel.getHeight()/game.PIXELS_TO_METERS;
+        ww = (wheel.getWidth()/game.PIXELS_TO_METERS);
+        wh = (wheel.getHeight()/game.PIXELS_TO_METERS);
         world = game.getWorld();
         x = game.getScreenWidth()/3;
         y = game.getScreenHeight()/2;
@@ -94,7 +95,7 @@ public class Player extends GameObject implements InputProcessor {
         addSpeed = false;
         isOnGround = false;
 
-        System.out.println("korkeus: "+getHeight()+" leveys: "+getWidth());
+
 
         pedalingAtlas = new TextureAtlas("animations/pedaling.atlas");
         pedalingAnimation = new Animation<TextureRegion>(0.025f, pedalingAtlas.findRegions("pedaling"), Animation.PlayMode.LOOP);
@@ -105,14 +106,18 @@ public class Player extends GameObject implements InputProcessor {
         currentFrame = pedalingAnimation.getKeyFrame(stateTime, true);
         createBodies();
 
+        System.out.println("korkeus: "+getHeight()+" leveys: "+getWidth());
+        System.out.println("rengas: "+ww);
+        System.out.println("massakeskipiste: "+body.getMassData().center);
+        System.out.println("massa: "+body.getMassData().mass);
+
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void draw(TextureRegion textureRegion){
         super.draw(textureRegion);
-        float ww = wheel.getWidth()/game.PIXELS_TO_METERS;
-        float wh = wheel.getHeight()/game.PIXELS_TO_METERS;
+
 
 
 
@@ -313,6 +318,10 @@ public class Player extends GameObject implements InputProcessor {
         vertices= new Vector2[] {new Vector2(0.5f,-0.5f),new Vector2(-1.4f,0.2f),
                 new Vector2(1.3f,0.8f), new Vector2(1.3f,0.6f)};
 
+        /*vertices= new Vector2[] {new Vector2(0.5f,-0.2f),new Vector2(-1.4f,0.5f),
+                new Vector2(1.3f,1.1f), new Vector2(1.3f,0.9f)};*/
+
+
         PolygonShape shape = new PolygonShape();
         shape.set(vertices);
 
@@ -334,6 +343,7 @@ public class Player extends GameObject implements InputProcessor {
         rearWheelJointDef.collideConnected=false;
         rearWheelJointDef.localAnchorA.set(-0.4f,-1f);
         //rearWheelJointDef.localAnchorA.set(-1f,-0.7f);
+        //rearWheelJointDef.localAnchorA.set(-0.4f,-0.48f);
 
         rearWheelJointDef.enableMotor = false;
         rearWheelJointDef.motorSpeed = -5f;
@@ -348,14 +358,20 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJointDef.bodyA=body;
         frontWheelJointDef.bodyB=frontWheel;
         frontWheelJointDef.collideConnected=false;
+
         frontWheelJointDef.localAnchorA.set(0.9f,-1f);
-        //frontWheelJointDef.localAnchorA.set(0.9f,-0.7f);
+        //frontWheelJointDef.localAnchorA.set(0.9f,-0.48f);
 
         frontWheelJointDef.dampingRatio = 0.95f;
         frontWheelJointDef.frequencyHz = 1.7f;
         frontWheelJointDef.localAxisA.set(new Vector2(0,1));
         frontWheelJointDef.maxMotorTorque = 1.5f;
         frontWheelJoint = (WheelJoint)world.createJoint(frontWheelJointDef);
+
+        MassData data = body.getMassData();
+
+        data.center.set(0.35f, -0.54f);
+        body.setMassData(data);
     }
 
     //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){ }
