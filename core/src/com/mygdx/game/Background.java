@@ -48,8 +48,8 @@ public class Background {
         sourceY = game.getPlayer().getY();
         sourceX=game.getPlayer().getX();
         batch.draw(back,x,y,game.getScreenWidth()+1,game.getScreenHeight()+1);
-        batch.draw(middle,x,y,0,0,game.getScreenWidth()+1,game.getScreenHeight()+1,1,1,0,(int)(sourceX*0.7),-300,(int)(game.getScreenWidth()*game.PIXELS_TO_METERS*1.2),(int)(game.getScreenHeight()*game.PIXELS_TO_METERS*1.2),false,false);
-        batch.draw(front,x,y,0,0,game.getScreenWidth()+1,game.getScreenHeight()+1,1,1,0,(int)(sourceX*1.5),-(int)(sourceY*0.3)-300,(int)(game.getScreenWidth()*game.PIXELS_TO_METERS*1.2),(int)(game.getScreenHeight()*game.PIXELS_TO_METERS*1.2),false,false);
+        batch.draw(middle,x,y,0,0,game.getScreenWidth()+1,game.getScreenHeight()+1,1,1,0,(int)(sourceX*0.7),-(int)(sourceY*0.7)-300,(int)(game.getScreenWidth()*game.PIXELS_TO_METERS*1.2),(int)(game.getScreenHeight()*game.PIXELS_TO_METERS*1.2),false,false);
+        //batch.draw(front,x,y,0,0,game.getScreenWidth()+1,game.getScreenHeight()+1,1,1,0,(int)(sourceX*1.5),-(int)(sourceY*1.5)-450,(int)(game.getScreenWidth()*game.PIXELS_TO_METERS*1.2),(int)(game.getScreenHeight()*game.PIXELS_TO_METERS*1.2),false,false);
 
 
     }

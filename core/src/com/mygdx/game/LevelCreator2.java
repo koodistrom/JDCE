@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
@@ -76,7 +77,7 @@ public class LevelCreator2 {
 
 
 
-    public ArrayList<LevelModule> createModules ( String fileName,String textureFileName){
+    public ArrayList<LevelModule> createModules (String fileName, String textureFileName, Color lineColor){
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
 
@@ -122,11 +123,12 @@ public class LevelCreator2 {
             modules.get(i).setPolygonRegion(createPolygonRegion(game, points, textureFileName));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
-            modules.get(i).outlines = createOutlines(points);
+            modules.get(i).setOutlines(createOutlines(points));
 
             modules.get(i).setX(0);
             modules.get(i).setY(0);
-            modules.get(i).vectors = paths.get(i);
+            modules.get(i).setVectors(paths.get(i));
+            modules.get(i).setLineColor(lineColor);
             modules.get(i).setGame(game);
 
         }

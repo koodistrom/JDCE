@@ -21,6 +21,7 @@ public class LevelModule implements HasBody{
     float heightScaler;
     float[] outlines;
     ArrayList<Vector2> vectors;
+    Color lineColor;
     GameScreen game;
 
     public String getFile() {
@@ -112,6 +113,30 @@ public class LevelModule implements HasBody{
         this.heightScaler = heightScaler;
     }
 
+    public float[] getOutlines() {
+        return outlines;
+    }
+
+    public void setOutlines(float[] outlines) {
+        this.outlines = outlines;
+    }
+
+    public ArrayList<Vector2> getVectors() {
+        return vectors;
+    }
+
+    public void setVectors(ArrayList<Vector2> vectors) {
+        this.vectors = vectors;
+    }
+
+    public Color getLineColor() {
+        return lineColor;
+    }
+
+    public void setLineColor(Color lineColor) {
+        this.lineColor = lineColor;
+    }
+
     public void draw(){
 
         game.getPolyBatch().draw(polygonRegion, x,y,length, height);
@@ -123,7 +148,8 @@ public class LevelModule implements HasBody{
     }
 
     public void drawOutlines(){
-        game.shapeRenderer.setColor(Color.BLACK);
+        game.shapeRenderer.setColor(lineColor);
         game.shapeRenderer.polygon(outlines);
     }
+
 }
