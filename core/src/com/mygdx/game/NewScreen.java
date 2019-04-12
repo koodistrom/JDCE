@@ -214,7 +214,7 @@ public class NewScreen implements Screen {
     public void dispose() {
         gameStage.dispose();
         //uiSkin.dispose();
-        font48.dispose();
+        //font48.dispose();
         generator.dispose();
         if(background!= null){
             background.dispose();

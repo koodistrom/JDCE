@@ -5,14 +5,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Asset extends GameObject {
-    public Asset(GameScreen game,Float xPercentage, Texture texture)  {
+
+    public Asset(GameScreen game,Float xPercentage, Texture texture, float scaleX, float scaleY)  {
         super(game);
         setTexture(texture);
 
-        setWidth(getWidth()*0.5f);
-        setHeight(getHeight()*0.5f);
+        setWidth(getWidth()*scaleX);
+        setHeight(getHeight()*scaleY);
         setLocationInLevel(xPercentage, game.getLevelCreator());
     }
+
+
 
     public void setLocationInLevel(Float xPercentage, LevelCreator2 levelCreator) {
         float absolutePos = xPercentage*(levelCreator.lastX/100);
@@ -32,6 +35,12 @@ public class Asset extends GameObject {
                     Vector2 angle = new Vector2(oneAfter.x-oneBefore.x, oneAfter.y-oneBefore.y);
                     System.out.println("kulma: "+angle.angle());
                     if(angle.angle()<45f||angle.angle()>300f){
+                        if(oneBefore.x<absolutePos){
+                            setLocation(absolutePos-(getWidth()/2), y-0.1f);
+                            System.out.println("set "+absolutePos+"  "+y);
+                        }else {
+                            setLocation(oneAfter.y, oneAfter.x);
+                        }
                         setLocation(absolutePos-(getWidth()/2), y-0.1f);
                         System.out.println("set "+absolutePos+"  "+y);
                         found = true;
@@ -51,4 +60,6 @@ public class Asset extends GameObject {
 
         }
     }
+
+
 }

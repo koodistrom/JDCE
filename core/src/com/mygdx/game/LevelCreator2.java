@@ -200,7 +200,10 @@ public class LevelCreator2 {
         ArrayList<Asset> assets = new ArrayList<Asset>();
         Texture texture = new Texture("trees/"+fileName);
         for(int i = 0; i<xs.length; i++){
-            assets.add(new Asset(game, xs[i], texture));
+            float x =(0.4f+(float)(Math.random()*0.2f));
+           float y= (0.4f+(float)(Math.random()*0.2f));
+            assets.add(new Asset(game, xs[i], texture,x,y));
+
         }
         return assets;
     }
