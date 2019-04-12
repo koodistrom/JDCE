@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -64,6 +65,7 @@ public class NewScreen implements Screen {
 
     private BitmapFont font48;
     private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private GlyphLayout layout48;
     private Texture background;
 
@@ -76,17 +78,28 @@ public class NewScreen implements Screen {
         pixelViewport = new ScreenViewport();
         meterViewport = new FitViewport(screenWidth, screenHeight);
         gameStage = new Stage(pixelViewport, batch);
-        uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        //uiSkin = new Skin(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
+
+
+
 
         setupButtonBounds();
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 48;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 3;
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("ariblk.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        setFontParameter();
+
         font48 = generator.generateFont(parameter);
         layout48 = new GlyphLayout();
+
+        uiSkin = new Skin();
+        uiSkin.add("myFont", getFont48(), BitmapFont.class);
+
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui_skin/clean-crispy-ui.atlas"));
+
+        uiSkin.addRegions(textureAtlas) ;
+        uiSkin.load(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
         TextureRegionDrawable backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
         backButton = new Button(backButtonTextRegDrawable);
@@ -107,6 +120,13 @@ public class NewScreen implements Screen {
         TextureRegionDrawable muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_off.png")));
         muteSoundFx = new Button(muteSoundFxOff, muteSoundFxOn, muteSoundFxOn);
 
+    }
+
+    public void setFontParameter() {
+        parameter.size = (int) (getTextButtonHeight() / 4);
+        parameter.color = Color.WHITE;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 3;
     }
 
     @Override
@@ -140,6 +160,7 @@ public class NewScreen implements Screen {
         setupButtonBounds();
         setupButtons();
         updateTables();
+        setFontParameter();
     }
 
     public void setupButtonBounds() {
@@ -152,8 +173,10 @@ public class NewScreen implements Screen {
 
         backButtonX = getStageWidthTenth() - (getImageButtonWidth() / 2);
         backButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
+
         muteMusicY = stageHeightTenth * 9 - (getImageButtonHeight() / 2);
         MuteSoundEffectsY = stageHeightTenth * 6.333f - (getImageButtonHeight() / 2);
+
         muteMusicX = stageWidthTenth * 9 - (getImageButtonWidth() / 2);
         muteSoundEffectsX = muteMusicX;
     }
@@ -190,7 +213,9 @@ public class NewScreen implements Screen {
     @Override
     public void dispose() {
         gameStage.dispose();
-        uiSkin.dispose();
+        //uiSkin.dispose();
+        font48.dispose();
+        generator.dispose();
         if(background!= null){
             background.dispose();
         }

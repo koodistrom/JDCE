@@ -1,10 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -14,10 +12,10 @@ public class WorldSelectScreen extends NewScreen {
     private TextButton world3Button;
     private TextButton world4Button;
 
-    private float textButtonX;
-    private float continueButtonY;
-    private float retryButtonY;
-    private float mainMenuButtonY;
+    private float buttonCol1x;
+    private float buttonCol2x;
+    private float buttonRow1y;
+    private float buttonRow2y;
 
     private String world1Text;
     private String world2Text;
@@ -25,16 +23,12 @@ public class WorldSelectScreen extends NewScreen {
     private String world4Text;
     private String worldSelectText;
 
-    private Table worldSelectTable;
-
     public WorldSelectScreen(JDCEGame g) {
         super(g);
 
         setupButtonBounds();
 
         setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
-
-        worldSelectTable = new Table();
 
         world1Button = new TextButton(world1Text, getUiSkin());
         world2Button = new TextButton(world2Text, getUiSkin());
@@ -44,9 +38,10 @@ public class WorldSelectScreen extends NewScreen {
         updateTexts();
         setupButtons();
 
-        setUpWorldSelectTable();
-
-        getGameStage().addActor(worldSelectTable);
+        getGameStage().addActor(world1Button);
+        getGameStage().addActor(world2Button);
+        getGameStage().addActor(world3Button);
+        getGameStage().addActor(world4Button);
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(getBackButton());
@@ -54,22 +49,6 @@ public class WorldSelectScreen extends NewScreen {
         Gdx.input.setInputProcessor(getGameStage());
 
         clickListeners();
-    }
-
-    public void setUpWorldSelectTable() {
-        updateTables();
-        worldSelectTable.defaults().grow().space(20);
-        worldSelectTable.add(world1Button);
-        worldSelectTable.add(world2Button);
-        worldSelectTable.row();
-        worldSelectTable.add(world3Button);
-        worldSelectTable.add(world4Button);
-    }
-    @Override
-    public void updateTables() {
-        worldSelectTable.setSize(getStageWidth() / 4, getStageHeight() / 3.5f);
-        worldSelectTable.setPosition(getGameStage().getWidth() / 2 - (worldSelectTable.getWidth() / 2),
-                getGameStage().getHeight() / 2 - (worldSelectTable.getHeight() / 2));
     }
 
     @Override
@@ -105,22 +84,16 @@ public class WorldSelectScreen extends NewScreen {
     }*/
 
 
-    /*@Override
+    @Override
     public void setupButtonBounds() {
-        updateTenths();
+        super.setupButtonBounds();
 
-        setTextButtonHeight(getGameStage().getHeight() / 6);
-        setTextButtonWidth(getGameStage().getWidth() / 3);
-        setImageButtonWidth(getTextButtonHeight());
-        setImageButtonHeight(getTextButtonHeight());
+        buttonCol1x = getStageWidthTenth() * 3.5f - getTextButtonWidth() / 2;
+        buttonRow1y = getMuteSoundEffectsY();
 
-        setBackButtonX(getStageWidthTenth() - (getImageButtonWidth() / 2));
-        setBackButtonY(getStageHeightTenth() * 1 - (getImageButtonHeight() / 2));
-        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
-        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
-        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
-        setMuteSoundEffectsX(getMuteMusicX());
-    }*/
+        buttonCol2x = getStageWidthTenth() * 6.5f - getTextButtonWidth() / 2;
+        buttonRow2y = getStageHeightTenth() * 3.666f - (getImageButtonHeight() / 2);
+    }
 
     @Override
     public void setupButtons() {
@@ -142,12 +115,16 @@ public class WorldSelectScreen extends NewScreen {
         world3Button.setSize(getTextButtonWidth(), getTextButtonHeight());
         world4Button.setSize(getTextButtonWidth(), getTextButtonHeight());
 
+        world1Button.setPosition(buttonCol1x, buttonRow1y);
+        world2Button.setPosition(buttonCol1x, buttonRow2y);
+        world3Button.setPosition(buttonCol2x, buttonRow1y);
+        world4Button.setPosition(buttonCol2x, buttonRow2y);
+
         world1Button.setText(world1Text);
         world2Button.setText(world2Text);
         world3Button.setText(world3Text);
         world4Button.setText(world4Text);
 
-        getGameStage().setDebugAll(true);
     }
     @Override
     public void clickListeners() {
@@ -157,6 +134,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 1));
+                dispose();
             }
         });
 
@@ -164,6 +142,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 2));
+                dispose();
             }
         });
 
@@ -171,6 +150,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 3));
+                dispose();
             }
         });
 
@@ -178,6 +158,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 4));
+                dispose();
             }
         });
 
@@ -185,6 +166,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new MainMenuScreen(getGame()));
+                dispose();
             }
         });
 

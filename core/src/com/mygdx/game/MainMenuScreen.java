@@ -124,7 +124,7 @@ public class MainMenuScreen extends NewScreen {
    @Override
     public void updateTables() {
         title.setText(quitConfirmText);
-        quitConfirmTable.setSize(getStageWidth() / 4, getStageHeight() / 3.5f);
+        quitConfirmTable.setSize(getStageWidth() / 3, getStageHeight() / 3);
         quitConfirmTable.setPosition(getGameStage().getWidth() / 2 - (quitConfirmTable.getWidth() / 2),
                 getGameStage().getHeight() / 2 - (quitConfirmTable.getHeight() / 2));
         //mainMenuTable.setSize(getStageWidth(), getStageHeight());
@@ -226,7 +226,7 @@ public class MainMenuScreen extends NewScreen {
         confirmAffirmative.setText(confirmAffirmativeText);
         confirmNegative.setText(confirmNegativeText);
 
-        getGameStage().setDebugAll(true);
+
     }
 
     @Override
@@ -239,6 +239,7 @@ public class MainMenuScreen extends NewScreen {
                 if (isQuitConfirmOn == false) {
                     getGame().setScreen(new WorldSelectScreen(getGame()));
                 }
+                dispose();
             }
         });
 
@@ -248,6 +249,7 @@ public class MainMenuScreen extends NewScreen {
                 if (isQuitConfirmOn == false) {
                     getGame().setScreen(new HighScoreScreen(getGame()));
                 }
+                dispose();
             }
         });
 
@@ -263,6 +265,7 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
                 System.exit(-1);
+                dispose();
             }
         });
 

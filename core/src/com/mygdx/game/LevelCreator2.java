@@ -46,8 +46,6 @@ public class LevelCreator2 {
         goal = new GameObject(game);
         goal.setTexture(new Texture("finish.png"));
 
-
-
         //textureRegion.setRegion(0,0,texture.getWidth()*100,texture.getHeight()*100);
     }
 

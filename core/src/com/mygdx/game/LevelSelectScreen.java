@@ -186,6 +186,7 @@ public class LevelSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new WorldSelectScreen(getGame()));
+                dispose();
             }
         });
     }

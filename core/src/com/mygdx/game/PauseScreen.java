@@ -142,7 +142,6 @@ public class PauseScreen extends NewScreen {
         retryButton.setText(retryButtonText);
         mainMenuButton.setText(mainMenuButtonText);
 
-        getGameStage().setDebugAll(true);
     }
 
     public void clickListeners() {
@@ -152,6 +151,7 @@ public class PauseScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
+                dispose();
             }
         });
 
@@ -159,6 +159,7 @@ public class PauseScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
+                dispose();
             }
         });
 
@@ -166,6 +167,7 @@ public class PauseScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new MainMenuScreen(getGame()));
+                dispose();
             }
         });
 /*
