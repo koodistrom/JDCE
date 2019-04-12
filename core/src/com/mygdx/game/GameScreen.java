@@ -70,7 +70,7 @@ public class GameScreen extends NewScreen {
 
         switch (levelnum){
             case 1:
-                modules = levelCreator.createModules( "rata1.svg","lumitausta.png", Color.BLUE);
+                modules = levelCreator.createModules( "rata1.svg","lumitausta.png",Color.GRAY);
                 assets = levelCreator.createAssets("kuusi3.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 background = new Background(this,"tausta4taso1.jpg","tausta4taso2.png","tausta4taso3.png");
                 break;
