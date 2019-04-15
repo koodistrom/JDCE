@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -69,6 +70,8 @@ public class NewScreen implements Screen {
     private GlyphLayout layout48;
     private Texture background;
 
+    protected static Music music;
+
 
     public NewScreen(JDCEGame g) {
         game = g;
@@ -115,11 +118,12 @@ public class NewScreen implements Screen {
         TextureRegionDrawable muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("mute_off.png")));
         TextureRegionDrawable muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("mute_on.png")));
         muteMusic = new Button(muteMusicOff, muteMusicOn, muteMusicOn);
+        muteMusic.setChecked(!JDCEGame.musicOn);
 
         TextureRegionDrawable muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_on.png")));
         TextureRegionDrawable muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_off.png")));
         muteSoundFx = new Button(muteSoundFxOff, muteSoundFxOn, muteSoundFxOn);
-
+        muteSoundFx.setChecked(!JDCEGame.soundEffectsOn);
     }
 
     public void setFontParameter() {
@@ -246,17 +250,27 @@ public class NewScreen implements Screen {
         getMuteMusicButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                JDCEGame.musicOn = !muteMusic.isChecked();
+                JDCEGame.settings.putBoolean("MusicOn", !muteMusic.isChecked());
+                JDCEGame.settings.flush();
+                if(JDCEGame.musicOn){
+                    music.play();
+                }else{
+                    music.pause();
+                }
             }
         });
 
         getMuteSoundFxButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                JDCEGame.soundEffectsOn = !muteSoundFx.isChecked();
+                JDCEGame.settings.putBoolean("SoundEffectsOn", !muteSoundFx.isChecked());
+                JDCEGame.settings.flush();
             }
         });
     }
+
 
 /*    public void clickListeners(final int levelNum) {
         getButtonFI().addListener(new ClickListener() {

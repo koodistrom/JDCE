@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -52,6 +53,7 @@ public class MainMenuScreen extends NewScreen {
     private Table quitConfirmTable;
     private boolean isQuitConfirmOn = false;
 
+
     public MainMenuScreen(JDCEGame g) {
         super(g);
         System.out.println("korkeus "+getScreenHeight());
@@ -73,6 +75,15 @@ public class MainMenuScreen extends NewScreen {
         confirmNegative = new TextButton(confirmNegativeText, getUiSkin());
 
         quitConfirmTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("orangebackground.png"))));
+
+        //musiikki
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
+        music.setLooping(true);
+        if(JDCEGame.musicOn){
+            music.play();
+        }
+
+
 
         updateTexts();
         setupButtons();

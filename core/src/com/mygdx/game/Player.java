@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -61,7 +62,10 @@ public class Player extends GameObject implements InputProcessor {
     Animation<TextureRegion> pedalingAnimation;
     float stateTime;
     TextureRegion currentFrame;
-    private Body deathSensor;
+    Sound hitGround;
+    Sound hitHead;
+    Sound turbo;
+
 
 
 
@@ -95,6 +99,9 @@ public class Player extends GameObject implements InputProcessor {
         win = false;
         addSpeed = false;
         isOnGround = false;
+
+        hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound_v2.mp3"));
+        hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt.mp3"));
 
 
 

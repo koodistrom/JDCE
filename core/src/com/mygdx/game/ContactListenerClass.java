@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,9 @@ public class ContactListenerClass implements ContactListener {
     HasBody objectTouched;
     Fixture frontWheel;
     Fixture rearWheel;
-
+    Fixture playerBody;
+    boolean soundJustPlayed;
+    Timer.Task soundCoolDown;
 
     private ArrayList<HasBody> collisionCheckModules;
 
@@ -32,7 +35,7 @@ public class ContactListenerClass implements ContactListener {
         };
         frontWheel = game.getPlayer().frontWheel.getFixtureList().get(0);
         rearWheel = game.getPlayer().rearWheel.getFixtureList().get(0);
-
+        playerBody = game.getPlayer().body.getFixtureList().get(0);
     }
     @Override
     public void beginContact(Contact contact) {
@@ -49,9 +52,7 @@ public class ContactListenerClass implements ContactListener {
             game.getPlayer().endGame();
         }
 
-        if(objectTouchesTag(frontWheel,"levelModule",contact)|| objectTouchesTag(rearWheel,"levelModule",contact)){
-            System.out.println("nyt osui");
-        }
+
 
     }
 
@@ -68,7 +69,23 @@ public class ContactListenerClass implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
+        if(objectTouchesTag(frontWheel,"levelModule",contact)|| objectTouchesTag(rearWheel,"levelModule",contact)){
+            if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
+                System.out.println("nyt osui");
+                game.getPlayer().hitGround.play(1f);
+
+            }
+        }
+
+        if(objectTouchesTag(playerBody,"levelModule",contact)){
+            if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
+
+                System.out.println("nyt osui");
+                game.getPlayer().hitHead.play(1f);
+
+            }
+        }
     }
 
     public boolean playerTouches(ArrayList<HasBody> objects, Contact contact){
