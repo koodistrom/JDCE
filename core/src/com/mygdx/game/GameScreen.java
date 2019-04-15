@@ -154,7 +154,7 @@ public class GameScreen extends NewScreen {
         //collectable.update();
 
         levelCreator.goal.draw();
-        //debugRenderer.render(world, debugMatrix);
+        debugRenderer.render(world, debugMatrix);
 
         getSpriteBatch().end();
 
@@ -174,7 +174,7 @@ public class GameScreen extends NewScreen {
 
         getSpriteBatch().begin();
 
-        player. draw(player.currentFrame);
+        //player. draw(player.currentFrame);
 
 
         getSpriteBatch().end();

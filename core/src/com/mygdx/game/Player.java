@@ -16,6 +16,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.badlogic.gdx.utils.Timer;
@@ -61,6 +63,7 @@ public class Player extends GameObject implements InputProcessor {
     Animation<TextureRegion> pedalingAnimation;
     float stateTime;
     TextureRegion currentFrame;
+    private Body deathSensor;
 
 
 
@@ -320,11 +323,9 @@ public class Player extends GameObject implements InputProcessor {
         body = world.createBody(bodyDef);
 
         Vector2[] vertices;
-        vertices= new Vector2[] {new Vector2(0.0f,0.25f),new Vector2(-1.75f,0.6f),
+        vertices= new Vector2[] {new Vector2(0.0f,0.25f),new Vector2(-1.6f,0.6f),
                 new Vector2(1.3f,1.34f), new Vector2(1.3f,1.14f)};
 
-        /*vertices= new Vector2[] {new Vector2(0.5f,-0.2f),new Vector2(-1.4f,0.5f),
-                new Vector2(1.3f,1.1f), new Vector2(1.3f,0.9f)};*/
 
 
         PolygonShape shape = new PolygonShape();
@@ -338,6 +339,11 @@ public class Player extends GameObject implements InputProcessor {
         body.createFixture(fixtureDef);
         shape.dispose();
         setBody(body);
+
+        createDeathSensor();
+
+
+
 
         rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.5f,0.5f,0.8f,ww/2);
         frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.5f,0.5f,0.8f,ww/2);
@@ -377,6 +383,25 @@ public class Player extends GameObject implements InputProcessor {
 
         data.center.set(0.0f, -0.3f);
         body.setMassData(data);
+    }
+
+    public void createDeathSensor(){
+
+        Vector2[] vertices;
+        vertices= new Vector2[] {new Vector2(-1.3f,0.59f),new Vector2(-1.5f,0.66f),new Vector2(0f,1.1f),
+                new Vector2(1.2f,1.34f), new Vector2(1.23f,1.25f)};
+
+        PolygonShape shape = new PolygonShape();
+        shape.set(vertices);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0f;
+        fixtureDef.isSensor =true;
+
+        body.createFixture(fixtureDef);
+        shape.dispose();
+
     }
 
     //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){ }
