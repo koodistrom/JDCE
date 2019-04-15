@@ -15,6 +15,9 @@ public class ContactListenerClass implements ContactListener {
     Fixture[] playerFixs;
     Fixture fixtureTouched;
     HasBody objectTouched;
+    Fixture frontWheel;
+    Fixture rearWheel;
+
 
     private ArrayList<HasBody> collisionCheckModules;
 
@@ -27,6 +30,9 @@ public class ContactListenerClass implements ContactListener {
                 game.getPlayer().frontWheel.getFixtureList().get(0),
                 game.getPlayer().rearWheel.getFixtureList().get(0)
         };
+        frontWheel = game.getPlayer().frontWheel.getFixtureList().get(0);
+        rearWheel = game.getPlayer().rearWheel.getFixtureList().get(0);
+
     }
     @Override
     public void beginContact(Contact contact) {
@@ -39,12 +45,12 @@ public class ContactListenerClass implements ContactListener {
             objectTouched.deledDis();
         }
 
-        if(playerTouches(game.rotkos,contact)){
-            game.reset();
+        if(objectTouchesTag(game.getPlayer().getBody().getFixtureList().get(1),"levelModule",contact)){
+            game.getPlayer().endGame();
         }
 
-        if(playerTouches(collisionCheckModules,contact)){
-            game.getPlayer().isOnGround = true;
+        if(objectTouchesTag(frontWheel,"levelModule",contact)|| objectTouchesTag(rearWheel,"levelModule",contact)){
+            System.out.println("nyt osui");
         }
 
     }
@@ -52,9 +58,7 @@ public class ContactListenerClass implements ContactListener {
     @Override
     public void endContact(Contact contact) {
 
-        if(playerTouches(collisionCheckModules,contact)){
-            game.getPlayer().isOnGround = false;
-        }
+
     }
 
     @Override
@@ -82,6 +86,15 @@ public class ContactListenerClass implements ContactListener {
             }
         }
         return touch;
+    }
+
+    public boolean objectTouchesTag(Fixture fixture, String UserDataTag, Contact contact){
+        if((contact.getFixtureA()==fixture && contact.getFixtureB().getBody().getUserData().equals(UserDataTag)) ||
+                (contact.getFixtureB()==fixture && contact.getFixtureA().getBody().getUserData().equals(UserDataTag))){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

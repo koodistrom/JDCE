@@ -66,7 +66,7 @@ public class Collectable extends GameObject {
                 (getY() + getHeight()/2));
         */
         body = game.getWorld().createBody(bodyDef);
-
+        body.setUserData("collectable");
         FixtureDef fixtureDef = new FixtureDef();
 
         fixtureDef.shape=new CircleShape();

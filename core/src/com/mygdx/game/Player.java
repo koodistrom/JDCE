@@ -16,8 +16,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.badlogic.gdx.utils.Timer;
@@ -163,7 +161,9 @@ public class Player extends GameObject implements InputProcessor {
         if(distsInSec.size()>60){
             distsInSec.remove(0);
         }
-        trackTime();
+
+        trackTime += Gdx.graphics.getDeltaTime();
+        winLoseCheck();
 
 
 
@@ -197,16 +197,15 @@ public class Player extends GameObject implements InputProcessor {
 
 
 
-    public void trackTime(){
-        if(x>game.getLevelCreator().goal.getX()){
+    public void winLoseCheck(){
+        if(x>game.getLevelCreator().goal.getX()) {
             //voittaminen :ok_hand:
             win = true;
-            game.getGame().setScreen(new FinishView(game.getGame(),trackTime, win, game.levelNum, game.worldNumber));
-            game.dispose();
+            endGame();
+        }
 
-        }else{
-            trackTime += Gdx.graphics.getDeltaTime();
-
+        if(y<=game.getLevelCreator().lowest+5){
+            endGame();
         }
     }
 
@@ -476,5 +475,10 @@ public class Player extends GameObject implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void endGame(){
+        game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNum, game.worldNumber));
+        game.dispose();
     }
 }

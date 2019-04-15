@@ -51,6 +51,7 @@ public class LevelCreator2 {
 
     public Body createBody(Vector2[] points, World world, float x, float y, boolean isSensor){
         Body bodyGround;
+        String userData = "levelModule";
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -65,6 +66,7 @@ public class LevelCreator2 {
         fixtureDef.isSensor = isSensor;
         bodyDef.position.set(x,y);
         bodyGround = world.createBody(bodyDef);
+        bodyGround.setUserData(userData);
         bodyGround.createFixture(fixtureDef);
 
         chainShape.dispose();
@@ -85,6 +87,7 @@ public class LevelCreator2 {
         lastY = 0;
         lowest = 0;
         highest = 0;
+
 
 
 
@@ -123,6 +126,7 @@ public class LevelCreator2 {
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
             modules.get(i).setOutlines(createOutlines(points));
 
+
             modules.get(i).setX(0);
             modules.get(i).setY(0);
             modules.get(i).setVectors(paths.get(i));
@@ -130,7 +134,7 @@ public class LevelCreator2 {
             modules.get(i).setGame(game);
 
         }
-        LevelModule rotko = new LevelModule();
+        /*LevelModule rotko = new LevelModule();
         Vector2[] rotkoPoints = new Vector2[]{new Vector2(firstX-5, lowest+5), new Vector2(lastX+5,lowest+5),new Vector2(lastX+5,lowest),new Vector2(firstX-5,lowest)};
         rotko.setBody(createBody(rotkoPoints, game.getWorld(), 0, 0,true));
         rotko.outlines = createOutlines(rotkoPoints);
@@ -141,8 +145,8 @@ public class LevelCreator2 {
         rotko.setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
         rotko.setX(0);
         rotko.setY(0);
-        rotko.setGame(game);
-        //modules.add(rotko);
+        rotko.setGame(game);*/
+
 
         goal.setX(lastX);
         goal.setY(lastY);
