@@ -1,10 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.util.ArrayList;
 
 public class LevelInfoScreen extends NewScreen {
     private TextButton playButton;
@@ -16,6 +20,9 @@ public class LevelInfoScreen extends NewScreen {
     private float playButtonY;
     private float levelTextX;
     private float levelTextY;
+    private ArrayList<LevelModule> modules;
+    private LevelCreator2 levelCreator;
+    private PolygonSpriteBatch polygonSpriteBatch;
 
     public LevelInfoScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
@@ -31,7 +38,10 @@ public class LevelInfoScreen extends NewScreen {
 
         updateTexts();
         setupButtons();
-
+        levelCreator = new LevelCreator2(new GameScreen(getGame(), levelNumber, worldNumber));
+        modules = levelCreator.createModules("rata2.svg","lumitausta.png", Color.GRAY);
+        polygonSpriteBatch = new PolygonSpriteBatch();
+        System.out.println("moduleita "+modules.size());
         getGameStage().addActor(playButton);
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
@@ -54,7 +64,18 @@ public class LevelInfoScreen extends NewScreen {
 
         getSpriteBatch().begin();
         getFont48().draw(getSpriteBatch(), levelText + " " + levelNumber, levelTextX, levelTextY);
+
         getSpriteBatch().end();
+
+        polygonSpriteBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
+        polygonSpriteBatch.begin();
+
+        for(int i=0; i<modules.size();i++){
+            modules.get(i).drawMap(10f,polygonSpriteBatch);
+
+        }
+
+        polygonSpriteBatch.end();
     }
 
     @Override

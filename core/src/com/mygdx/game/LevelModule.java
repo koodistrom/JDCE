@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -142,9 +143,9 @@ public class LevelModule implements HasBody{
         game.getPolyBatch().draw(polygonRegion, x,y,length, height);
     }
 
-    public void drawMap(float scale){
+    public void drawMap(float scale, PolygonSpriteBatch polygonSpriteBatch){
 
-        game.getPolyBatch().draw(polygonRegion, x/scale,y/scale,length/scale, height/scale);
+        polygonSpriteBatch.draw(polygonRegion, x/scale,y/scale,length/scale, height/scale);
     }
 
     public void drawOutlines(){
