@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,31 +19,43 @@ public class ConnectScreen extends NewScreen {
     public ConnectScreen(JDCEGame g) {
         super(g);
         table = new Table();
-        table.setDebug(true);
+        //table.setDebug(true);
         table.setFillParent(true);
         //table.setBounds(textButtonX,(getStageHeight() / 5)*2f, getStageWidth() / 2f, getStageHeight() / 2f );
-        final TextButton connectButton = new TextButton("scan devices", getUiSkin());
+        final TextButton connectButton = new TextButton(getGame().getBundle().get("scanDevices"), getUiSkin());
+        final TextButton skipButton = new TextButton(getGame().getBundle().get("skip"), getUiSkin());
         devices = new ArrayList<String>();
-        connectionInfo = new Label("start scan", getUiSkin());
+        connectionInfo = new Label(getGame().getBundle().get("startScan"), getUiSkin());
+
+        setBackground(new Texture(Gdx.files.internal(("tausta_valikko.png"))));
 
 
         connectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(JDCEGame.m_platformResolver.scan()){
-                    connectionInfo.setText("scanning");
+                    connectionInfo.setText(getGame().getBundle().get("scanning"));
                 }else{
-                    connectionInfo.setText("please allow use of location data from settings");
+                    connectionInfo.setText(getGame().getBundle().get("allowLocationData"));
                 }
             }
         });
 
+        skipButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new MainMenuScreen(getGame()));
+            }
+        });
 
-        table.add(connectButton).width(getStageWidth() / 5f).height(getStageHeight() / 5f );
+        table.defaults().pad(getStageHeight() / 50f);
+        table.add(connectionInfo);
+        table.row();
+        table.add(connectButton).size(getTextButtonWidth(), getTextButtonHeight()).spaceBottom(50);//width(getStageWidth() / 5f).height(getStageHeight() / 5f );
+        table.row();
+        table.add(skipButton).size(getTextButtonWidth(), getTextButtonHeight()).spaceBottom(50);//width(getStageWidth() / 5f).height(getStageHeight() / 5f );
 
-        table.row();
-        table.add(connectionInfo).pad(getStageHeight() / 50f);
-        table.row();
+
 
         //getGameStage().addActor(connectButton);
         getGameStage().addActor(table);
@@ -51,9 +64,10 @@ public class ConnectScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
+        super.render(delta);
+        /*getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
         Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);*/
 
 
         if(getGame().getPlatformResolver().isConnected()){
