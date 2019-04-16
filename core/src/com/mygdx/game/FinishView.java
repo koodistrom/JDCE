@@ -63,7 +63,11 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         //menuButton.setPosition(textButtonX, textButtonY1);
 
         if(isItAWin) {
-            enterName();
+
+            if(fitsToHighscore(time,levelNumber)){
+                enterName();
+            }
+
 
             setUpWinTable();
             getGameStage().addActor(winTable);
@@ -141,6 +145,49 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
     }
 */
+
+    public boolean fitsToHighscore(float score, int levelNum){
+        String level = String.valueOf(levelNum);
+        String HSOfLevel = highscores.getString(level, "");
+        String comparisonTime = "";
+        String turnedComparisonTime="";
+        String valueToSave = "";
+        String lastEntry = "";
+        boolean fits = false;
+        boolean addToTime = false;
+        int numOfEntries = 0;
+        for(int i=HSOfLevel.length()-1;i>=0;i--){
+            if(addToTime && HSOfLevel.charAt(i)!='%'){
+                comparisonTime +=HSOfLevel.charAt(i);
+            }
+            if (HSOfLevel.charAt(i) =='#'){
+                if(numOfEntries==0){
+                    addToTime = true;
+                }
+                numOfEntries++;
+            }
+
+            if (HSOfLevel.charAt(i) =='%'){
+                addToTime = false;
+
+            }
+
+        }
+
+        for(int i=comparisonTime.length()-1;i>=0;i--){
+            turnedComparisonTime+=comparisonTime.charAt(i);
+        }
+
+        if (!turnedComparisonTime.equals("") && Float.valueOf(turnedComparisonTime)>score){
+            fits = true;
+        }
+
+
+        if(numOfEntries<10 ){
+            fits = true;
+        }
+        return fits;
+    }
 
     public void addHighScore(float score, int levelNum) {
 
@@ -282,4 +329,5 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
     public void canceled() {
 
     }
+
 }

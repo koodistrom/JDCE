@@ -82,7 +82,7 @@ public class GameScreen extends NewScreen {
                 background = new Background(this,"tausta4taso1.jpg","tausta4taso2.png","tausta4taso3.png");
                 break;
             case 2:
-                modules = levelCreator.createModules( "rata3.svg","aavikkotausta.png",Color.TAN);
+                modules = levelCreator.createModules( "test15.svg","aavikkotausta.png",Color.TAN);
                 assets = levelCreator.createAssets("kaktus.png",new float[]{5,4.5f,7,10,11,37,66,55,45,20,30,40,50,60,70,80,90});
                 background = new Background(this,"tausta3taso1.jpg","tausta3taso2.png","tausta3taso3.png");
                 break;
@@ -98,10 +98,13 @@ public class GameScreen extends NewScreen {
                 break;
             case 5:
                 modules = levelCreator.createModules( "rata5.svg","lumitausta.png", Color.BLUE);
-
+                background = new Background(this,"tausta4taso1.jpg","tausta1taso2.png","tausta1taso3.png");
+                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
             case 6:
                 modules = levelCreator.createModules( "rata6.svg","lumitausta.png", Color.BLUE);
+                background = new Background(this,"tausta4taso1.jpg","tausta1taso2.png","tausta1taso3.png");
+                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
         }
 

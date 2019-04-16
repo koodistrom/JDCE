@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.Locale;
 
 import static com.badlogic.gdx.graphics.Color.BLACK;
+import static com.mygdx.game.JDCEGame.m_platformResolver;
 
 public class MainMenuScreen extends NewScreen {
     //private Table mainMenuTable;
@@ -249,7 +250,9 @@ public class MainMenuScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (isQuitConfirmOn == false) {
+                if(m_platformResolver.isAndroid() && isQuitConfirmOn == false && !m_platformResolver.isConnected())
+                    getGame().setScreen(new ConnectScreen(getGame()));
+                else if (isQuitConfirmOn == false) {
                     getGame().setScreen(new WorldSelectScreen(getGame()));
                     dispose();
                 }

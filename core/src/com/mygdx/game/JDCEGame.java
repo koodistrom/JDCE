@@ -33,18 +33,8 @@ public class JDCEGame extends Game {
         System.out.println(myBundle.getLocale());
         System.out.println(myBundle.get("play"));
 		batch = new SpriteBatch();
-		if(m_platformResolver.isAndroid())
-			this.setScreen(new ConnectScreen(this));
-		else {
-			this.setScreen(new MainMenuScreen(this));
-		}
 
-	}
-
-	@Override
-	public void render () {
-		super.render();
-
+        this.setScreen(new MainMenuScreen(this));
 	}
 
 	public SpriteBatch getBatch() {

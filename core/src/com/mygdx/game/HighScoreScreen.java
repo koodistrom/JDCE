@@ -25,7 +25,7 @@ public class HighScoreScreen extends NewScreen {
         table.row();
         highscores = Gdx.app.getPreferences("JDCE_highscores");
 
-        displayHighScores(3);
+        displayHighScores(2);
         setupButtonBounds();
 
         setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
