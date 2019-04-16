@@ -263,7 +263,7 @@ public class MainMenuScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new HighScoreScreen(getGame()));
+                    getGame().setScreen(new HighScoreScreen(getGame(), 3));
                     dispose();
                 }
             }

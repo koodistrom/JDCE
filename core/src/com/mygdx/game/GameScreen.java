@@ -37,7 +37,7 @@ public class GameScreen extends NewScreen {
     ArrayList<HasBody> collectables = new ArrayList<HasBody>();
     ArrayList<Asset> assets;
     Stegosaurus stegosaurus;
-    Sprite sprite;
+
     int levelNum;
     int worldNumber;
     Background background;

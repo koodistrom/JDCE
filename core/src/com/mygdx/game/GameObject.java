@@ -114,4 +114,10 @@ public class GameObject implements HasBody{
     public void deledDis() {
     }
 
+    public void dispose(){
+        if(texture!=null){
+            texture.dispose();
+        }
+    }
+
 }

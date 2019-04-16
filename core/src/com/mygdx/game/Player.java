@@ -488,4 +488,12 @@ public class Player extends GameObject implements InputProcessor {
         game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNum, game.worldNumber));
         game.dispose();
     }
+    @Override
+    public void dispose(){
+        super.dispose();
+        wheel.dispose();
+        pedalingAtlas.dispose();
+
+
+    }
 }

@@ -9,23 +9,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 public class HighScoreScreen extends NewScreen {
     Preferences highscores;
     Table table;
     Label highscoreLabel;
-    public HighScoreScreen(JDCEGame g) {
+    public HighScoreScreen(JDCEGame g, int levelNum) {
         super(g);
 
         table = new Table();
         table.setDebug(true);
         table.setFillParent(true);
         highscoreLabel = new Label("Highscores", getUiSkin());
-        table.add(highscoreLabel);
+        table.add(highscoreLabel).colspan(2).height(highscoreLabel.getHeight()*2);
         table.row();
         highscores = Gdx.app.getPreferences("JDCE_highscores");
 
-        displayHighScores(2);
+        displayHighScores(levelNum);
         setupButtonBounds();
 
         setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
@@ -120,7 +121,7 @@ public class HighScoreScreen extends NewScreen {
                     }
 
                 } else if (highscoreString.charAt(i) == '%') {
-                    table.add(new Label(name, getUiSkin()));
+                    table.add(new Label(name, getUiSkin())).align(Align.left);
 
                     name = "";
                     addToName = false;
@@ -132,6 +133,14 @@ public class HighScoreScreen extends NewScreen {
                     addToName = true;
                 }
 
+            }
+        }
+        int rows = table.getRows();
+        if (rows<11){
+            for(int i=0; i<11-rows;i++){
+                table.add(new Label("--", getUiSkin())).align(Align.left);
+                table.add(new Label("--", getUiSkin()));
+                table.row();
             }
         }
 
