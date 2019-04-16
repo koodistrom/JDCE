@@ -61,7 +61,7 @@ public class MainMenuScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
+        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         /*mainMenuTable = new Table();
         mainMenuTable.setDebug(true);*/
@@ -74,7 +74,7 @@ public class MainMenuScreen extends NewScreen {
         confirmAffirmative = new TextButton(confirmAffirmativeText, getUiSkin());
         confirmNegative = new TextButton(confirmNegativeText, getUiSkin());
 
-        quitConfirmTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("orangebackground.png"))));
+        quitConfirmTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("valikko_popup.png"))));
 
         //musiikki
         music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
@@ -110,10 +110,12 @@ public class MainMenuScreen extends NewScreen {
     public void setUpQuitConfirmTable() {
         title = new Label(quitConfirmText, getUiSkin());
         updateTables();
-        quitConfirmTable.add(title).height(25).spaceBottom(30);
+        quitConfirmTable.defaults();
+        quitConfirmTable.row();
+        quitConfirmTable.add(title).height(getFontParameter().size).padTop(50);
         quitConfirmTable.center().top();
         quitConfirmTable.row();
-        quitConfirmTable.add(confirmAffirmative).height(50).width(100).spaceBottom(30);
+        quitConfirmTable.add(confirmAffirmative).height(50).width(100).spaceBottom(30).pad(10);
         quitConfirmTable.row();
         quitConfirmTable.add(confirmNegative).height(50).width(100).spaceBottom(30);
 
@@ -249,8 +251,8 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
                     getGame().setScreen(new WorldSelectScreen(getGame()));
+                    dispose();
                 }
-                dispose();
             }
         });
 
@@ -259,8 +261,8 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
                     getGame().setScreen(new HighScoreScreen(getGame()));
+                    dispose();
                 }
-                dispose();
             }
         });
 
@@ -268,6 +270,9 @@ public class MainMenuScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isQuitConfirmOn = true;
+                playButton.setDisabled(true);
+                highScoreButton.setDisabled(true);
+                quitButton.setDisabled(true);
             }
         });
 
@@ -284,6 +289,9 @@ public class MainMenuScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isQuitConfirmOn = false;
+                playButton.setDisabled(false);
+                highScoreButton.setDisabled(false);
+                quitButton.setDisabled(false);
             }
         });
 

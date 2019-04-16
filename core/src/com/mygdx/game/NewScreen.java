@@ -115,13 +115,13 @@ public class NewScreen implements Screen {
         languageEN = new Button(engTextRegDrawable);
 
 
-        TextureRegionDrawable muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("mute_off.png")));
-        TextureRegionDrawable muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("mute_on.png")));
+        TextureRegionDrawable muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipaalla.png")));
+        TextureRegionDrawable muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipois.png")));
         muteMusic = new Button(muteMusicOff, muteMusicOn, muteMusicOn);
         muteMusic.setChecked(!JDCEGame.musicOn);
 
-        TextureRegionDrawable muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_on.png")));
-        TextureRegionDrawable muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("soundfx_off.png")));
+        TextureRegionDrawable muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpäällä.png")));
+        TextureRegionDrawable muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpois.png")));
         muteSoundFx = new Button(muteSoundFxOff, muteSoundFxOn, muteSoundFxOn);
         muteSoundFx.setChecked(!JDCEGame.soundEffectsOn);
     }
@@ -131,6 +131,10 @@ public class NewScreen implements Screen {
         parameter.color = Color.WHITE;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 3;
+    }
+
+    public FreeTypeFontGenerator.FreeTypeFontParameter getFontParameter() {
+        return parameter;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         this.levelNumber = levelNumber;
         this.worldNumber = worldNumber;
         highscores = Gdx.app.getPreferences("JDCE_highscores");
-        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
+        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         nameLenghtLimit = 10;
         winTable = new Table();
@@ -54,8 +54,8 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         loseMessage = getGame().getBundle().get("loseMessage");
 
         name = "";
-        winTable.setDebug(true);
-        loseTable.setDebug(true);
+        /*winTable.setDebug(true);
+        loseTable.setDebug(true);*/
 
         menuButton = new TextButton(getGame().getBundle().get("continue"), getUiSkin());
         retryButton = new TextButton(getGame().getBundle().get("retry"), getUiSkin());
@@ -236,6 +236,8 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
     @Override
     public void clickListeners() {
+        super.clickListeners();
+
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

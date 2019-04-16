@@ -100,7 +100,7 @@ public class Player extends GameObject implements InputProcessor {
         addSpeed = false;
         isOnGround = false;
 
-        hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound_v2.mp3"));
+        hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4.mp3"));
         hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt.mp3"));
 
 

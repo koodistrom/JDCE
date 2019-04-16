@@ -28,7 +28,7 @@ public class WorldSelectScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
+        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         world1Button = new TextButton(world1Text, getUiSkin());
         world2Button = new TextButton(world2Text, getUiSkin());

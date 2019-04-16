@@ -7,9 +7,9 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 }
 com.badlogic.gdx.graphics.Color: {
 	color: {
-		r: 0.8 //1
-		g: 0.4 //1
-		b: 0 //1
+		r: 0.545 //1
+		g: 0.271 //1
+		b: 0.07 //1
 		a: 1
 	}
 

@@ -28,7 +28,7 @@ public class HighScoreScreen extends NewScreen {
         displayHighScores(3);
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
+        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         setupButtons();
 

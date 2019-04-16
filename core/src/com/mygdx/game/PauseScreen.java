@@ -37,7 +37,7 @@ public class PauseScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("bluebackground.png")));
+        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         continueButton = new TextButton(continueButtonText, getUiSkin());
         retryButton = new TextButton(retryButtonText, getUiSkin());
