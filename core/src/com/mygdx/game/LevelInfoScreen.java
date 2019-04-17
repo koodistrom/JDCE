@@ -32,9 +32,8 @@ public class LevelInfoScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
-        playButton = new TextButton(playButtonText, getUiSkin());
+        playButton = new TextButton(playButtonText, getGame().getUiSkin());
 
         updateTexts();
         setupButtons();
@@ -57,13 +56,13 @@ public class LevelInfoScreen extends NewScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        getLayout48().setText(getFont48(), levelText + " " + levelNumber);
+        getGame().getLayout48().setText(getGame().getFont48(), levelText + " " + levelNumber);
 
-        levelTextX = playButtonX + getTextButtonWidth() / 2 - (getLayout48().width / 2);
+        levelTextX = playButtonX + getTextButtonWidth() / 2 - (getGame().getLayout48().width / 2);
         levelTextY = getStageHeightTenth() * 3.5f - (getTextButtonHeight() / 2);
 
         getSpriteBatch().begin();
-        getFont48().draw(getSpriteBatch(), levelText + " " + levelNumber, levelTextX, levelTextY);
+        getGame().getFont48().draw(getSpriteBatch(), levelText + " " + levelNumber, levelTextX, levelTextY);
 
         getSpriteBatch().end();
 

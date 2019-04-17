@@ -14,7 +14,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
@@ -35,6 +37,13 @@ public class JDCEGame extends Game {
     private Texture background;
     private Skin uiSkin;
     private TextureAtlas textureAtlas;
+    TextureRegionDrawable backButtonTextRegDrawable;
+    TextureRegionDrawable finTextRegDrawable;
+    TextureRegionDrawable engTextRegDrawable;
+    TextureRegionDrawable muteMusicOn;
+    TextureRegionDrawable muteMusicOff;
+    TextureRegionDrawable muteSoundFxOff;
+    TextureRegionDrawable muteSoundFxOn;
 
 	@Override
 	public void create () {
@@ -67,10 +76,22 @@ public class JDCEGame extends Game {
         uiSkin = new Skin();
         uiSkin.add("myFont", getFont48(), BitmapFont.class);
 
-        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui_skin/clean-crispy-ui.atlas"));
+        textureAtlas = new TextureAtlas(Gdx.files.internal("ui_skin/clean-crispy-ui.atlas"));
+        background = new Texture("tausta_valikko.png");
 
         uiSkin.addRegions(textureAtlas) ;
         uiSkin.load(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
+
+        backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
+
+
+        finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("fin.png")));
+        engTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("en.png")));
+        muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipaalla.png")));
+        muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipois.png")));
+        muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpäällä.png")));
+        muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpois.png")));
+
 
         this.setScreen(new MainMenuScreen(this));
 	}

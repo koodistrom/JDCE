@@ -37,11 +37,11 @@ public class PauseScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
-        continueButton = new TextButton(continueButtonText, getUiSkin());
-        retryButton = new TextButton(retryButtonText, getUiSkin());
-        mainMenuButton = new TextButton(mainMenuButtonText, getUiSkin());
+
+        continueButton = new TextButton(continueButtonText, getGame().getUiSkin());
+        retryButton = new TextButton(retryButtonText, getGame().getUiSkin());
+        mainMenuButton = new TextButton(mainMenuButtonText, getGame().getUiSkin());
 
         updateTexts();
         setupButtons();
@@ -76,11 +76,11 @@ public class PauseScreen extends NewScreen {
         getPixelViewport().apply();
         getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);*/
 
-        getLayout48().setText(getFont48(), pausedText);
+        getGame().getLayout48().setText(getGame().getFont48(), pausedText);
 
         getSpriteBatch().begin();
-        getFont48().draw(getSpriteBatch(), pausedText, getStageWidthTenth() * 5 - getLayout48().width / 2,
-                getStageHeightTenth() * 9 - getLayout48().height / 2);
+        getGame().getFont48().draw(getSpriteBatch(), pausedText, getStageWidthTenth() * 5 - getGame().getLayout48().width / 2,
+                getStageHeightTenth() * 9 - getGame().getLayout48().height / 2);
         getSpriteBatch().end();
     }
 

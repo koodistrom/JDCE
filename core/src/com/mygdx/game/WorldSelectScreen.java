@@ -28,12 +28,10 @@ public class WorldSelectScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
-
-        world1Button = new TextButton(world1Text, getUiSkin());
-        world2Button = new TextButton(world2Text, getUiSkin());
-        world3Button = new TextButton(world3Text, getUiSkin());
-        world4Button = new TextButton(world4Text, getUiSkin());
+        world1Button = new TextButton(world1Text, getGame().getUiSkin());
+        world2Button = new TextButton(world2Text, getGame().getUiSkin());
+        world3Button = new TextButton(world3Text, getGame().getUiSkin());
+        world4Button = new TextButton(world4Text, getGame().getUiSkin());
 
         updateTexts();
         setupButtons();
@@ -68,11 +66,11 @@ public class WorldSelectScreen extends NewScreen {
         getPixelViewport().apply();
         getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);*/
 
-        getLayout48().setText(getFont48(), worldSelectText);
+        getGame().getLayout48().setText(getGame().getFont48(), worldSelectText);
 
         getSpriteBatch().begin();
-        getFont48().draw(getSpriteBatch(), worldSelectText, getStageWidthTenth() * 5 - getLayout48().width / 2,
-                getStageHeightTenth() * 9 - getLayout48().height / 2);
+        getGame().getFont48().draw(getSpriteBatch(), worldSelectText, getStageWidthTenth() * 5 - getGame().getLayout48().width / 2,
+                getStageHeightTenth() * 9 - getGame().getLayout48().height / 2);
         getSpriteBatch().end();
     }
 

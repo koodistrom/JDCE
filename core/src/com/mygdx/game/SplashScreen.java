@@ -10,7 +10,7 @@ public class SplashScreen extends NewScreen {
 
     public SplashScreen(JDCEGame g) {
         super(g);
-        setBackground(new Texture(Gdx.files.internal("splash_screen_ph.png")));
+
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SplashScreen extends NewScreen {
             getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
             getSpriteBatch().begin();
-            getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
+            getSpriteBatch().draw(getGame().getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
             getSpriteBatch().end();
         } else {
             endSplashScreen();

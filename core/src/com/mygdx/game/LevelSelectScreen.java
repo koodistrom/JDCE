@@ -33,7 +33,7 @@ public class LevelSelectScreen extends NewScreen {
             for(int n=0; n<3;n++){
                 posX = n + 1;
                 posY = i + 1;
-                buttonGrid.get(i).add( new TextButton(getGame().getBundle().get("level") + " " + levelnumber, getUiSkin()));
+                buttonGrid.get(i).add( new TextButton(getGame().getBundle().get("level") + " " + levelnumber, getGame().getUiSkin()));
 
                 buttonGrid.get(i).get(n).setWidth(levelSelectTextButtonWidth);
                 buttonGrid.get(i).get(n).setHeight(levelSelectTextButtonHeight);
@@ -59,7 +59,6 @@ public class LevelSelectScreen extends NewScreen {
             }
         }
 
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         setupButtonBounds();
         setupButtons();

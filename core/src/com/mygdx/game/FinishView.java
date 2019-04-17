@@ -45,7 +45,6 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         this.levelNumber = levelNumber;
         this.worldNumber = worldNumber;
         highscores = Gdx.app.getPreferences("JDCE_highscores");
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         nameLenghtLimit = 10;
         winTable = new Table();
@@ -57,8 +56,8 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         /*winTable.setDebug(true);
         loseTable.setDebug(true);*/
 
-        menuButton = new TextButton(getGame().getBundle().get("continue"), getUiSkin());
-        retryButton = new TextButton(getGame().getBundle().get("retry"), getUiSkin());
+        menuButton = new TextButton(getGame().getBundle().get("continue"), getGame().getUiSkin());
+        retryButton = new TextButton(getGame().getBundle().get("retry"), getGame().getUiSkin());
 
         //menuButton.setPosition(textButtonX, textButtonY1);
 
@@ -92,7 +91,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
     public void setUpWinTable() {
         updateTables();
-        winTable.add(new Label(score, getUiSkin())).height(50).spaceBottom(30);
+        winTable.add(new Label(score, getGame().getUiSkin())).height(50).spaceBottom(30);
         winTable.center();
         winTable.row();
         winTable.add(menuButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
@@ -103,7 +102,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
     public void setUpLoseTable() {
         updateTables();
-        loseTable.add(new Label(loseMessage, getUiSkin())).height(50).spaceBottom(30);
+        loseTable.add(new Label(loseMessage, getGame().getUiSkin())).height(50).spaceBottom(30);
         loseTable.center();
         loseTable.row();
         loseTable.add(menuButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);

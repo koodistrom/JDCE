@@ -22,12 +22,10 @@ public class ConnectScreen extends NewScreen {
         //table.setDebug(true);
         table.setFillParent(true);
         //table.setBounds(textButtonX,(getStageHeight() / 5)*2f, getStageWidth() / 2f, getStageHeight() / 2f );
-        final TextButton connectButton = new TextButton(getGame().getBundle().get("scanDevices"), getUiSkin());
-        final TextButton skipButton = new TextButton(getGame().getBundle().get("skip"), getUiSkin());
+        final TextButton connectButton = new TextButton(getGame().getBundle().get("scanDevices"), getGame().getUiSkin());
+        final TextButton skipButton = new TextButton(getGame().getBundle().get("skip"), getGame().getUiSkin());
         devices = new ArrayList<String>();
-        connectionInfo = new Label(getGame().getBundle().get("startScan"), getUiSkin());
-
-        setBackground(new Texture(Gdx.files.internal(("tausta_valikko.png"))));
+        connectionInfo = new Label(getGame().getBundle().get("startScan"), getGame().getUiSkin());
 
 
         connectButton.addListener(new ClickListener() {
@@ -78,7 +76,7 @@ public class ConnectScreen extends NewScreen {
 
         if(getGame().m_platformResolver.isDeviceAdded()){
             devices.add(getGame().m_platformResolver.getNewDeviceName());
-            Label foundDevice = new Label(getGame().m_platformResolver.getNewDeviceName(), getUiSkin());
+            Label foundDevice = new Label(getGame().m_platformResolver.getNewDeviceName(), getGame().getUiSkin());
             foundDevice.addListener(new ClickListener() {
                 int index = devices.size()-1;
                 @Override

@@ -21,15 +21,13 @@ public class HighScoreScreen extends NewScreen {
         table = new Table();
         table.setDebug(true);
         table.setFillParent(true);
-        highscoreLabel = new Label("Highscores", getUiSkin());
+        highscoreLabel = new Label("Highscores", getGame().getUiSkin());
         table.add(highscoreLabel).colspan(2).height(highscoreLabel.getHeight()*2);
         table.row();
         highscores = Gdx.app.getPreferences("JDCE_highscores");
 
         displayHighScores(levelNum);
         setupButtonBounds();
-
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
 
         setupButtons();
 
@@ -121,13 +119,13 @@ public class HighScoreScreen extends NewScreen {
                     }
 
                 } else if (highscoreString.charAt(i) == '%') {
-                    table.add(new Label(name, getUiSkin())).align(Align.left);
+                    table.add(new Label(name, getGame().getUiSkin())).align(Align.left);
 
                     name = "";
                     addToName = false;
 
                 } else if (highscoreString.charAt(i) == '#') {
-                    table.add(new Label(Utilities.secondsToString(Float.valueOf(scoreToDisplay)), getUiSkin()));
+                    table.add(new Label(Utilities.secondsToString(Float.valueOf(scoreToDisplay)), getGame().getUiSkin()));
                     table.row();
                     scoreToDisplay = "";
                     addToName = true;
@@ -138,8 +136,8 @@ public class HighScoreScreen extends NewScreen {
         int rows = table.getRows();
         if (rows<11){
             for(int i=0; i<11-rows;i++){
-                table.add(new Label("--", getUiSkin())).align(Align.left);
-                table.add(new Label("--", getUiSkin()));
+                table.add(new Label("--", getGame().getUiSkin())).align(Align.left);
+                table.add(new Label("--", getGame().getUiSkin()));
                 table.row();
             }
         }
@@ -160,8 +158,10 @@ public class HighScoreScreen extends NewScreen {
         getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new MainMenuScreen(getGame()));
+
                 dispose();
+                getGame().setScreen(new MainMenuScreen(getGame()));
+
             }
         });
     }

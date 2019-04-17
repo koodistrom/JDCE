@@ -62,18 +62,18 @@ public class MainMenuScreen extends NewScreen {
 
         setupButtonBounds();
 
-        setBackground(new Texture(Gdx.files.internal("tausta_valikko.png")));
+
 
         /*mainMenuTable = new Table();
         mainMenuTable.setDebug(true);*/
         quitConfirmTable = new Table();
 //        quitConfirmTable.setDebug(true);
 
-        playButton = new TextButton(playButtonText, getUiSkin());
-        highScoreButton = new TextButton(highScoreButtonText, getUiSkin());
-        quitButton = new TextButton(quitButtonText, getUiSkin());
-        confirmAffirmative = new TextButton(confirmAffirmativeText, getUiSkin());
-        confirmNegative = new TextButton(confirmNegativeText, getUiSkin());
+        playButton = new TextButton(playButtonText, getGame().getUiSkin());
+        highScoreButton = new TextButton(highScoreButtonText, getGame().getUiSkin());
+        quitButton = new TextButton(quitButtonText, getGame().getUiSkin());
+        confirmAffirmative = new TextButton(confirmAffirmativeText, getGame().getUiSkin());
+        confirmNegative = new TextButton(confirmNegativeText, getGame().getUiSkin());
 
         quitConfirmTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("valikko_popup.png"))));
 
@@ -104,11 +104,11 @@ public class MainMenuScreen extends NewScreen {
     }
 
     public void setUpQuitConfirmTable() {
-        title = new Label(quitConfirmText, getUiSkin());
+        title = new Label(quitConfirmText, getGame().getUiSkin());
         updateTables();
         quitConfirmTable.defaults();
         quitConfirmTable.row();
-        quitConfirmTable.add(title).height(getFontParameter().size).padTop(50);
+        quitConfirmTable.add(title).height(getGame().getFontParameter().size).padTop(50);
         quitConfirmTable.center().top();
         quitConfirmTable.row();
         quitConfirmTable.add(confirmAffirmative).height(50).width(100).spaceBottom(30).pad(10);
@@ -259,8 +259,9 @@ public class MainMenuScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new HighScoreScreen(getGame(), 2));
                     dispose();
+                    getGame().setScreen(new HighScoreScreen(getGame(), 2));
+
                 }
             }
         });

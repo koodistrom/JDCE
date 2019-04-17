@@ -86,25 +86,13 @@ public class NewScreen implements Screen {
 
 
 
-        TextureRegionDrawable backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
-        backButton = new Button(backButtonTextRegDrawable);
 
-        TextureRegionDrawable finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("fin.png")));
-        languageFI = new Button(finTextRegDrawable);
-
-
-        TextureRegionDrawable engTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("en.png")));
-        languageEN = new Button(engTextRegDrawable);
-
-
-        TextureRegionDrawable muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipaalla.png")));
-        TextureRegionDrawable muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipois.png")));
-        muteMusic = new Button(muteMusicOff, muteMusicOn, muteMusicOn);
+        backButton = new Button(getGame().backButtonTextRegDrawable);
+        languageFI = new Button(getGame().finTextRegDrawable);
+        languageEN = new Button(getGame().engTextRegDrawable);
+        muteMusic = new Button(getGame().muteMusicOff, getGame().muteMusicOn, getGame().muteMusicOn);
         muteMusic.setChecked(!JDCEGame.musicOn);
-
-        TextureRegionDrawable muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpäällä.png")));
-        TextureRegionDrawable muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpois.png")));
-        muteSoundFx = new Button(muteSoundFxOff, muteSoundFxOn, muteSoundFxOn);
+        muteSoundFx = new Button(getGame().muteSoundFxOff, getGame().muteSoundFxOn, getGame().muteSoundFxOn);
         muteSoundFx.setChecked(!JDCEGame.soundEffectsOn);
     }
 
