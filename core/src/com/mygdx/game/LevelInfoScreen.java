@@ -13,12 +13,16 @@ import java.util.ArrayList;
 
 public class LevelInfoScreen extends NewScreen {
     private TextButton playButton;
+    private TextButton highScoreButton;
     private String playButtonText;
+    private String highScoreButtonText;
     private String levelText;
     private int worldNumber;
     private int levelNumber;
     private float playButtonX;
     private float playButtonY;
+    private float highScoreButtonX;
+    private float highScoreButtonY;
     private float levelTextX;
     private float levelTextY;
 
@@ -35,6 +39,7 @@ public class LevelInfoScreen extends NewScreen {
 
 
         playButton = new TextButton(playButtonText, getGame().getUiSkin());
+        highScoreButton = new TextButton(highScoreButtonText, getGame().getUiSkin());
 
         updateTexts();
         setupButtons();
@@ -50,6 +55,7 @@ public class LevelInfoScreen extends NewScreen {
         Gdx.gl.glLineWidth(2);
 
         getGameStage().addActor(playButton);
+        getGameStage().addActor(highScoreButton);
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(getBackButton());
@@ -92,6 +98,8 @@ public class LevelInfoScreen extends NewScreen {
 
         playButtonX = getMuteMusicX() + getImageButtonWidth() - getTextButtonWidth();
         playButtonY = getStageHeightTenth() * 1 - (getTextButtonHeight() / 2);
+        highScoreButtonX = playButtonX - getTextButtonWidth() * 1.25f;
+        highScoreButtonY = playButtonY;
     }
 
     @Override
@@ -99,10 +107,13 @@ public class LevelInfoScreen extends NewScreen {
         super.setupButtons();
 
         playButton.setSize(getTextButtonWidth(), getTextButtonHeight());
+        highScoreButton.setSize(getTextButtonWidth(), getTextButtonHeight());
 
         playButton.setPosition(playButtonX, playButtonY);
+        highScoreButton.setPosition(highScoreButtonX, highScoreButtonY);
 
         playButton.setText(playButtonText);
+        highScoreButton.setText(highScoreButtonText);
 
     }
     @Override
@@ -113,6 +124,14 @@ public class LevelInfoScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(gameScreen);
+                dispose();
+            }
+        });
+
+        highScoreButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new HighScoreScreen(getGame(), levelNumber, worldNumber));
                 dispose();
             }
         });
@@ -129,6 +148,7 @@ public class LevelInfoScreen extends NewScreen {
     @Override
     public void updateTexts() {
         playButtonText = getGame().getBundle().get("play");
+        highScoreButtonText = getGame().getBundle().get("highscores");
         levelText = getGame().getBundle().get("level");
     }
 }

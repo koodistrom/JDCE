@@ -255,7 +255,7 @@ public class MainMenuScreen extends NewScreen {
             }
         });
 
-        highScoreButton.addListener(new ClickListener() {
+        /*highScoreButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
@@ -264,7 +264,7 @@ public class MainMenuScreen extends NewScreen {
 
                 }
             }
-        });
+        });*/
 
         quitButton.addListener(new ClickListener() {
             @Override
