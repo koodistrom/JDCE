@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,9 +21,8 @@ public class LevelInfoScreen extends NewScreen {
     private float playButtonY;
     private float levelTextX;
     private float levelTextY;
-    private ArrayList<LevelModule> modules;
-    private LevelCreator2 levelCreator;
-    private PolygonSpriteBatch polygonSpriteBatch;
+
+    private ShapeRenderer shapeRenderer;
     private GameScreen gameScreen;
 
     public LevelInfoScreen(JDCEGame g, int levelNumber, int worldNumber) {
@@ -41,7 +41,13 @@ public class LevelInfoScreen extends NewScreen {
 
         gameScreen = new GameScreen(getGame(), levelNumber, worldNumber);
 
-        polygonSpriteBatch = new PolygonSpriteBatch();
+        for(int i=0; i<gameScreen.getModules().size();i++){
+            gameScreen.getModules().get(i).createMapOutlines(25f,0,getScreenHeight());
+
+        }
+
+        shapeRenderer = new ShapeRenderer();
+        Gdx.gl.glLineWidth(2);
 
         getGameStage().addActor(playButton);
         getGameStage().addActor(getMuteMusicButton());
@@ -69,15 +75,15 @@ public class LevelInfoScreen extends NewScreen {
         getSpriteBatch().end();
 
         getMeterViewport().apply();
-        polygonSpriteBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
-        polygonSpriteBatch.begin();
 
-        for(int i=0; i<gameScreen.getModules().size();i++){
-            gameScreen.getModules().get(i).drawMap(25f,polygonSpriteBatch,0,getScreenHeight());
-
+        shapeRenderer.setProjectionMatrix(getMeterViewport().getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        for(int i=0; i<gameScreen.getModules().size(); i++) {
+            gameScreen.getModules().get(i).drawMapOutlines(shapeRenderer);
         }
+        shapeRenderer.end();
 
-        polygonSpriteBatch.end();
+
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -21,6 +22,7 @@ public class LevelModule implements HasBody{
     float lengthScaler;
     float heightScaler;
     float[] outlines;
+    float[] mapOutlines;
     ArrayList<Vector2> vectors;
     Color lineColor;
     GameScreen game;
@@ -153,6 +155,20 @@ public class LevelModule implements HasBody{
         game.shapeRenderer.polygon(outlines);
     }
 
+    public void drawMapOutlines(ShapeRenderer shapeRenderer){
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.polygon(mapOutlines);
+    }
 
+    public void createMapOutlines(float scale, float locationX, float locationY){
+        mapOutlines = new float[outlines.length];
+        for (int i=0; i<outlines.length;i++){
+            if(i%2==0){
+                mapOutlines[i]=(outlines[i]/scale)+locationX;
+            }else{
+                mapOutlines[i]=(outlines[i]/scale)+locationY;
+            }
+        }
+    }
 
 }
