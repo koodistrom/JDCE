@@ -15,13 +15,18 @@ public class HighScoreScreen extends NewScreen {
     Preferences highscores;
     Table table;
     Label highscoreLabel;
-    public HighScoreScreen(JDCEGame g, int levelNum) {
+    private int levelNumber;
+    private int worldNumber;
+    public HighScoreScreen(JDCEGame g, int levelNum, int worldNumber) {
         super(g);
 
+        this.worldNumber = worldNumber;
+        levelNumber = levelNum;
         table = new Table();
         table.setDebug(true);
         table.setFillParent(true);
-        highscoreLabel = new Label("Highscores", getGame().getUiSkin());
+        String labelText = getGame().getBundle().get("highscores") + " " + getGame().getBundle().get("level") + " " + levelNumber;
+        highscoreLabel = new Label(labelText, getGame().getUiSkin());
         table.add(highscoreLabel).colspan(2).height(highscoreLabel.getHeight()*2);
         table.row();
         highscores = Gdx.app.getPreferences("JDCE_highscores");
@@ -158,10 +163,8 @@ public class HighScoreScreen extends NewScreen {
         getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                getGame().setScreen(new LevelInfoScreen(getGame(), levelNumber, worldNumber));
                 dispose();
-                getGame().setScreen(new MainMenuScreen(getGame()));
-
             }
         });
     }
