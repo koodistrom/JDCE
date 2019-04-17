@@ -245,9 +245,10 @@ public class MainMenuScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(m_platformResolver.isAndroid() && isQuitConfirmOn == false && !m_platformResolver.isConnected())
+                if(m_platformResolver.isAndroid() && isQuitConfirmOn == false && !m_platformResolver.isConnected()) {
                     getGame().setScreen(new ConnectScreen(getGame()));
-                else if (isQuitConfirmOn == false) {
+                    dispose();
+                }else if (isQuitConfirmOn == false) {
                     getGame().setScreen(new WorldSelectScreen(getGame()));
                     dispose();
                 }
@@ -258,7 +259,7 @@ public class MainMenuScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new HighScoreScreen(getGame(), 3));
+                    getGame().setScreen(new HighScoreScreen(getGame(), 2));
                     dispose();
                 }
             }

@@ -40,7 +40,7 @@ public class NewScreen implements Screen {
     private float stageWidthTenth;
     private float stageHeightTenth;
 
-    private Skin uiSkin;
+
 
     private float textButtonHeight;
     private float textButtonWidth;
@@ -64,11 +64,7 @@ public class NewScreen implements Screen {
     private ScreenViewport pixelViewport;
     private FitViewport meterViewport;
 
-    private BitmapFont font48;
-    private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private GlyphLayout layout48;
-    private Texture background;
+
 
     protected static Music music;
 
@@ -88,21 +84,7 @@ public class NewScreen implements Screen {
 
         setupButtonBounds();
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("ariblk.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        setFontParameter();
-
-        font48 = generator.generateFont(parameter);
-        layout48 = new GlyphLayout();
-
-        uiSkin = new Skin();
-        uiSkin.add("myFont", getFont48(), BitmapFont.class);
-
-        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui_skin/clean-crispy-ui.atlas"));
-
-        uiSkin.addRegions(textureAtlas) ;
-        uiSkin.load(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
         TextureRegionDrawable backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
         backButton = new Button(backButtonTextRegDrawable);
@@ -126,16 +108,8 @@ public class NewScreen implements Screen {
         muteSoundFx.setChecked(!JDCEGame.soundEffectsOn);
     }
 
-    public void setFontParameter() {
-        parameter.size = (int) (getTextButtonHeight() / 4);
-        parameter.color = Color.WHITE;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 3;
-    }
 
-    public FreeTypeFontGenerator.FreeTypeFontParameter getFontParameter() {
-        return parameter;
-    }
+
 
     @Override
     public void show() {
@@ -151,7 +125,7 @@ public class NewScreen implements Screen {
         getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(getBackground(), 0, 0, getPixelViewport().getWorldWidth(), getPixelViewport().getWorldHeight());
+        getSpriteBatch().draw(getGame().getBackground(), 0, 0, getPixelViewport().getWorldWidth(), getPixelViewport().getWorldHeight());
         getSpriteBatch().end();
 
         getGameStage().draw();
@@ -168,7 +142,7 @@ public class NewScreen implements Screen {
         setupButtonBounds();
         setupButtons();
         updateTables();
-        setFontParameter();
+        getGame().setFontParameter();
     }
 
     public void setupButtonBounds() {
@@ -220,13 +194,12 @@ public class NewScreen implements Screen {
 
     @Override
     public void dispose() {
+
         gameStage.dispose();
         //uiSkin.dispose();
         //font48.dispose();
-        generator.dispose();
-        if(background!= null){
-            background.dispose();
-        }
+
+
 
     }
 
@@ -312,29 +285,7 @@ public class NewScreen implements Screen {
         });
     }*/
 
-    public BitmapFont getFont48() {
-        return font48;
-    }
 
-    public void setFont48(BitmapFont font48) {
-        this.font48 = font48;
-    }
-
-    public GlyphLayout getLayout48() {
-        return layout48;
-    }
-
-    public void setLayout48(GlyphLayout layout48) {
-        this.layout48 = layout48;
-    }
-
-    public Texture getBackground() {
-        return background;
-    }
-
-    public void setBackground(Texture background) {
-        this.background = background;
-    }
 
     public float getMuteMusicX() {
         return muteMusicX;
@@ -473,13 +424,7 @@ public class NewScreen implements Screen {
         return gameStage;
     }
 
-    public void setUiSkin(Skin s) {
-        uiSkin = s;
-    }
 
-    public Skin getUiSkin() {
-        return uiSkin;
-    }
 
     public void setTextButtonHeight(float height) {
         textButtonHeight = height;

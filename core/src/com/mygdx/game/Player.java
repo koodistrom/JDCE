@@ -487,6 +487,7 @@ public class Player extends GameObject implements InputProcessor {
     public void endGame(){
         game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNum, game.worldNumber));
         game.dispose();
+        dispose();
     }
     @Override
     public void dispose(){

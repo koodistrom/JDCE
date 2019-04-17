@@ -73,6 +73,7 @@ public class ConnectScreen extends NewScreen {
         if(getGame().getPlatformResolver().isConnected()){
             MainMenuScreen gs = new MainMenuScreen(getGame());
             getGame().setScreen(gs);
+            dispose();
         }
 
         if(getGame().m_platformResolver.isDeviceAdded()){

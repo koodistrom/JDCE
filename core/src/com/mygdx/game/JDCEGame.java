@@ -5,10 +5,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
@@ -21,6 +27,14 @@ public class JDCEGame extends Game {
 	public static Preferences settings;
     public static boolean musicOn;
     public static boolean soundEffectsOn;
+
+    private BitmapFont font48;
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private GlyphLayout layout48;
+    private Texture background;
+    private Skin uiSkin;
+    private TextureAtlas textureAtlas;
 
 	@Override
 	public void create () {
@@ -41,6 +55,22 @@ public class JDCEGame extends Game {
             NewScreen.music.play();
         }
         */
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("ariblk.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        setFontParameter();
+
+        font48 = generator.generateFont(parameter);
+        layout48 = new GlyphLayout();
+
+        uiSkin = new Skin();
+        uiSkin.add("myFont", getFont48(), BitmapFont.class);
+
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui_skin/clean-crispy-ui.atlas"));
+
+        uiSkin.addRegions(textureAtlas) ;
+        uiSkin.load(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
         this.setScreen(new MainMenuScreen(this));
 	}
@@ -73,4 +103,54 @@ public class JDCEGame extends Game {
 	public I18NBundle getBundle() {
 	    return myBundle;
     }
+
+    public void setFontParameter() {
+        parameter.size = (int) (Gdx.graphics.getHeight() / 24);
+        parameter.color = Color.WHITE;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 3;
+    }
+
+    public FreeTypeFontGenerator.FreeTypeFontParameter getFontParameter() {
+        return parameter;
+    }
+
+    public BitmapFont getFont48() {
+        return font48;
+    }
+
+    public void setFont48(BitmapFont font48) {
+        this.font48 = font48;
+    }
+
+    public GlyphLayout getLayout48() {
+        return layout48;
+    }
+
+    public void setLayout48(GlyphLayout layout48) {
+        this.layout48 = layout48;
+    }
+
+    public Texture getBackground() {
+        return background;
+    }
+
+    public void setBackground(Texture background) {
+        this.background = background;
+    }
+
+    public void setUiSkin(Skin s) {
+        uiSkin = s;
+    }
+
+    public Skin getUiSkin() {
+        return uiSkin;
+    }
+
+
+
+
+
 }
+
+
