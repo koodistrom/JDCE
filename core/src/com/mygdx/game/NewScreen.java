@@ -254,23 +254,23 @@ public class NewScreen implements Screen {
         getMuteMusicButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JDCEGame.musicOn = !muteMusic.isChecked();
+                /*JDCEGame.musicOn = !muteMusic.isChecked();
                 JDCEGame.settings.putBoolean("MusicOn", !muteMusic.isChecked());
                 JDCEGame.settings.flush();
                 if(JDCEGame.musicOn){
                     music.play();
                 }else{
                     music.pause();
-                }
+                }*/
             }
         });
 
         getMuteSoundFxButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JDCEGame.soundEffectsOn = !muteSoundFx.isChecked();
+                /*JDCEGame.soundEffectsOn = !muteSoundFx.isChecked();
                 JDCEGame.settings.putBoolean("SoundEffectsOn", !muteSoundFx.isChecked());
-                JDCEGame.settings.flush();
+                JDCEGame.settings.flush();*/
             }
         });
     }

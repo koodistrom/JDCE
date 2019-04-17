@@ -67,11 +67,12 @@ public class LevelInfoScreen extends NewScreen {
 
         getSpriteBatch().end();
 
+        getMeterViewport().apply();
         polygonSpriteBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
         polygonSpriteBatch.begin();
 
         for(int i=0; i<modules.size();i++){
-            modules.get(i).drawMap(10f,polygonSpriteBatch);
+            modules.get(i).drawMap(25f,polygonSpriteBatch,0,getScreenHeight());
 
         }
 

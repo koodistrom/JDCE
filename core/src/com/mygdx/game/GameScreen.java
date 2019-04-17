@@ -174,6 +174,7 @@ public class GameScreen extends NewScreen {
             modules.get(i).draw();
         }
 
+
         polyBatch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

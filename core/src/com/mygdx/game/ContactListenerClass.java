@@ -73,7 +73,7 @@ public class ContactListenerClass implements ContactListener {
             if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
                 System.out.println("nyt osui");
-                game.getPlayer().hitGround.play(1f);
+                //game.getPlayer().hitGround.play(1f);
 
             }
         }
@@ -82,7 +82,7 @@ public class ContactListenerClass implements ContactListener {
             if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
                 System.out.println("nyt osui");
-                game.getPlayer().hitHead.play(1f);
+                //game.getPlayer().hitHead.play(1f);
 
             }
         }
