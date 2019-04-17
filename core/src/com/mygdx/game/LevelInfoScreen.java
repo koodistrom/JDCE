@@ -25,6 +25,7 @@ public class LevelInfoScreen extends NewScreen {
     private float highScoreButtonY;
     private float levelTextX;
     private float levelTextY;
+    private float mapScaler;
 
     private ShapeRenderer shapeRenderer;
     private GameScreen gameScreen;
@@ -45,9 +46,9 @@ public class LevelInfoScreen extends NewScreen {
         setupButtons();
 
         gameScreen = new GameScreen(getGame(), levelNumber, worldNumber);
-
+        setMapScaler();
         for(int i=0; i<gameScreen.getModules().size();i++){
-            gameScreen.getModules().get(i).createMapOutlines(25f,0,getScreenHeight());
+            gameScreen.getModules().get(i).createMapOutlines(mapScaler,0.05f*getScreenWidth(),0.95f*getScreenHeight());
 
         }
 
@@ -150,5 +151,14 @@ public class LevelInfoScreen extends NewScreen {
         playButtonText = getGame().getBundle().get("play");
         highScoreButtonText = getGame().getBundle().get("highscores");
         levelText = getGame().getBundle().get("level");
+    }
+
+    public void setMapScaler(){
+        float mapAspectRatio = (gameScreen.getLevelCreator().highest-gameScreen.getLevelCreator().lowest)/gameScreen.getLevelCreator().lastX;
+        if(mapAspectRatio<0.33f){
+            mapScaler = (getScreenWidth()*0.7f)/ gameScreen.getLevelCreator().lastX;
+        }else {
+            mapScaler = (getScreenHeight()*0.4f)/ (gameScreen.getLevelCreator().highest-gameScreen.getLevelCreator().lowest);
+        }
     }
 }

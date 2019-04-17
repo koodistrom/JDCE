@@ -164,9 +164,9 @@ public class LevelModule implements HasBody{
         mapOutlines = new float[outlines.length];
         for (int i=0; i<outlines.length;i++){
             if(i%2==0){
-                mapOutlines[i]=(outlines[i]/scale)+locationX;
+                mapOutlines[i]=(outlines[i]*scale)+locationX;
             }else{
-                mapOutlines[i]=(outlines[i]/scale)+locationY;
+                mapOutlines[i]=(outlines[i]*scale)+locationY;
             }
         }
     }
