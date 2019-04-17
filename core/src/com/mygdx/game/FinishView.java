@@ -212,7 +212,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
                 addToTime = true;
 
             } else if (HSOfLevel.charAt(i) == '#') {
-                numOfEntries++;
+
                 addToTime = false;
                 if(Float.valueOf(comparisonTime)>score&&!entryMade){
                    valueToSave+=name+"%"+String.valueOf(score)+"#";
@@ -222,10 +222,11 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
                 if(numOfEntries<10) {
                     valueToSave += lastEntry;
+                    numOfEntries++;
                 }
                 lastEntry="";
             }
-            if(numOfEntries>10){
+            if(numOfEntries>=10){
                 break;
             }
         }

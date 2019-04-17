@@ -41,8 +41,8 @@ public class Asset extends GameObject {
                         }else {
                             setLocation(oneAfter.y, oneAfter.x);
                         }
-                        setLocation(absolutePos-(getWidth()/2), y-0.1f);
-                        System.out.println("set "+absolutePos+"  "+y);
+                        //setLocation(absolutePos-(getWidth()/2), y-0.1f);
+
                         found = true;
                     }
 
