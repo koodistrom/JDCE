@@ -67,13 +67,13 @@ public class GameScreen extends NewScreen {
         assets = new ArrayList<Asset>();
         shapeRenderer = new ShapeRenderer();
 
-        music.dispose();
+        /*music.dispose();
         music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_gamesong_v5.mp3"));
         music.setLooping(true);
         if(JDCEGame.musicOn){
             music.play();
         }
-
+        */
 
         switch (levelnum){
             case 1:

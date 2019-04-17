@@ -77,12 +77,7 @@ public class MainMenuScreen extends NewScreen {
 
         quitConfirmTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("valikko_popup.png"))));
 
-        //musiikki
-        music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
-        music.setLooping(true);
-        if(JDCEGame.musicOn){
-            music.play();
-        }
+
 
 
 
