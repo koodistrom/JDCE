@@ -37,6 +37,7 @@ public class JDCEGame extends Game {
     private Texture background;
     private Skin uiSkin;
     private TextureAtlas textureAtlas;
+    LevelCreator2 levelCreator;
     TextureRegionDrawable backButtonTextRegDrawable;
     TextureRegionDrawable finTextRegDrawable;
     TextureRegionDrawable engTextRegDrawable;

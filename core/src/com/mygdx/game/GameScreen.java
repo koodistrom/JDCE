@@ -30,7 +30,6 @@ public class GameScreen extends NewScreen {
     private ArrayList<HasBody> collisionCheckModules;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
-    private BitmapFont font;
     private Matrix4 debugMatrix;
     Collectable collectable;
     ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
@@ -125,8 +124,7 @@ public class GameScreen extends NewScreen {
         world.setContactListener(new ContactListenerClass(this));
 
         debugRenderer = new Box2DDebugRenderer();
-        font = new BitmapFont();
-        font.setColor(Color.BLACK);
+
 
     }
 
@@ -245,5 +243,17 @@ public class GameScreen extends NewScreen {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    @Override
+    public void dispose(){
+        super.dispose();
+        background.dispose();
+        player.dispose();
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(player);
     }
 }

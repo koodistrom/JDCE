@@ -119,7 +119,7 @@ public class Player extends GameObject implements InputProcessor {
         System.out.println("massakeskipiste: "+body.getMassData().center);
         System.out.println("massa: "+body.getMassData().mass);
 
-        Gdx.input.setInputProcessor(this);
+        //Gdx.input.setInputProcessor(this);
     }
 
     public void draw(TextureRegion textureRegion){
@@ -459,13 +459,10 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(win == false) {
-            LevelSelectScreen mms = new LevelSelectScreen(game.getGame(), game.worldNumber);
-            game.getGame().setScreen(mms);
-            return true;
-        } else {
-            return false;
-        }
+        game.getGame().setScreen(new LevelSelectScreen(game.getGame(), game.worldNumber));
+        game.dispose();
+
+        return true;
 
     }
 
@@ -487,7 +484,7 @@ public class Player extends GameObject implements InputProcessor {
     public void endGame(){
         game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNum, game.worldNumber));
         game.dispose();
-        dispose();
+
     }
     @Override
     public void dispose(){

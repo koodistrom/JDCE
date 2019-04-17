@@ -28,6 +28,7 @@ public class LevelCreator2 {
     GameObject goal;
     GameScreen game;
     ArrayList<Vector2> allVertices;
+
     float lowest;
     float highest;
     float bottom;
@@ -80,7 +81,7 @@ public class LevelCreator2 {
     public ArrayList<LevelModule> createModules (String fileName, String textureFileName, Color lineColor){
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
-
+        Texture texture = new Texture("earth/"+textureFileName);
         firstX = paths.get(0).get(0).x;
         firstY = paths.get(0).get(0).y;
         lastX = 0;
@@ -121,7 +122,7 @@ public class LevelCreator2 {
 
 
             modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0,false));
-            modules.get(i).setPolygonRegion(createPolygonRegion(game, points, textureFileName));
+            modules.get(i).setPolygonRegion(createPolygonRegion(game, points, texture));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
             modules.get(i).setOutlines(createOutlines(points));
@@ -132,6 +133,8 @@ public class LevelCreator2 {
             modules.get(i).setVectors(paths.get(i));
             modules.get(i).setLineColor(lineColor);
             modules.get(i).setGame(game);
+
+
 
         }
         /*LevelModule rotko = new LevelModule();
@@ -154,8 +157,8 @@ public class LevelCreator2 {
         return modules;
     }
 
-    public PolygonRegion createPolygonRegion(GameScreen game, Vector2[] vectors, String fileName){
-        Texture texture = new Texture("earth/"+fileName);
+    public PolygonRegion createPolygonRegion(GameScreen game, Vector2[] vectors, Texture texture){
+
         texture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         TextureRegion textureRegion = new TextureRegion(texture);
 
@@ -176,6 +179,7 @@ public class LevelCreator2 {
         polyReg = polygonRegion;
 
         polySprite = new PolygonSprite(polyReg);
+
 
         return polygonRegion;
 

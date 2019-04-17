@@ -42,7 +42,7 @@ public class ConnectScreen extends NewScreen {
         skipButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new MainMenuScreen(getGame()));
+                getGame().setScreen(new WorldSelectScreen(getGame()));
             }
         });
 
@@ -69,8 +69,8 @@ public class ConnectScreen extends NewScreen {
 
 
         if(getGame().getPlatformResolver().isConnected()){
-            MainMenuScreen gs = new MainMenuScreen(getGame());
-            getGame().setScreen(gs);
+
+            getGame().setScreen(new WorldSelectScreen(getGame()));
             dispose();
         }
 

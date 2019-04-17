@@ -23,6 +23,7 @@ public class LevelInfoScreen extends NewScreen {
     private ArrayList<LevelModule> modules;
     private LevelCreator2 levelCreator;
     private PolygonSpriteBatch polygonSpriteBatch;
+    private GameScreen gameScreen;
 
     public LevelInfoScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
@@ -37,10 +38,11 @@ public class LevelInfoScreen extends NewScreen {
 
         updateTexts();
         setupButtons();
-        levelCreator = new LevelCreator2(new GameScreen(getGame(), levelNumber, worldNumber));
-        modules = levelCreator.createModules("rata2.svg","lumitausta.png", Color.GRAY);
+
+        gameScreen = new GameScreen(getGame(), levelNumber, worldNumber);
+
         polygonSpriteBatch = new PolygonSpriteBatch();
-        System.out.println("moduleita "+modules.size());
+
         getGameStage().addActor(playButton);
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
@@ -70,8 +72,8 @@ public class LevelInfoScreen extends NewScreen {
         polygonSpriteBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
         polygonSpriteBatch.begin();
 
-        for(int i=0; i<modules.size();i++){
-            modules.get(i).drawMap(25f,polygonSpriteBatch,0,getScreenHeight());
+        for(int i=0; i<gameScreen.getModules().size();i++){
+            gameScreen.getModules().get(i).drawMap(25f,polygonSpriteBatch,0,getScreenHeight());
 
         }
 
@@ -104,7 +106,7 @@ public class LevelInfoScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
+                getGame().setScreen(gameScreen);
                 dispose();
             }
         });
@@ -113,6 +115,7 @@ public class LevelInfoScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
+                gameScreen.dispose();
                 dispose();
             }
         });
