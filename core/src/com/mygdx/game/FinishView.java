@@ -49,7 +49,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         nameLenghtLimit = 10;
         winTable = new Table();
         loseTable = new Table();
-        score = getGame().getBundle().get("yourTime") + " " + highscores.getString("High Score");
+        score = getGame().getBundle().get("yourTime") + " " + Utilities.secondsToString(time);
         loseMessage = getGame().getBundle().get("loseMessage");
 
         name = "";

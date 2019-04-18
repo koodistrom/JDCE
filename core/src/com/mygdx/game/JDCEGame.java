@@ -21,6 +21,8 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
+import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS;
+
 public class JDCEGame extends Game {
     private static I18NBundle myBundle;
     SpriteBatch batch;
@@ -38,6 +40,7 @@ public class JDCEGame extends Game {
     private Texture background;
     private Skin uiSkin;
     private TextureAtlas textureAtlas;
+    boolean skipConnect;
     LevelCreator2 levelCreator;
     TextureRegionDrawable backButtonTextRegDrawable;
     TextureRegionDrawable finTextRegDrawable;
@@ -83,6 +86,7 @@ public class JDCEGame extends Game {
             NewScreen.music.play();
         }
 
+        skipConnect=false;
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("ariblk.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -117,6 +121,7 @@ public class JDCEGame extends Game {
 
 
         this.setScreen(new MainMenuScreen(this));
+
 	}
 
 	public SpriteBatch getBatch() {
@@ -153,6 +158,7 @@ public class JDCEGame extends Game {
         parameter.color = Color.WHITE;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 3;
+        parameter.characters = DEFAULT_CHARS;
     }
 
     public FreeTypeFontGenerator.FreeTypeFontParameter getFontParameter() {

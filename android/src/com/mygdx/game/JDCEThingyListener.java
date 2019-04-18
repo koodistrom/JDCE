@@ -38,6 +38,8 @@ public class JDCEThingyListener implements ThingyListener {
         if (mConnectedBleDeviceList.contains(device)) {
             mConnectedBleDeviceList.remove(device);
         }
+
+        androidResolver.setConnected(false);
     }
 
     @Override

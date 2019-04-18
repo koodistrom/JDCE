@@ -94,6 +94,11 @@ public class NewScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        if(getGame().m_platformResolver.isAndroid()&&!getGame().m_platformResolver.isConnected()&&getGame().getScreen().getClass()!=ConnectScreen.class && !getGame().skipConnect){
+            getGame().setScreen(new ConnectScreen(getGame()));
+            dispose();
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

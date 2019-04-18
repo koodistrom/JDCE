@@ -13,5 +13,7 @@ public interface PlatformResolver {
     public String getNewDeviceName();
     public void connectTo(int index);
     public boolean isScanning();
+    public void setConnected(boolean connected);
+    public boolean getConnected();
 
 }

@@ -442,8 +442,8 @@ public class Player extends GameObject implements InputProcessor {
 
         if(keycode == Input.Keys.ESCAPE) {
             //game.reset();
-            if (!game.getDrawStage()) {
-                game.setDrawStage(true);
+            if (!game.getPaused()) {
+                game.setPaused(true);
             }
         }
         return true;
@@ -461,9 +461,9 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (!game.getDrawStage()) {
-            game.setDrawStage(true);
-        }
+
+        game.pause();
+
         /*game.getGame().setScreen(new LevelSelectScreen(game.getGame(), game.worldNumber));
         game.dispose();*/
 

@@ -1,15 +1,10 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +30,7 @@ public class GameScreen extends NewScreen {
     private Player player;
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 debugMatrix;
-    private Boolean drawStage = false;
+    private Boolean paused = false;
     Collectable collectable;
     ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
     ArrayList<HasBody> collectables = new ArrayList<HasBody>();
@@ -111,32 +106,32 @@ public class GameScreen extends NewScreen {
 
         switch (levelNumber){
             case 1:
-                modules = levelCreator.createModules( "rata2.svg","lumitausta.png",Color.GRAY);
+                modules = levelCreator.createModules( "rata24.svg","lumitausta.png",Color.GRAY);
                 assets = levelCreator.createAssets("kuusi3.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 background = new Background(this,"tausta4taso1.jpg","tausta4taso2.png","tausta4taso3.png");
                 break;
             case 2:
-                modules = levelCreator.createModules( "test15.svg","aavikkotausta.png",Color.TAN);
+                modules = levelCreator.createModules( "rata25.svg","aavikkotausta.png",Color.TAN);
                 assets = levelCreator.createAssets("kaktus.png",new float[]{5,4.5f,7,10,11,37,66,55,45,20,30,40,50,60,70,80,90});
                 background = new Background(this,"tausta3taso1.jpg","tausta3taso2.png","tausta3taso3.png");
                 break;
             case 3:
-                modules = levelCreator.createModules( "rata8.svg","tausta.png",Color.BROWN);
+                modules = levelCreator.createModules( "rata26.svg","tausta.png",Color.BROWN);
                 background = new Background(this,"tausta2taso1.jpg","tausta2taso2.png","tausta2taso3.png");
                 assets = levelCreator.createAssets("puu2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
             case 4:
-                modules = levelCreator.createModules( "rata4.svg","looppaavamaa.png",Color.BROWN);
-                background = new Background(this,"tausta4taso1.jpg","tausta1taso2.png","tausta1taso3.png");
+                modules = levelCreator.createModules( "rata27.svg","looppaavamaa.png",Color.BROWN);
+                background = new Background(this,"tausta1taso1.jpg","tausta1taso2.png","tausta1taso3.png");
                 assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
             case 5:
-                modules = levelCreator.createModules( "rata5.svg","lumitausta.png", Color.BLUE);
-                background = new Background(this,"tausta4taso1.jpg","tausta1taso2.png","tausta1taso3.png");
+                modules = levelCreator.createModules( "rata28.svg","looppaavamaa.png", Color.BLUE);
+                background = new Background(this,"tausta1taso1.jpg","tausta1taso2.png","tausta1taso3.png");
                 assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
             case 6:
-                modules = levelCreator.createModules( "rata6.svg","lumitausta.png", Color.BLUE);
+                modules = levelCreator.createModules( "rata29.svg","looppaavamaa.png", Color.BLUE);
                 background = new Background(this,"tausta4taso1.jpg","tausta1taso2.png","tausta1taso3.png");
                 assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
                 break;
@@ -211,7 +206,8 @@ public class GameScreen extends NewScreen {
         continueButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                drawStage = false;
+                Gdx.input.setInputProcessor(player);
+                paused = false;
             }
         });
 
@@ -240,73 +236,79 @@ public class GameScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        //getMeterViewport().getCamera().update();
-        // Step the physics simulation forward at a rate of 60hz
-        world.step(1/60f, 6, 2);
 
-        moveCamera();
-        m_platformResolver.getPedalSpeed();
-        player.update();
+        if(!paused) {
+            world.step(1 / 60f, 6, 2);
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            moveCamera();
+            m_platformResolver.getPedalSpeed();
+            player.update();
 
-        getMeterViewport().apply();
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        Gdx.gl.glLineWidth(2);
+            getMeterViewport().apply();
 
-        shapeRenderer.setProjectionMatrix(getMeterViewport().getCamera().combined);
-        polyBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
-        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
+            Gdx.gl.glLineWidth(2);
 
-        debugMatrix = getSpriteBatch().getProjectionMatrix();
+            shapeRenderer.setProjectionMatrix(getMeterViewport().getCamera().combined);
+            polyBatch.setProjectionMatrix(getMeterViewport().getCamera().combined);
+            getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
 
-        getSpriteBatch().begin();
+            debugMatrix = getSpriteBatch().getProjectionMatrix();
 
-        background.draw();
+            getSpriteBatch().begin();
 
-        for(int i=0; i<assets.size(); i++) {
-            assets.get(i).draw();
+            background.draw();
+
+            for (int i = 0; i < assets.size(); i++) {
+                assets.get(i).draw();
+            }
+
+            //collectable.update();
+
+            levelCreator.goal.draw();
+            debugRenderer.render(world, debugMatrix);
+
+            getSpriteBatch().end();
+
+            polyBatch.begin();
+
+            for (int i = 0; i < modules.size(); i++) {
+                modules.get(i).draw();
+            }
+
+
+            polyBatch.end();
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            for (int i = 0; i < modules.size(); i++) {
+                modules.get(i).drawOutlines();
+            }
+            shapeRenderer.end();
+
+            getSpriteBatch().begin();
+
+            player.draw(player.currentFrame);
+
+
+            getSpriteBatch().end();
         }
 
-        //collectable.update();
+        if (paused) {
 
-        levelCreator.goal.draw();
-        debugRenderer.render(world, debugMatrix);
-
-        getSpriteBatch().end();
-
-        polyBatch.begin();
-
-        for(int i=0; i<modules.size(); i++) {
-            modules.get(i).draw();
-        }
-
-
-        polyBatch.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for(int i=0; i<modules.size(); i++) {
-            modules.get(i).drawOutlines();
-        }
-        shapeRenderer.end();
-
-        getSpriteBatch().begin();
-
-        player. draw(player.currentFrame);
-
-
-        getSpriteBatch().end();
-
-
-        if (drawStage) {
-            Gdx.input.setInputProcessor(getGameStage());
             getGameStage().draw();
-        } else {
-            Gdx.input.setInputProcessor(player);
+
         }
 
 
+    }
+
+    @Override
+    public void pause(){
+        paused = true;
+        Gdx.input.setInputProcessor(getGameStage());
+        getGameStage().draw();
     }
 
     private void moveCamera() {
@@ -373,11 +375,11 @@ public class GameScreen extends NewScreen {
         Gdx.input.setInputProcessor(player);
     }
 
-    public boolean getDrawStage() {
-        return drawStage;
+    public boolean getPaused() {
+        return paused;
     }
 
-    public void setDrawStage(boolean b) {
-        drawStage = b;
+    public void setPaused(boolean b) {
+        paused = b;
     }
 }

@@ -272,6 +272,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         System.out.println("nyt pitäis olla yhteys");
         System.out.println("tyyppi: " + mDevice.getType());
         androidResolver.setConnected(true);
+
     }
 
     public void connect(final BluetoothDevice device) {
@@ -281,7 +282,11 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         System.out.println("nyt pitäis olla yhteys");
         System.out.println("tyyppi: "+device.getType());
         androidResolver.setConnected(true);
+
+
     }
+
+
 
     final BroadcastReceiver mBleStateChangedReceiver = new BroadcastReceiver() {
         @Override

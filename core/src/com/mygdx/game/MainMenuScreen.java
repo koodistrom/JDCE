@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.Locale;
 
 import static com.badlogic.gdx.graphics.Color.BLACK;
-import static com.mygdx.game.JDCEGame.isEnglish;
 import static com.mygdx.game.JDCEGame.m_platformResolver;
 
 public class MainMenuScreen extends NewScreen {
@@ -80,7 +79,7 @@ public class MainMenuScreen extends NewScreen {
         languageEN = new Button(getGame().engOffTextRegDrawable, getGame().engTextRegDrawable, getGame().engTextRegDrawable);
 
 
-        if(isEnglish) {
+        if(JDCEGame.isEnglish) {
             languageEN.setChecked(true);
             languageEN.setDisabled(true);
         } else {
@@ -299,13 +298,10 @@ public class MainMenuScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(m_platformResolver.isAndroid() && isQuitConfirmOn == false && !m_platformResolver.isConnected()) {
-                    getGame().setScreen(new ConnectScreen(getGame()));
-                    dispose();
-                } else if (isQuitConfirmOn == false) {
-                    getGame().setScreen(new WorldSelectScreen(getGame()));
-                    dispose();
-                }
+
+                getGame().setScreen(new WorldSelectScreen(getGame()));
+                dispose();
+
             }
         });
 

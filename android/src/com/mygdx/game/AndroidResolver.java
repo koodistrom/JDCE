@@ -15,6 +15,7 @@ public class AndroidResolver implements PlatformResolver {
 
 
 
+
     boolean deviceAdded;
 
     public AndroidResolver(AndroidLauncher androidLauncher) {
@@ -24,6 +25,8 @@ public class AndroidResolver implements PlatformResolver {
         deviceNames = new ArrayList<String>();
         deviceAdded = false;
         isScanning = false;
+        connected = false;
+
     }
 
     @Override
@@ -40,9 +43,12 @@ public class AndroidResolver implements PlatformResolver {
     public void setConnected(boolean connected) {
         this.connected = connected;
     }
-    public boolean getConnected(boolean connected) {
+
+    @Override
+    public boolean getConnected() {
         return connected;
     }
+
 
 
     @Override
@@ -64,7 +70,7 @@ public class AndroidResolver implements PlatformResolver {
     }
 
     public void addDevice(BluetoothDevice device){
-
+        System.out.println("lisäykseen menty");
         boolean alreadyFound = false;
         for(int i = 0; i<devices.size(); i++){
             if (devices.get(i).getAddress().equals(device.getAddress())) {
@@ -75,6 +81,7 @@ public class AndroidResolver implements PlatformResolver {
             devices.add(device);
             deviceNames.add(device.getName());
             deviceAdded = true;
+            System.out.println("laite lisätty");
         }
 
 
@@ -88,7 +95,8 @@ public class AndroidResolver implements PlatformResolver {
     @Override
     public void connectTo(int index) {
         androidLauncher.connect(devices.get(index));
-
+        devices = new ArrayList<BluetoothDevice>();
+        deviceNames = new ArrayList<String>();
     }
 
     @Override

@@ -49,4 +49,14 @@ public class DesktopResolver implements PlatformResolver {
     public boolean isScanning() {
         return false;
     }
+
+    @Override
+    public void setConnected(boolean connected) {
+
+    }
+
+    @Override
+    public boolean getConnected() {
+        return false;
+    }
 }
