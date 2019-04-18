@@ -62,9 +62,9 @@ public class Player extends GameObject implements InputProcessor {
     Animation<TextureRegion> pedalingAnimation;
     float stateTime;
     TextureRegion currentFrame;
-    //Sound hitGround;
-    //Sound hitHead;
-    //Sound turbo;
+    Sound hitGround;
+    Sound hitHead;
+    Sound turbo;
 
 
 
@@ -100,8 +100,8 @@ public class Player extends GameObject implements InputProcessor {
         addSpeed = false;
         isOnGround = false;
 
-        //hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4.mp3"));
-        //hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt.mp3"));
+        hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4.mp3"));
+        hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt.mp3"));
 
 
 

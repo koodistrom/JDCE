@@ -59,12 +59,12 @@ public class JDCEGame extends Game {
 		batch = new SpriteBatch();
 
         //musiikki
-        /*NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
+        NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
         NewScreen.music.setLooping(true);
         if(JDCEGame.musicOn){
             NewScreen.music.play();
         }
-        */
+
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("ariblk.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

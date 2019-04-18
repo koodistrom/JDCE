@@ -25,7 +25,7 @@ public class ConnectScreen extends NewScreen {
         final TextButton connectButton = new TextButton(getGame().getBundle().get("scanDevices"), getGame().getUiSkin());
         final TextButton skipButton = new TextButton(getGame().getBundle().get("skip"), getGame().getUiSkin());
         devices = new ArrayList<String>();
-        connectionInfo = new Label(getGame().getBundle().get("startScan"), getGame().getUiSkin());
+        //connectionInfo = new Label(getGame().getBundle().get("startScan"), getGame().getUiSkin());
 
 
         connectButton.addListener(new ClickListener() {
