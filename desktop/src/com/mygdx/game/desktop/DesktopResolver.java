@@ -22,8 +22,7 @@ public class DesktopResolver implements PlatformResolver {
     }
 
     @Override
-    public boolean scan() {
-        return false;
+    public void scan(){
     }
 
     @Override
@@ -44,5 +43,10 @@ public class DesktopResolver implements PlatformResolver {
     @Override
     public void connectTo(int index) {
 
+    }
+
+    @Override
+    public boolean isScanning() {
+        return false;
     }
 }

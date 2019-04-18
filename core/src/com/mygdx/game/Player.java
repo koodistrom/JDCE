@@ -491,6 +491,8 @@ public class Player extends GameObject implements InputProcessor {
         super.dispose();
         wheel.dispose();
         pedalingAtlas.dispose();
+        hitHead.dispose();
+        hitGround.dispose();
 
 
     }

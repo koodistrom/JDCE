@@ -11,6 +11,7 @@ public class AndroidResolver implements PlatformResolver {
     AndroidLauncher androidLauncher;
     ArrayList<BluetoothDevice> devices;
     ArrayList<String> deviceNames;
+    boolean isScanning;
 
 
 
@@ -22,6 +23,7 @@ public class AndroidResolver implements PlatformResolver {
         devices = new ArrayList<BluetoothDevice>();
         deviceNames = new ArrayList<String>();
         deviceAdded = false;
+        isScanning = false;
     }
 
     @Override
@@ -49,9 +51,11 @@ public class AndroidResolver implements PlatformResolver {
     }
 
     @Override
-    public boolean scan() {
+    public void scan() {
         androidLauncher.prepareForScanning(true);
-        return androidLauncher.permissions;
+        if(androidLauncher.permissions){
+            isScanning = true;
+        }
     }
 
     @Override
@@ -85,6 +89,11 @@ public class AndroidResolver implements PlatformResolver {
     public void connectTo(int index) {
         androidLauncher.connect(devices.get(index));
 
+    }
+
+    @Override
+    public boolean isScanning() {
+        return isScanning;
     }
 
     public boolean isDeviceAdded() {

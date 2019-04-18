@@ -193,6 +193,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
 
         if (mIsScanning) {
             System.out.println("skannaus loppu");
+            androidResolver.isScanning = false;
             final BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
             scanner.stopScan(mScanCallback);
             mProgressHandler.removeCallbacks(mBleScannerTimeoutRunnable);

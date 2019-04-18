@@ -19,6 +19,7 @@ public class ConnectScreen extends NewScreen {
     public ConnectScreen(JDCEGame g) {
         super(g);
         table = new Table();
+        connectionInfo = new Label("",getGame().getUiSkin());
         //table.setDebug(true);
         table.setFillParent(true);
         //table.setBounds(textButtonX,(getStageHeight() / 5)*2f, getStageWidth() / 2f, getStageHeight() / 2f );
@@ -31,7 +32,8 @@ public class ConnectScreen extends NewScreen {
         connectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(JDCEGame.m_platformResolver.scan()){
+                JDCEGame.m_platformResolver.scan();
+                if(JDCEGame.m_platformResolver.isScanning()){
                     connectionInfo.setText(getGame().getBundle().get("scanning"));
                 }else{
                     connectionInfo.setText(getGame().getBundle().get("allowLocationData"));
@@ -72,6 +74,10 @@ public class ConnectScreen extends NewScreen {
 
             getGame().setScreen(new WorldSelectScreen(getGame()));
             dispose();
+        }
+
+        if(!JDCEGame.m_platformResolver.isScanning()){
+            connectionInfo.setText(getGame().getBundle().get("scanEnd"));
         }
 
         if(getGame().m_platformResolver.isDeviceAdded()){

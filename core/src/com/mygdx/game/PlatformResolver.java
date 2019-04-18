@@ -6,11 +6,12 @@ public interface PlatformResolver {
 
     public boolean isAndroid();
 
-    public boolean scan();
+    public void scan();
 
     public boolean isConnected();
     public boolean isDeviceAdded();
     public String getNewDeviceName();
     public void connectTo(int index);
+    public boolean isScanning();
 
 }
