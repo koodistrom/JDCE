@@ -21,7 +21,7 @@ public class Asset extends GameObject {
         float absolutePos = xPercentage*(levelCreator.lastX/100);
         boolean found = false;
         for (int i=0; i<levelCreator.game.getModules().size(); i++){
-            for(int n=1; n<levelCreator.game.getModules().get(i).vectors.size();n++){
+            for(int n=1; n<levelCreator.game.getModules().get(i).vectors.size()-2;n++){
                 float x = levelCreator.game.getModules().get(i).vectors.get(n).x;
                 if(x>absolutePos){
 

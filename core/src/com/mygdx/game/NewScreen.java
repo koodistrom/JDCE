@@ -123,7 +123,9 @@ public class NewScreen implements Screen {
         setupButtonBounds();
         setupButtons();
         updateTables();
+
         getGame().setFontParameter();
+
     }
 
     public void setupButtonBounds() {

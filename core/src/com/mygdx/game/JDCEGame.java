@@ -198,10 +198,13 @@ public class JDCEGame extends Game {
     }
 
 
+    public FreeTypeFontGenerator getGenerator() {
+        return generator;
+    }
 
-
-
-
+    public void setGenerator(FreeTypeFontGenerator generator) {
+        this.generator = generator;
+    }
 }
 
 
