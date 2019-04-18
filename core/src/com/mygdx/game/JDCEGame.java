@@ -29,6 +29,7 @@ public class JDCEGame extends Game {
 	public static Preferences settings;
     public static boolean musicOn;
     public static boolean soundEffectsOn;
+    public static boolean isEnglish;
 
     private BitmapFont font48;
     private FreeTypeFontGenerator generator;
@@ -40,20 +41,37 @@ public class JDCEGame extends Game {
     LevelCreator2 levelCreator;
     TextureRegionDrawable backButtonTextRegDrawable;
     TextureRegionDrawable finTextRegDrawable;
+    TextureRegionDrawable finOffTextRegDrawable;
     TextureRegionDrawable engTextRegDrawable;
+    TextureRegionDrawable engOffTextRegDrawable;
     TextureRegionDrawable muteMusicOn;
     TextureRegionDrawable muteMusicOff;
     TextureRegionDrawable muteSoundFxOff;
     TextureRegionDrawable muteSoundFxOn;
+    public static Locale fi;
+    public static Locale en;
 
 	@Override
 	public void create () {
 		Locale defaultLocale = Locale.getDefault();
-		updateLanguage(new Locale("en", "UK"));
+		fi = new Locale("fi", "FI");
+		en = new Locale("en", "UK");
+
+
+		//updateLanguage(new Locale("en", "UK"));
 		noSensor = true;
 		settings = Gdx.app.getPreferences("JDCE_settings");
+		isEnglish = settings.getBoolean("Language", true);
 		musicOn = settings.getBoolean("MusicOn",true);
 		soundEffectsOn = settings.getBoolean("SoundEffectsOn", true);
+
+
+		if(isEnglish) {
+		    updateLanguage(en);
+        } else {
+		    updateLanguage(fi);
+        }
+
         System.out.println(myBundle.getLocale());
         System.out.println(myBundle.get("play"));
 		batch = new SpriteBatch();
@@ -80,14 +98,18 @@ public class JDCEGame extends Game {
         textureAtlas = new TextureAtlas(Gdx.files.internal("ui_skin/clean-crispy-ui.atlas"));
         background = new Texture("tausta_valikko.png");
 
-        uiSkin.addRegions(textureAtlas) ;
+        uiSkin.addRegions(textureAtlas);
         uiSkin.load(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
         backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
 
 
-        finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("fin.png")));
-        engTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("en.png")));
+        finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("suomi2.png")));
+        finOffTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("suomitumma2.png")));
+
+        engTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("enkku2.png")));
+        engOffTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("enkkutumma2.png")));
+
         muteMusicOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipaalla.png")));
         muteMusicOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("musiikkipois.png")));
         muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpäällä.png")));

@@ -40,8 +40,6 @@ public class NewScreen implements Screen {
     private float stageWidthTenth;
     private float stageHeightTenth;
 
-
-
     private float textButtonHeight;
     private float textButtonWidth;
 
@@ -51,8 +49,6 @@ public class NewScreen implements Screen {
     private Button backButton;
     private Button muteSoundFx;
     private Button muteMusic;
-    private Button languageFI;
-    private Button languageEN;
 
     private float backButtonX;
     private float backButtonY;
@@ -79,17 +75,9 @@ public class NewScreen implements Screen {
         gameStage = new Stage(pixelViewport, batch);
         //uiSkin = new Skin(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
-
-
-
         setupButtonBounds();
 
-
-
-
         backButton = new Button(getGame().backButtonTextRegDrawable);
-        languageFI = new Button(getGame().finTextRegDrawable);
-        languageEN = new Button(getGame().engTextRegDrawable);
         muteMusic = new Button(getGame().muteMusicOff, getGame().muteMusicOn, getGame().muteMusicOn);
         muteMusic.setChecked(!JDCEGame.musicOn);
         muteSoundFx = new Button(getGame().muteSoundFxOff, getGame().muteSoundFxOn, getGame().muteSoundFxOn);
@@ -191,26 +179,6 @@ public class NewScreen implements Screen {
     }
 
     public void clickListeners() {
-        getButtonFI().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().updateLanguage(new Locale("fi", "FI"));
-                updateTexts();
-                updateTables();
-                setupButtons();
-            }
-        });
-
-        getButtonEN().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().updateLanguage(new Locale("en", "UK"));
-                updateTexts();
-                updateTables();
-                setupButtons();
-            }
-        });
-
         getMuteMusicButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -429,13 +397,13 @@ public class NewScreen implements Screen {
         return textButtonWidth;
     }
 
-    public Button getButtonFI() {
+/*    public Button getButtonFI() {
         return languageFI;
     }
 
     public Button getButtonEN() {
         return languageEN;
-    }
+    }*/
 
     public Button getMuteMusicButton() {
         return muteMusic;

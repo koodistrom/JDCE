@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.Locale;
 
 import static com.badlogic.gdx.graphics.Color.BLACK;
+import static com.mygdx.game.JDCEGame.isEnglish;
 import static com.mygdx.game.JDCEGame.m_platformResolver;
 
 public class MainMenuScreen extends NewScreen {
@@ -30,21 +31,26 @@ public class MainMenuScreen extends NewScreen {
 
     private float textButtonX;
     private float playButtonY;
-    private float highScoreButtonY;
+    //private float highScoreButtonY;
     private float quitButtonY;
     private float ENbuttonX;
     private float FIbuttonX;
     private float languageButtonY;
 
     private TextButton playButton;
-    private TextButton highScoreButton;
+    //private TextButton highScoreButton;
     private TextButton quitButton;
     private TextButton confirmAffirmative;
     private TextButton confirmNegative;
 
+    private Button languageFI;
+    private Button languageEN;
+
+    private float languageButtonHeight;
+    private float languageButtonWidth;
 
     private String playButtonText;
-    private String highScoreButtonText;
+    //private String highScoreButtonText;
     private String quitButtonText;
     private String quitConfirmText;
     private String confirmAffirmativeText;
@@ -69,8 +75,21 @@ public class MainMenuScreen extends NewScreen {
         quitConfirmTable = new Table();
 //        quitConfirmTable.setDebug(true);
 
+        languageFI = new Button(getGame().finOffTextRegDrawable, getGame().finTextRegDrawable, getGame().finTextRegDrawable);
+
+        languageEN = new Button(getGame().engOffTextRegDrawable, getGame().engTextRegDrawable, getGame().engTextRegDrawable);
+
+
+        if(isEnglish) {
+            languageEN.setChecked(true);
+            languageEN.setDisabled(true);
+        } else {
+            languageFI.setChecked(true);
+            languageFI.setDisabled(true);
+        }
+
         playButton = new TextButton(playButtonText, getGame().getUiSkin());
-        highScoreButton = new TextButton(highScoreButtonText, getGame().getUiSkin());
+        //highScoreButton = new TextButton(highScoreButtonText, getGame().getUiSkin());
         quitButton = new TextButton(quitButtonText, getGame().getUiSkin());
         confirmAffirmative = new TextButton(confirmAffirmativeText, getGame().getUiSkin());
         confirmNegative = new TextButton(confirmNegativeText, getGame().getUiSkin());
@@ -88,10 +107,10 @@ public class MainMenuScreen extends NewScreen {
 
 
         getGameStage().addActor(playButton);
-        getGameStage().addActor(highScoreButton);
+        //getGameStage().addActor(highScoreButton);
         getGameStage().addActor(quitButton);
-        getGameStage().addActor(getButtonEN());
-        getGameStage().addActor(getButtonFI());
+        getGameStage().addActor(languageEN);
+        getGameStage().addActor(languageFI);
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(quitConfirmTable);
@@ -187,13 +206,18 @@ public class MainMenuScreen extends NewScreen {
         setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
         setMuteSoundEffectsX(getMuteMusicX());*/
 
-        textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
-        playButtonY = getStageHeightTenth() * 9 - (getTextButtonHeight() / 2);
-        highScoreButtonY = getStageHeightTenth() * 6.333f - (getTextButtonHeight() / 2);
-        quitButtonY = getStageHeightTenth() * 3.666f  - (getTextButtonHeight() / 2);
+        languageButtonHeight = getImageButtonHeight();
+        languageButtonWidth = languageButtonHeight * 1.741f;
 
-        ENbuttonX = getStageWidthTenth() - (getImageButtonWidth() / 2);
-        FIbuttonX = getStageWidthTenth() * 2.5f - (getImageButtonWidth() / 2);
+        textButtonX = getStageWidthTenth() * 5 - (getTextButtonWidth() / 2);
+        //playButtonY = getStageHeightTenth() * 9 - (getTextButtonHeight() / 2);
+        playButtonY = getStageHeight() - getTextButtonHeight() * 2;
+        //highScoreButtonY = getStageHeightTenth() * 6.333f - (getTextButtonHeight() / 2);
+        quitButtonY = getTextButtonHeight() * 2;
+        //quitButtonY = getStageHeightTenth() * 3.666f  - (getTextButtonHeight() / 2);
+
+        ENbuttonX = getStageWidth() / 2 - languageButtonWidth * 1.5f;
+        FIbuttonX = getStageWidth() / 2 + languageButtonWidth * 0.5f;
         languageButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
     }
 
@@ -205,21 +229,21 @@ public class MainMenuScreen extends NewScreen {
         playButton.setHeight(getTextButtonHeight());
         playButton.setPosition(textButtonX, playButtonY);
 
-        highScoreButton.setWidth(getTextButtonWidth());
+        /*highScoreButton.setWidth(getTextButtonWidth());
         highScoreButton.setHeight(getTextButtonHeight());
-        highScoreButton.setPosition(textButtonX, highScoreButtonY);
+        highScoreButton.setPosition(textButtonX, highScoreButtonY);*/
 
         quitButton.setWidth(getTextButtonWidth());
         quitButton.setHeight(getTextButtonHeight());
         quitButton.setPosition(textButtonX, quitButtonY);
 
-        getButtonEN().setWidth(getImageButtonWidth());
-        getButtonEN().setHeight(getImageButtonHeight());
-        getButtonEN().setPosition(ENbuttonX, languageButtonY);
+        languageEN.setWidth(languageButtonWidth);
+        languageEN.setHeight(languageButtonHeight);
+        languageEN.setPosition(ENbuttonX, languageButtonY);
 
-        getButtonFI().setWidth(getImageButtonWidth());
-        getButtonFI().setHeight(getImageButtonHeight());
-        getButtonFI().setPosition(FIbuttonX, languageButtonY);
+        languageFI.setWidth(languageButtonWidth);
+        languageFI.setHeight(languageButtonHeight);
+        languageFI.setPosition(FIbuttonX, languageButtonY);
 
         /*getMuteMusicButton().setWidth(getImageButtonWidth());
         getMuteMusicButton().setHeight(getImageButtonHeight());
@@ -230,7 +254,7 @@ public class MainMenuScreen extends NewScreen {
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
 
         playButton.setText(playButtonText);
-        highScoreButton.setText(highScoreButtonText);
+        //highScoreButton.setText(highScoreButtonText);
         quitButton.setText(quitButtonText);
         confirmAffirmative.setText(confirmAffirmativeText);
         confirmNegative.setText(confirmNegativeText);
@@ -242,13 +266,43 @@ public class MainMenuScreen extends NewScreen {
     public void clickListeners() {
         super.clickListeners();
 
+        languageFI.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                languageEN.setDisabled(false);
+                JDCEGame.settings.putBoolean("Language", false);
+                languageEN.setChecked(false);
+                JDCEGame.updateLanguage(JDCEGame.fi);
+                JDCEGame.settings.flush();
+                languageFI.setDisabled(true);
+                updateTexts();
+                updateTables();
+                setupButtons();
+            }
+        });
+
+        languageEN.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                languageFI.setDisabled(false);
+                JDCEGame.settings.putBoolean("Language", true);
+                languageFI.setChecked(false);
+                JDCEGame.updateLanguage(JDCEGame.en);
+                JDCEGame.settings.flush();
+                languageEN.setDisabled(true);
+                updateTexts();
+                updateTables();
+                setupButtons();
+            }
+        });
+
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(m_platformResolver.isAndroid() && isQuitConfirmOn == false && !m_platformResolver.isConnected()) {
                     getGame().setScreen(new ConnectScreen(getGame()));
                     dispose();
-                }else if (isQuitConfirmOn == false) {
+                } else if (isQuitConfirmOn == false) {
                     getGame().setScreen(new WorldSelectScreen(getGame()));
                     dispose();
                 }
@@ -271,7 +325,7 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 isQuitConfirmOn = true;
                 playButton.setDisabled(true);
-                highScoreButton.setDisabled(true);
+                //highScoreButton.setDisabled(true);
                 quitButton.setDisabled(true);
             }
         });
@@ -290,7 +344,7 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 isQuitConfirmOn = false;
                 playButton.setDisabled(false);
-                highScoreButton.setDisabled(false);
+                //highScoreButton.setDisabled(false);
                 quitButton.setDisabled(false);
             }
         });
@@ -300,7 +354,7 @@ public class MainMenuScreen extends NewScreen {
     @Override
     public void updateTexts() {
         playButtonText = getGame().getBundle().get("play");
-        highScoreButtonText = getGame().getBundle().get("highscores");
+        //highScoreButtonText = getGame().getBundle().get("highscores");
         quitButtonText = getGame().getBundle().get("quit");
         confirmAffirmativeText = getGame().getBundle().get("affirmative");
         confirmNegativeText = getGame().getBundle().get("negative");
