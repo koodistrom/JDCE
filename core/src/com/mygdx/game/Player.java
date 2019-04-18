@@ -441,8 +441,10 @@ public class Player extends GameObject implements InputProcessor {
         }
 
         if(keycode == Input.Keys.ESCAPE) {
-            game.reset();
-
+            //game.reset();
+            if (!game.getDrawStage()) {
+                game.setDrawStage(true);
+            }
         }
         return true;
     }
@@ -459,10 +461,13 @@ public class Player extends GameObject implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        game.getGame().setScreen(new LevelSelectScreen(game.getGame(), game.worldNumber));
-        game.dispose();
+        if (!game.getDrawStage()) {
+            game.setDrawStage(true);
+        }
+        /*game.getGame().setScreen(new LevelSelectScreen(game.getGame(), game.worldNumber));
+        game.dispose();*/
 
-        return true;
+            return true;
 
     }
 
@@ -482,7 +487,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     public void endGame(){
-        game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNum, game.worldNumber));
+        game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNumber, game.worldNumber));
         game.dispose();
 
     }

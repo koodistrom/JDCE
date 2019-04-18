@@ -15,7 +15,11 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
@@ -31,24 +35,35 @@ public class GameScreen extends NewScreen {
     private Player player;
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 debugMatrix;
+    private Boolean drawStage = false;
     Collectable collectable;
     ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
     ArrayList<HasBody> collectables = new ArrayList<HasBody>();
     ArrayList<Asset> assets;
     Stegosaurus stegosaurus;
 
-    int levelNum;
+    int levelNumber;
     int worldNumber;
     Background background;
     ShapeRenderer shapeRenderer;
 
+    private TextButton continueButton;
+    private TextButton retryButton;
+    private TextButton mainMenuButton;
+
+    private String continueButtonText;
+    private String retryButtonText;
+    private String mainMenuButtonText;
+    private String pausedText;
+
+    private Label title;
     private Table pauseTable;
     private boolean gamePaused = false;
 
 
-    public GameScreen(JDCEGame g, int levelnum, int worldNumber) {
+    public GameScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
-        this.levelNum = levelnum;
+        this.levelNumber = levelNumber;
         this.worldNumber = worldNumber;
         world = new World(new Vector2(0, -3f),true);
         /*worldWidth = Gdx.graphics.getWidth()/PIXELS_TO_METERS;
@@ -57,8 +72,28 @@ public class GameScreen extends NewScreen {
         batch = new SpriteBatch();*/
         polyBatch = new PolygonSpriteBatch(); // To assign at the beginning
 
+        setupButtonBounds();
+
         pauseTable = new Table();
-        pauseTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("orangebackground.png"))));
+
+        continueButton = new TextButton(continueButtonText, getGame().getUiSkin());
+        retryButton = new TextButton(retryButtonText, getGame().getUiSkin());
+        mainMenuButton = new TextButton(mainMenuButtonText, getGame().getUiSkin());
+
+        pauseTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("valikko_popup.png"))));
+
+        updateTexts();
+        setupButtons();
+
+        setUpPauseTable();
+
+        getGameStage().addActor(pauseTable);
+        getGameStage().addActor(getMuteMusicButton());
+        getGameStage().addActor(getMuteSoundFxButton());
+
+        Gdx.input.setInputProcessor(getGameStage());
+
+        clickListeners();
 
         getGameStage().addActor(pauseTable);
 
@@ -74,7 +109,7 @@ public class GameScreen extends NewScreen {
         }
         */
 
-        switch (levelnum){
+        switch (levelNumber){
             case 1:
                 modules = levelCreator.createModules( "rata2.svg","lumitausta.png",Color.GRAY);
                 assets = levelCreator.createAssets("kuusi3.png",new float[]{5,10,20,30,40,50,60,70,80,90});
@@ -126,6 +161,81 @@ public class GameScreen extends NewScreen {
         debugRenderer = new Box2DDebugRenderer();
 
 
+    }
+
+    public void setUpPauseTable() {
+        title = new Label(pausedText, getGame().getUiSkin());
+        updateTables();
+        pauseTable.defaults().pad(5);
+        pauseTable.row();
+        pauseTable.add(title).height(getGame().getFontParameter().size).spaceTop(50);
+        pauseTable.row();
+        pauseTable.add(continueButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceTop(50).spaceBottom(10);
+        pauseTable.row();
+        pauseTable.add(retryButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(10);
+        pauseTable.row();
+        pauseTable.add(mainMenuButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(10);
+    }
+
+    @Override
+    public void updateTables() {
+        title.setText(pausedText);
+        pauseTable.setSize(getStageWidth() / 2.5f, getStageHeight() - getStageHeightTenth() / 2);
+        pauseTable.setPosition(getGameStage().getWidth() / 2 - (pauseTable.getWidth() / 2),
+                getGameStage().getHeight() / 2 - (pauseTable.getHeight() / 2));
+
+    }
+
+    @Override
+    public void setupButtons() {
+        super.setupButtons();
+
+        continueButton.setWidth(getTextButtonWidth());
+        continueButton.setHeight(getTextButtonHeight());
+
+        retryButton.setWidth(getTextButtonWidth());
+        retryButton.setHeight(getTextButtonHeight());
+
+        mainMenuButton.setWidth(getTextButtonWidth());
+        mainMenuButton.setHeight(getTextButtonHeight());
+
+        continueButton.setText(continueButtonText);
+        retryButton.setText(retryButtonText);
+        mainMenuButton.setText(mainMenuButtonText);
+
+    }
+
+    public void clickListeners() {
+        super.clickListeners();
+
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                drawStage = false;
+            }
+        });
+
+        retryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                reset();
+            }
+        });
+
+        mainMenuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                getGame().setScreen(new MainMenuScreen(getGame()));
+            }
+        });
+    }
+
+    @Override
+    public void updateTexts() {
+        continueButtonText = getGame().getBundle().get("continue");
+        retryButtonText = getGame().getBundle().get("retry");
+        mainMenuButtonText = getGame().getBundle().get("mainmenu");
+        pausedText = getGame().getBundle().get("paused");
     }
 
     @Override
@@ -188,7 +298,13 @@ public class GameScreen extends NewScreen {
 
         getSpriteBatch().end();
 
-        getGameStage().draw();
+
+        if (drawStage) {
+            Gdx.input.setInputProcessor(getGameStage());
+            getGameStage().draw();
+        } else {
+            Gdx.input.setInputProcessor(player);
+        }
 
 
     }
@@ -201,7 +317,7 @@ public class GameScreen extends NewScreen {
     }
 
     public void reset(){
-        getGame().setScreen(new GameScreen(getGame(), levelNum, worldNumber));
+        getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
         dispose();
     }
 
@@ -255,5 +371,13 @@ public class GameScreen extends NewScreen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(player);
+    }
+
+    public boolean getDrawStage() {
+        return drawStage;
+    }
+
+    public void setDrawStage(boolean b) {
+        drawStage = b;
     }
 }

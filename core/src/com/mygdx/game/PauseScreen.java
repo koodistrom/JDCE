@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -28,6 +29,8 @@ public class PauseScreen extends NewScreen {
 
     private int levelNumber;
     private int worldNumber;
+    private Label title;
+    private Table pauseTable;
 
     public PauseScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
@@ -37,24 +40,49 @@ public class PauseScreen extends NewScreen {
 
         setupButtonBounds();
 
-
+        pauseTable = new Table();
 
         continueButton = new TextButton(continueButtonText, getGame().getUiSkin());
         retryButton = new TextButton(retryButtonText, getGame().getUiSkin());
         mainMenuButton = new TextButton(mainMenuButtonText, getGame().getUiSkin());
 
+        pauseTable.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("valikko_popup.png"))));
+
         updateTexts();
         setupButtons();
 
-        getGameStage().addActor(continueButton);
-        getGameStage().addActor(retryButton);
-        getGameStage().addActor(mainMenuButton);
-        getGameStage().addActor(getMuteMusicButton());
-        getGameStage().addActor(getMuteSoundFxButton());
+        setUpPauseTable();
+
+        getGameStage().addActor(pauseTable);
+        /*getGameStage().addActor(getMuteMusicButton());
+        getGameStage().addActor(getMuteSoundFxButton());*/
 
         Gdx.input.setInputProcessor(getGameStage());
 
         clickListeners();
+    }
+
+    public void setUpPauseTable() {
+        title = new Label(pausedText, getGame().getUiSkin());
+        updateTables();
+        pauseTable.defaults().pad(5);
+        pauseTable.row();
+        pauseTable.add(title).height(getGame().getFontParameter().size).spaceTop(50);
+        pauseTable.row();
+        pauseTable.add(continueButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceTop(50).spaceBottom(10);
+        pauseTable.row();
+        pauseTable.add(retryButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(10);
+        pauseTable.row();
+        pauseTable.add(mainMenuButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(10);
+    }
+
+    @Override
+    public void updateTables() {
+        title.setText(pausedText);
+        pauseTable.setSize(getStageWidth() / 2.5f, getStageHeight() - getStageHeightTenth() / 2);
+        pauseTable.setPosition(getGameStage().getWidth() / 2 - (pauseTable.getWidth() / 2),
+                getGameStage().getHeight() / 2 - (pauseTable.getHeight() / 2));
+
     }
 
     @Override
@@ -79,8 +107,8 @@ public class PauseScreen extends NewScreen {
         getGame().getLayout48().setText(getGame().getFont48(), pausedText);
 
         getSpriteBatch().begin();
-        getGame().getFont48().draw(getSpriteBatch(), pausedText, getStageWidthTenth() * 5 - getGame().getLayout48().width / 2,
-                getStageHeightTenth() * 9 - getGame().getLayout48().height / 2);
+        /*getGame().getFont48().draw(getSpriteBatch(), pausedText, getStageWidthTenth() * 5 - getGame().getLayout48().width / 2,
+                getStageHeightTenth() * 9 - getGame().getLayout48().height / 2);*/
         getSpriteBatch().end();
     }
 
