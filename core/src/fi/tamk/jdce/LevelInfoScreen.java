@@ -1,6 +1,8 @@
 package fi.tamk.jdce;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -21,6 +23,7 @@ public class LevelInfoScreen extends NewScreen {
     private float levelTextX;
     private float levelTextY;
     private float mapScaler;
+    private Texture mapBackground;
 
     private ShapeRenderer shapeRenderer;
     private GameScreen gameScreen;
@@ -43,10 +46,10 @@ public class LevelInfoScreen extends NewScreen {
         gameScreen = new GameScreen(getGame(), levelNumber, worldNumber);
         setMapScaler();
         for(int i=0; i<gameScreen.getModules().size();i++){
-            gameScreen.getModules().get(i).createMapOutlines(mapScaler,0.05f*getScreenWidth(),0.95f*getScreenHeight());
+            gameScreen.getModules().get(i).createMapOutlines(mapScaler,0.1f*getScreenWidth(),0.8f*getScreenHeight());
 
         }
-
+        mapBackground = new Texture("karttarausta.png");
         shapeRenderer = new ShapeRenderer();
         Gdx.gl.glLineWidth(2);
 
@@ -73,7 +76,7 @@ public class LevelInfoScreen extends NewScreen {
 
         getSpriteBatch().begin();
         getGame().getFont48().draw(getSpriteBatch(), levelText + " " + levelNumber, levelTextX, levelTextY);
-
+        getSpriteBatch().draw(mapBackground,0.01f*getScreenWidth()*PIXELS_TO_METERS,0.2f*getScreenHeight()*PIXELS_TO_METERS,0.7f*getScreenWidth()*PIXELS_TO_METERS,0.6f*getScreenHeight()*PIXELS_TO_METERS);
         getSpriteBatch().end();
 
         getMeterViewport().apply();
@@ -154,7 +157,7 @@ public class LevelInfoScreen extends NewScreen {
     public void setMapScaler(){
         float mapAspectRatio = (gameScreen.getLevelCreator().highest-gameScreen.getLevelCreator().lowest)/gameScreen.getLevelCreator().lastX;
         if(mapAspectRatio<0.33f){
-            mapScaler = (getScreenWidth()*0.7f)/ gameScreen.getLevelCreator().lastX;
+            mapScaler = (getScreenWidth()*0.65f)/ gameScreen.getLevelCreator().lastX;
         }else {
             mapScaler = (getScreenHeight()*0.4f)/ (gameScreen.getLevelCreator().highest-gameScreen.getLevelCreator().lowest);
         }
