@@ -88,7 +88,7 @@ public class JDCEGame extends Game {
 
         skipConnect=false;
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("ariblk.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto-Bold.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         setFontParameter();
