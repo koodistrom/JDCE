@@ -65,6 +65,7 @@ public class Player extends GameObject implements InputProcessor {
     Sound hitGround;
     Sound hitHead;
     Sound turbo;
+    Sound cycling;
 
 
 

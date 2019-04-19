@@ -179,6 +179,7 @@ public class GameScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.input.setInputProcessor(player);
+                playButtonSound();
                 paused = false;
             }
         });
@@ -186,6 +187,7 @@ public class GameScreen extends NewScreen {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                playButtonSound();
                 reset();
             }
         });
@@ -193,7 +195,9 @@ public class GameScreen extends NewScreen {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                playButtonSound();
                 getGame().setScreen(new MainMenuScreen(getGame()));
+                dispose();
             }
         });
     }

@@ -3,6 +3,7 @@ package fi.tamk.jdce;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -48,6 +49,7 @@ public class JDCEGame extends Game {
     TextureRegionDrawable muteSoundFxOn;
     public static Locale fi;
     public static Locale en;
+    private Sound buttonSound;
 
 	@Override
 	public void create () {
@@ -63,6 +65,7 @@ public class JDCEGame extends Game {
 		musicOn = settings.getBoolean("MusicOn",true);
 		soundEffectsOn = settings.getBoolean("SoundEffectsOn", true);
 
+		buttonSound = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4.mp3"));
 
 		if(isEnglish) {
 		    updateLanguage(en);
@@ -199,6 +202,14 @@ public class JDCEGame extends Game {
 
     public void setGenerator(FreeTypeFontGenerator generator) {
         this.generator = generator;
+    }
+
+    public Sound getButtonSound() {
+        return buttonSound;
+    }
+
+    public void setButtonSound(Sound buttonSound) {
+        this.buttonSound = buttonSound;
     }
 }
 

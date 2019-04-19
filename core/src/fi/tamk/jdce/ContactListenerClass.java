@@ -72,7 +72,6 @@ public class ContactListenerClass implements ContactListener {
         if(objectTouchesTag(frontWheel,"levelModule",contact)|| objectTouchesTag(rearWheel,"levelModule",contact)){
             if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
-                System.out.println("nyt osui");
                 game.getPlayer().hitGround.play(1f);
 
             }
@@ -81,7 +80,6 @@ public class ContactListenerClass implements ContactListener {
         if(objectTouchesTag(playerBody,"levelModule",contact)){
             if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
-                System.out.println("nyt osui");
                 game.getPlayer().hitHead.play(1f);
 
             }

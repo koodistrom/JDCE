@@ -47,6 +47,7 @@ public class LevelSelectScreen extends NewScreen {
                         /*MyTextInputListener listener = new MyTextInputListener();
                         Gdx.input.getTextInput(listener, "What is your name?", "Name", "Write your name here");*/
                         //GameScreen gs = new GameScreen(getGame(),level, worldNumber);
+                        playButtonSound();
                         getGame().setScreen(new LevelInfoScreen(getGame(), level, worldNumber));
                         //getGame().setScreen(gs);
                     }

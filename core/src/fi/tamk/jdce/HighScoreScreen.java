@@ -161,6 +161,7 @@ public class HighScoreScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelInfoScreen(getGame(), levelNumber, worldNumber));
+                playButtonSound();
                 dispose();
             }
         });

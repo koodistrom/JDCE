@@ -279,6 +279,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
+                playButtonSound();
                 dispose();
             }
         });
@@ -287,6 +288,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
+                playButtonSound();
                 dispose();
             }
         });

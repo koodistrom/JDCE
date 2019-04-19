@@ -183,6 +183,7 @@ public class NewScreen implements Screen {
                 }else{
                     music.pause();
                 }
+                playButtonSound();
             }
         });
 
@@ -192,6 +193,7 @@ public class NewScreen implements Screen {
                 JDCEGame.soundEffectsOn = !muteSoundFx.isChecked();
                 JDCEGame.settings.putBoolean("SoundEffectsOn", !muteSoundFx.isChecked());
                 JDCEGame.settings.flush();
+                playButtonSound();
             }
         });
     }
@@ -234,6 +236,14 @@ public class NewScreen implements Screen {
     }*/
 
 
+
+    public void playButtonSound(){
+        if(JDCEGame.soundEffectsOn){
+
+            getGame().getButtonSound().play(1f);
+
+        }
+    }
 
     public float getMuteMusicX() {
         return muteMusicX;

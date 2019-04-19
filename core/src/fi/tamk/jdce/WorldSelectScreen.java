@@ -131,6 +131,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 1));
+                playButtonSound();
                 dispose();
             }
         });
@@ -139,6 +140,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 2));
+                playButtonSound();
                 dispose();
             }
         });
@@ -147,6 +149,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 3));
+                playButtonSound();
                 dispose();
             }
         });
@@ -155,6 +158,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), 4));
+                playButtonSound();
                 dispose();
             }
         });
@@ -163,6 +167,7 @@ public class WorldSelectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new MainMenuScreen(getGame()));
+                playButtonSound();
                 dispose();
             }
         });

@@ -120,6 +120,7 @@ public class LevelInfoScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(gameScreen);
+                playButtonSound();
                 dispose();
             }
         });
@@ -128,6 +129,7 @@ public class LevelInfoScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new HighScoreScreen(getGame(), levelNumber, worldNumber));
+                playButtonSound();
                 dispose();
             }
         });
@@ -136,6 +138,7 @@ public class LevelInfoScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
+                playButtonSound();
                 gameScreen.dispose();
                 dispose();
             }

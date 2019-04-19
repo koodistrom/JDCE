@@ -262,6 +262,7 @@ public class MainMenuScreen extends NewScreen {
                 updateTexts();
                 updateTables();
                 setupButtons();
+                playButtonSound();
             }
         });
 
@@ -277,6 +278,7 @@ public class MainMenuScreen extends NewScreen {
                 updateTexts();
                 updateTables();
                 setupButtons();
+                playButtonSound();
             }
         });
 
@@ -285,6 +287,7 @@ public class MainMenuScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
 
                 getGame().setScreen(new WorldSelectScreen(getGame()));
+                playButtonSound();
                 dispose();
 
             }
@@ -308,6 +311,7 @@ public class MainMenuScreen extends NewScreen {
                 playButton.setDisabled(true);
                 //highScoreButton.setDisabled(true);
                 quitButton.setDisabled(true);
+                playButtonSound();
             }
         });
 
@@ -317,6 +321,7 @@ public class MainMenuScreen extends NewScreen {
                 Gdx.app.exit();
                 System.exit(-1);
                 dispose();
+                playButtonSound();
             }
         });
 
@@ -327,6 +332,7 @@ public class MainMenuScreen extends NewScreen {
                 playButton.setDisabled(false);
                 //highScoreButton.setDisabled(false);
                 quitButton.setDisabled(false);
+                playButtonSound();
             }
         });
 
