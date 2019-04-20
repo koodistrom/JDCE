@@ -65,6 +65,7 @@ public class LevelSelectScreen extends NewScreen {
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(getBackButton());
+        getGameStage().setDebugAll(true);
         Gdx.input.setInputProcessor(getGameStage());
 
         clickListeners();
