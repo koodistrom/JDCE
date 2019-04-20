@@ -312,7 +312,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             addHighScore(time, levelNumber);
 
         }else{
-            Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");
+            enterName();
         }
 
     }

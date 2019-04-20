@@ -33,6 +33,8 @@ public class GameScreen extends NewScreen {
     ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
     ArrayList<HasBody> collectables = new ArrayList<HasBody>();
     ArrayList<Asset> assets;
+    ArrayList<Asset> assets2;
+    ArrayList<Asset> assets3;
     Stegosaurus stegosaurus;
 
     int levelNumber;
@@ -212,13 +214,14 @@ public class GameScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-
+        System.out.println("aika: "+delta);
         if(!paused) {
-            world.step(1 / 60f, 6, 2);
+            world.step(delta, 6, 2);
 
             moveCamera();
             JDCEGame.m_platformResolver.getPedalSpeed();
             player.update();
+        }
 
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -269,7 +272,7 @@ public class GameScreen extends NewScreen {
 
 
             getSpriteBatch().end();
-        }
+
 
         if (paused) {
 

@@ -106,7 +106,7 @@ public class Player extends GameObject implements InputProcessor {
         turbo = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_speedboost_sound_v3.mp3"));
         cycling = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_cycling_sound.mp3"));
 
-        cycling.loop();
+        cycling.loop(2f);
         cycling.pause();
 
         pedalingAtlas = new TextureAtlas("animations/pedaling.atlas");
@@ -150,7 +150,7 @@ public class Player extends GameObject implements InputProcessor {
         rotation = (float)(Math.toDegrees(body.getAngle()));
 
 
-        if(JDCEGame.m_platformResolver.isAndroid()) {
+        if(JDCEGame.m_platformResolver.isAndroid() && !game.getGame().skipConnect) {
             speed = JDCEGame.m_platformResolver.getPedalSpeed();
         }
 
@@ -163,15 +163,12 @@ public class Player extends GameObject implements InputProcessor {
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
 
-        if(Math.abs(speed)!=0){
-            cycling.resume();
-        }else {
-            cycling.pause();
-        }
+
 
 
         steering();
-        //System.out.println(speed);
+        playPedalingSound();
+
         distsInSec.add(speed);
         if(distsInSec.size()>60){
             distsInSec.remove(0);
@@ -249,7 +246,7 @@ public class Player extends GameObject implements InputProcessor {
         }
 
         airControl();
-        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
         //System.out.println("kerroin: "+ (rearWheelJoint.getJointSpeed()/-100)+1);
 
         //desktoptestaukseen
@@ -516,9 +513,17 @@ public class Player extends GameObject implements InputProcessor {
     public void tiltSteering(){
 
         if(game.getGame().skipConnect){
-            System.out.println(Gdx.input.getAccelerometerY()*(1f/250f));
+
             speed = Gdx.input.getAccelerometerY()*(1f/250f);
 
+        }
+    }
+
+    public void playPedalingSound(){
+        if(Math.abs(speed)!=0){
+            cycling.resume();
+        }else {
+            cycling.pause();
         }
     }
 }
