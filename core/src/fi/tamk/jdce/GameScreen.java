@@ -35,6 +35,7 @@ public class GameScreen extends NewScreen {
     ArrayList<Asset> assets;
     ArrayList<Asset> assets2;
     ArrayList<Asset> assets3;
+    ArrayList<Collectable> turbos;
     Stegosaurus stegosaurus;
 
     int levelNumber;
@@ -99,6 +100,7 @@ public class GameScreen extends NewScreen {
 
         levelCreator = new LevelCreator2(this);
         assets = new ArrayList<Asset>();
+
         shapeRenderer = new ShapeRenderer();
 
         /*music.dispose();
@@ -221,6 +223,10 @@ public class GameScreen extends NewScreen {
             moveCamera();
             JDCEGame.m_platformResolver.getPedalSpeed();
             player.update();
+
+            for (int i = 0; i < turbos.size(); i++) {
+                turbos.get(i).update();
+            }
         }
 
             Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -243,6 +249,10 @@ public class GameScreen extends NewScreen {
             for (int i = 0; i < assets.size(); i++) {
                 assets.get(i).draw();
             }
+
+        for (int i = 0; i < turbos.size(); i++) {
+            turbos.get(i).draw();
+        }
 
             //collectable.update();
 
@@ -373,6 +383,7 @@ public class GameScreen extends NewScreen {
             case 2:
                 setTheme(DESERT);
                 assets = levelCreator.createAssets("kaktus.png",new float[]{5,4.5f,7,10,11,37,66,55,45,20,30,40,50,60,70,80,90});
+
                 break;
             case 3:
                 setTheme(FOREST1);
@@ -381,6 +392,7 @@ public class GameScreen extends NewScreen {
             case 4:
                 setTheme(FOREST2);
                 assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
+                turbos = levelCreator.createCollectables(new float[]{1});
                 break;
             case 5:
                 setTheme(SNOW);

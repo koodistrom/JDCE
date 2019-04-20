@@ -2,8 +2,10 @@ package fi.tamk.jdce;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Vector2;
@@ -28,6 +30,8 @@ public class LevelCreator2 {
     GameObject goal;
     GameScreen game;
     ArrayList<Vector2> allVertices;
+    TextureAtlas collectableAtlas;
+    Animation<TextureRegion> collectableAnimation;
 
     float lowest;
     float highest;
@@ -46,6 +50,8 @@ public class LevelCreator2 {
         allVertices = new ArrayList<Vector2>();
         goal = new GameObject(game);
         goal.setTexture(new Texture("finish.png"));
+
+
 
         //textureRegion.setRegion(0,0,texture.getWidth()*100,texture.getHeight()*100);
     }
@@ -214,6 +220,20 @@ public class LevelCreator2 {
 
         }
         return assets;
+    }
+
+    public ArrayList<Collectable> createCollectables(float[] xs){
+        ArrayList<Collectable> collectables = new ArrayList<Collectable>();
+        collectableAtlas = new TextureAtlas("animations/collectable.atlas");
+        collectableAnimation = new Animation<TextureRegion>(0.05f, collectableAtlas.findRegions("collectable"), Animation.PlayMode.LOOP);
+        System.out.println("animaatio: "+ collectableAnimation.getKeyFrames().length);
+        for(int i = 0; i<xs.length; i++){
+            float x =(0.4f+(float)(Math.random()*0.2f));
+            float y= (0.4f+(float)(Math.random()*0.2f));
+            collectables.add(new Collectable(game,collectableAnimation, xs[i],this));
+
+        }
+        return collectables;
     }
 
 

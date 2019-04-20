@@ -1,31 +1,53 @@
 package fi.tamk.jdce;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public class Collectable extends GameObject {
     boolean touched;
-    public Collectable(GameScreen game, Texture texture) {
+    TextureRegion currentFrame;
+    Animation<TextureRegion> animation;
+    float stateTime;
+    public Collectable(GameScreen game, Animation<TextureRegion> animation, Float xPercentage, LevelCreator2 levelCreator) {
         super(game);
         touched = false;
-        setTexture(texture);
-        setHeight(getHeight()/2);
-        setWidth(getWidth()/2);
-        setLocation(10f,0f);
+        setWidth(animation.getKeyFrame(0.01f).getRegionWidth()/(2*game.PIXELS_TO_METERS));
+        setHeight(animation.getKeyFrame(0.01f).getRegionHeight()/(2*game.PIXELS_TO_METERS));
+
         createBody();
-        game.collectables.add(this);
+
+        this.animation = animation;
+        stateTime = 0;
+        setLocationInLevel(xPercentage, levelCreator);
+
     }
 
     @Override
     public void update() {
-        draw();
+        stateTime += Gdx.graphics.getDeltaTime();
+        if(stateTime<0){
+            stateTime=1-stateTime;
+        }
+        currentFrame = animation.getKeyFrame(stateTime, true);
+
         if(touched == true){
             remove();
         }
+    }
+
+    @Override
+    public void draw(){
+
+        batch.draw(currentFrame, x, y,(getWidth()/2), (getHeight()/2),
+                getWidth(),getHeight(),1,1, rotation);
     }
 
 
@@ -46,7 +68,7 @@ public class Collectable extends GameObject {
                 float xFactor = (absolutePos-oneBefore.x)/(oneAfter.x-oneBefore.x);
                 float y = oneBefore.y+(oneAfter.y-oneBefore.y)*xFactor;
 
-                setLocation(absolutePos-(getWidth()/2) + positiontoground.x, y-0.1f+ positiontoground.y);
+                setLocation(absolutePos-(getWidth()/2) + positiontoground.x, y-1.3f+ positiontoground.y);
                 //setLocation(levelCreator.allVertices.get(i).x + positiontoground.x, levelCreator.allVertices.get(i).y+ positiontoground.y);
                 System.out.println(angle.angle());
                 System.out.println(positiontoground);
@@ -68,12 +90,19 @@ public class Collectable extends GameObject {
         body.setUserData("collectable");
         FixtureDef fixtureDef = new FixtureDef();
 
-        fixtureDef.shape=new CircleShape();
-        fixtureDef.shape.setRadius(getWidth()/2);
+        Vector2[] vertices;
+        vertices= new Vector2[] {new Vector2(-0.4f,1f),new Vector2(1.2f,1f),
+                new Vector2(0f,-1f)};
+
+        PolygonShape shape = new PolygonShape();
+        shape.set(vertices);
+        fixtureDef.shape=shape;
+
 
         fixtureDef.isSensor = true;
 
         body.createFixture(fixtureDef);
+        body.setUserData("turbo");
         setBody(body);
     }
 
@@ -87,6 +116,10 @@ public class Collectable extends GameObject {
         setWidth(0f);
         setHeight(0f);
         body.setActive(false);
+
+    }
+    @Override
+    public void dispose(){
 
     }
 }

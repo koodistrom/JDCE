@@ -48,6 +48,10 @@ public class ContactListenerClass implements ContactListener {
             objectTouched.deledDis();
         }
 
+        if(objectTouchesTag(game.getPlayer().getBody().getFixtureList().get(1),"turbo",contact)){
+            game.getPlayer().turboOn();
+        }
+
         if(objectTouchesTag(game.getPlayer().getBody().getFixtureList().get(1),"levelModule",contact)){
             game.getPlayer().endGame();
         }
