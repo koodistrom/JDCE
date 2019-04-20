@@ -101,10 +101,13 @@ public class Player extends GameObject implements InputProcessor {
         addSpeed = false;
         isOnGround = false;
 
-        hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4.mp3"));
-        hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt.mp3"));
+        hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4_v2.mp3"));
+        hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt_v3.mp3"));
+        turbo = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_speedboost_sound_v3.mp3"));
+        cycling = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_cycling_sound.mp3"));
 
-
+        cycling.loop();
+        cycling.pause();
 
         pedalingAtlas = new TextureAtlas("animations/pedaling.atlas");
         pedalingAnimation = new Animation<TextureRegion>(0.025f, pedalingAtlas.findRegions("pedaling"), Animation.PlayMode.LOOP);
@@ -160,7 +163,11 @@ public class Player extends GameObject implements InputProcessor {
         fwRotation=(float)(Math.toDegrees(frontWheel.getAngle()));
         rwRotation= (float)(Math.toDegrees(rearWheel.getAngle()));
 
-
+        if(Math.abs(speed)!=0){
+            cycling.resume();
+        }else {
+            cycling.pause();
+        }
 
 
         steering();
@@ -219,6 +226,7 @@ public class Player extends GameObject implements InputProcessor {
 
     public void steering(){
 
+        tiltSteering();
         motorSpeed = (-15)*60 * speed * ((rearWheelJoint.getJointSpeed()/-100)+1);
 
         //vapaalla
@@ -241,7 +249,7 @@ public class Player extends GameObject implements InputProcessor {
         }
 
         airControl();
-        //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
+        System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
         //System.out.println("kerroin: "+ (rearWheelJoint.getJointSpeed()/-100)+1);
 
         //desktoptestaukseen
@@ -256,6 +264,8 @@ public class Player extends GameObject implements InputProcessor {
             body.applyForceToCenter(new Vector2(5,0),false);
             //motorSpeed *= 2;
         }
+
+
 
 
     }
@@ -499,7 +509,16 @@ public class Player extends GameObject implements InputProcessor {
         pedalingAtlas.dispose();
         hitHead.dispose();
         hitGround.dispose();
+        turbo.dispose();
+        cycling.dispose();
+    }
 
+    public void tiltSteering(){
 
+        if(game.getGame().skipConnect){
+            System.out.println(Gdx.input.getAccelerometerY()*(1f/250f));
+            speed = Gdx.input.getAccelerometerY()*(1f/250f);
+
+        }
     }
 }

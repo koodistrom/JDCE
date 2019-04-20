@@ -229,7 +229,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
     }
 
     public void enterName(){
-        Gdx.input.getTextInput(this, "Name", "pasi", "Hint Value");
+        Gdx.input.getTextInput(this, "Name", "", "max 10 chars");
     }
 
     /*@Override

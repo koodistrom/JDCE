@@ -284,7 +284,7 @@ public class GameScreen extends NewScreen {
     public void pause(){
         paused = true;
         Gdx.input.setInputProcessor(getGameStage());
-        getGameStage().draw();
+
     }
 
     private void moveCamera() {

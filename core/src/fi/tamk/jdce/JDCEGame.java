@@ -65,7 +65,7 @@ public class JDCEGame extends Game {
 		musicOn = settings.getBoolean("MusicOn",true);
 		soundEffectsOn = settings.getBoolean("SoundEffectsOn", true);
 
-		buttonSound = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4.mp3"));
+		buttonSound = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_button_sfx_1.mp3"));
 
 		if(isEnglish) {
 		    updateLanguage(en);
