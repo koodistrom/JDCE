@@ -2,24 +2,28 @@ package fi.tamk.jdce;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class WorldSelectScreen extends NewScreen {
-    private TextButton world1Button;
-    private TextButton world2Button;
-    private TextButton world3Button;
-    private TextButton world4Button;
+    private Button world1Button;
+    private Button world2Button;
+    private Button world3Button;
+    private Button world4Button;
 
     private float buttonCol1x;
     private float buttonCol2x;
     private float buttonRow1y;
     private float buttonRow2y;
 
-    private String world1Text;
+    private float worldButtonWidth;
+    private float worldButtonHeight;
+
+    /*private String world1Text;
     private String world2Text;
     private String world3Text;
-    private String world4Text;
+    private String world4Text;*/
     private String worldSelectText;
 
     public WorldSelectScreen(JDCEGame g) {
@@ -27,10 +31,10 @@ public class WorldSelectScreen extends NewScreen {
 
         setupButtonBounds();
 
-        world1Button = new TextButton(world1Text, getGame().getUiSkin());
-        world2Button = new TextButton(world2Text, getGame().getUiSkin());
-        world3Button = new TextButton(world3Text, getGame().getUiSkin());
-        world4Button = new TextButton(world4Text, getGame().getUiSkin());
+        world1Button = new Button(getGame().world1);
+        world2Button = new Button(getGame().world2);
+        world3Button = new Button(getGame().world3);
+        world4Button = new Button(getGame().world4);
 
         updateTexts();
         setupButtons();
@@ -85,10 +89,13 @@ public class WorldSelectScreen extends NewScreen {
     public void setupButtonBounds() {
         super.setupButtonBounds();
 
-        buttonCol1x = getStageWidthTenth() * 3.5f - getTextButtonWidth() / 2;
+        worldButtonHeight = getStageHeight() / 5;
+        worldButtonWidth = worldButtonHeight * 2;
+
+        buttonCol1x = getStageWidthTenth() * 3.5f - worldButtonWidth / 2;
         buttonRow1y = getMuteSoundEffectsY();
 
-        buttonCol2x = getStageWidthTenth() * 6.5f - getTextButtonWidth() / 2;
+        buttonCol2x = getStageWidthTenth() * 6.5f - worldButtonWidth / 2;
         buttonRow2y = getStageHeightTenth() * 3.666f - (getImageButtonHeight() / 2);
     }
 
@@ -107,20 +114,15 @@ public class WorldSelectScreen extends NewScreen {
         getMuteSoundFxButton().setHeight(getImageButtonHeight());
         getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
 
-        world1Button.setSize(getTextButtonWidth(), getTextButtonHeight());
-        world2Button.setSize(getTextButtonWidth(), getTextButtonHeight());
-        world3Button.setSize(getTextButtonWidth(), getTextButtonHeight());
-        world4Button.setSize(getTextButtonWidth(), getTextButtonHeight());
+        world1Button.setSize(worldButtonWidth, worldButtonHeight);
+        world2Button.setSize(worldButtonWidth, worldButtonHeight);
+        world3Button.setSize(worldButtonWidth, worldButtonHeight);
+        world4Button.setSize(worldButtonWidth, worldButtonHeight);
 
         world1Button.setPosition(buttonCol1x, buttonRow1y);
-        world2Button.setPosition(buttonCol1x, buttonRow2y);
-        world3Button.setPosition(buttonCol2x, buttonRow1y);
+        world2Button.setPosition(buttonCol2x, buttonRow1y);
+        world3Button.setPosition(buttonCol1x, buttonRow2y);
         world4Button.setPosition(buttonCol2x, buttonRow2y);
-
-        world1Button.setText(world1Text);
-        world2Button.setText(world2Text);
-        world3Button.setText(world3Text);
-        world4Button.setText(world4Text);
 
     }
     @Override
@@ -189,10 +191,10 @@ public class WorldSelectScreen extends NewScreen {
     }
     @Override
     public void updateTexts() {
-        world1Text = getGame().getBundle().get("world1");
+        /*world1Text = getGame().getBundle().get("world1");
         world2Text = getGame().getBundle().get("world2");
         world3Text = getGame().getBundle().get("world3");
-        world4Text = getGame().getBundle().get("world4");
+        world4Text = getGame().getBundle().get("world4");*/
         worldSelectText = getGame().getBundle().get("worldSelect");
     }
 }
