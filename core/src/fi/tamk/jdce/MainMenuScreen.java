@@ -11,11 +11,34 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MainMenuScreen extends NewScreen {
+    /**
+     * The location of the TextButtons on the x-axis/width-axis.
+     */
     private float textButtonX;
+
+    /**
+     * The location of the playButton on the y-axis/height-axis.
+     */
     private float playButtonY;
+
+    /**
+     * The location of the quitButton on the y-axis/height-axis.
+     */
     private float quitButtonY;
+
+    /**
+     * The location of the languageEN on the x-axis/width-axis.
+     */
     private float ENbuttonX;
+
+    /**
+     * The location of the languageFI on the x-axis/width-axis.
+     */
     private float FIbuttonX;
+
+    /**
+     * The location of languageEN and languageFI on the y-axis/height-axis.
+     */
     private float languageButtonY;
 
     private TextButton playButton;
