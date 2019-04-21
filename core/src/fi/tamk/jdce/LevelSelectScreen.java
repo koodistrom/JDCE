@@ -22,12 +22,47 @@ import java.util.ArrayList;
  * @version 2019.0421
  */
 public class LevelSelectScreen extends NewScreen {
+    /**
+     * The width for the levelSelectTextButtons.
+     */
     private float levelSelectTextButtonWidth;
+
+    /**
+     * The height for the levelSelectTextButtons.
+     */
     private float levelSelectTextButtonHeight;
+
+    /**
+     * ArrayList for controlling the levelSelectTextButtons.
+     */
     private ArrayList<ArrayList<TextButton>> buttonGrid;
+
+    /**
+     * Holds and tracks the level number for the levelSelectTextButtons.
+     */
     private int levelnumber;
+
+    /**
+     * Table that controls and sets the layout of the levelSelectTextButtons.
+     */
     private Table levelTable;
 
+
+    /**
+     * The default constructor for LevelSelectScreen.
+     *
+     * Creates 10 levelSelectTextButtons to levelTable, based on the worldNumber parameter.
+     * For World:
+     * - ...1 it creates buttons for levels 1-10.
+     * - ...2 it creates buttons for levels 11-20.
+     * - ...3 it creates buttons for levels 21-30.
+     * - ...4 it creates buttons for levels 31-40.
+     *
+     * @param g the JDCEGame-class. It allows WorldSelectScreen and NewScreen access for the: batch, myBundle,
+     *          the game's settings, textures, uiSkin and font48.
+     * @param worldNumber tells LevelSelectScreen which world to build
+     *                    the levelSelectTextButtons for.
+     */
     public LevelSelectScreen(JDCEGame g, final int worldNumber) {
         super(g);
 
@@ -105,14 +140,6 @@ public class LevelSelectScreen extends NewScreen {
 
         levelTable.setPosition(getGameStage().getWidth() / 2 - (levelTable.getWidth() / 2),
                 getGameStage().getHeight() / 2 - (levelTable.getHeight() / 2));
-    }
-
-    public float getStageWidth() {
-        return getGameStage().getWidth();
-    }
-
-    public float getStageHeight() {
-        return getGameStage().getHeight();
     }
 
     @Override
