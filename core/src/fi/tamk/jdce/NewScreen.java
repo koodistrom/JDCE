@@ -145,7 +145,6 @@ public class NewScreen implements Screen {
     protected static Music music;
 
     /**
-     *
      * The default constructor for NewScreen.
      *
      * @param g the JDCEGame-class. It allows the NewScreen access for the: batch, myBundle,
@@ -384,11 +383,16 @@ public class NewScreen implements Screen {
         return backButtonY;
     }
 
-
+    /**
+     * Sets the strings with the current JDCEGame.myBundle.
+     */
     public void updateTexts() {
 
     }
 
+    /**
+     * Updates the sizes and positions of the Tables.
+     */
     public void updateTables() {
 
     }

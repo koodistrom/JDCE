@@ -10,6 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+/**
+ * MainMenuScreen is the main menu view for the game.
+ *
+ * It extends the NewScreen-class and has controls for the languages and
+ * mute-buttons for the game's music and sound effects.
+ *
+ * From the MainMenuScreen you can also press the playButton,
+ * which sets the screen to WorldSelectScreen or the quitButton
+ * which sets the quitConfirmTable visible.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class MainMenuScreen extends NewScreen {
     /**
      * The location of the TextButtons on the x-axis/width-axis.
@@ -41,28 +55,93 @@ public class MainMenuScreen extends NewScreen {
      */
     private float languageButtonY;
 
+    /**
+     * The Button that moves you to WorldSelectScreen.
+     */
     private TextButton playButton;
+
+    /**
+     * The Button that sets quitConfirmTable visible.
+     */
     private TextButton quitButton;
+
+    /**
+     * The Button on the quitConfirmTable, that confirms that you want to quit the game.
+     */
     private TextButton confirmAffirmative;
+
+    /**
+     * The Button on the quitConfirmTable, that confirms that you don't want to quit the game.
+     */
     private TextButton confirmNegative;
 
+    /**
+     * The Button that sets the game's language to Finnish.
+     */
     private Button languageFI;
+
+    /**
+     * The Button that sets the game's language to English.
+     */
     private Button languageEN;
 
+    /**
+     * The height of languageFI and languageEN.
+     */
     private float languageButtonHeight;
+
+    /**
+     * The width of languageFI and languageEN.
+     */
     private float languageButtonWidth;
 
+    /**
+     * The string that includes the text displayed on playButton.
+     */
     private String playButtonText;
+
+    /**
+     * The string that includes the text displayed on quitButton.
+     */
     private String quitButtonText;
+
+    /**
+     * The string that includes the text displayed on the title of quitConfirmTable.
+     */
     private String quitConfirmText;
+
+    /**
+     * The string that includes the texts displayed on confirmAffirmative.
+     */
     private String confirmAffirmativeText;
+
+    /**
+     * The string that includes the texts displayed on confirmNegative.
+     */
     private String confirmNegativeText;
 
+    /**
+     * The Label displayed on the top of quitConfirmTable.
+     */
     private Label title;
+
+    /**
+     * The Table that confirms if the user wants to quit the game.
+     */
     private Table quitConfirmTable;
+
+    /**
+     * A boolean that checks if quitConfirmTable is visible (true = visible).
+     */
     private boolean isQuitConfirmOn = false;
 
 
+    /**
+     * The default constructor for MainMenuScreen.
+     *
+     * @param g the JDCEGame-class. It allows MainMenuScreen and NewScreen access for the: batch, myBundle,
+     *          the game's settings, textures, uiSkin and font48.
+     */
     public MainMenuScreen(JDCEGame g) {
         super(g);
         System.out.println("korkeus "+getScreenHeight());
@@ -108,6 +187,9 @@ public class MainMenuScreen extends NewScreen {
 
     }
 
+    /**
+     * Sets up the layout and actors to quitConfirmTable.
+     */
     public void setUpQuitConfirmTable() {
         title = new Label(quitConfirmText, getGame().getUiSkin());
         updateTables();
@@ -122,6 +204,9 @@ public class MainMenuScreen extends NewScreen {
 
     }
 
+    /**
+     * Updates title with quitConfirmText and the size and position of quitConfirmTable.
+     */
    @Override
     public void updateTables() {
         title.setText(quitConfirmText);
@@ -141,6 +226,9 @@ public class MainMenuScreen extends NewScreen {
         }
     }
 
+    /**
+     * Sets up or updates the buttons' sizes and position's coordinates.
+     */
     @Override
     public void setupButtonBounds() {
         super.setupButtonBounds();
@@ -157,6 +245,9 @@ public class MainMenuScreen extends NewScreen {
         languageButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
     }
 
+    /**
+     * Sets up or updates the buttons with their size and position.
+     */
     @Override
     public void setupButtons() {
         super.setupButtons();
@@ -183,6 +274,9 @@ public class MainMenuScreen extends NewScreen {
         confirmNegative.setText(confirmNegativeText);
     }
 
+    /**
+     * Sets up the Buttons' clickListeners.
+     */
     @Override
     public void clickListeners() {
         super.clickListeners();
@@ -222,7 +316,6 @@ public class MainMenuScreen extends NewScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 getGame().setScreen(new WorldSelectScreen(getGame()));
                 playButtonSound();
                 dispose();
@@ -262,6 +355,9 @@ public class MainMenuScreen extends NewScreen {
 
     }
 
+    /**
+     * Sets the strings with the current JDCEGame.myBundle.
+     */
     @Override
     public void updateTexts() {
         playButtonText = getGame().getBundle().get("play");
