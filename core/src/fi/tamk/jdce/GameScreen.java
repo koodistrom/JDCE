@@ -19,28 +19,55 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 
+/**
+ * The game screen where actual playing happens.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class GameScreen extends NewScreen {
     private World world;
     private PolygonSpriteBatch polyBatch;
     private LevelCreator2 levelCreator;
     private ArrayList<LevelModule> modules;
-    private ArrayList<HasBody> collisionCheckModules;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 debugMatrix;
     private Boolean paused = false;
-    Collectable collectable;
-    ArrayList<HasBody> rotkos = new ArrayList<HasBody>();
-    ArrayList<HasBody> collectables = new ArrayList<HasBody>();
-    ArrayList<Asset> assets;
-    ArrayList<Asset> assets2;
-    ArrayList<Asset> assets3;
-    ArrayList<Collectable> turbos;
-    Stegosaurus stegosaurus;
 
+    /**
+     * The Array of assets to be drawn along side the track
+     */
+    ArrayList<Asset> assets;
+    /**
+     * The second array of assets to be drawn along side the track.
+     */
+    ArrayList<Asset> assets2;
+    /**
+     * The third array of assets to be drawn along side the track
+     */
+    ArrayList<Asset> assets3;
+    /**
+     * The collectables that give the player turboboost to be drawn along the track.
+     */
+    ArrayList<Collectable> turbos;
+
+    /**
+     * The Level number defines which track is instantiated.
+     */
     int levelNumber;
+    /**
+     * The World number defines which theme the track is.
+     */
     int worldNumber;
+    /**
+     * The Background.
+     */
     Background background;
+    /**
+     * The Shape renderer.
+     */
     ShapeRenderer shapeRenderer;
 
     private TextButton continueButton;
@@ -54,11 +81,20 @@ public class GameScreen extends NewScreen {
 
     private Label title;
     private Table pauseTable;
-    private boolean gamePaused = false;
+
+    /**
+     * The game ending boolean is changed true when game should end.
+     */
     boolean endGame;
 
 
-
+    /**
+     * Instantiates a new Game screen.
+     *
+     * @param g           the main class
+     * @param levelNumber the level number
+     * @param worldNumber the world number
+     */
     public GameScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
 
@@ -101,27 +137,10 @@ public class GameScreen extends NewScreen {
 
         shapeRenderer = new ShapeRenderer();
 
-        //selectLevel(levelNumber);
-        /*music.dispose();
-        music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_gamesong_v5.mp3"));
-        music.setLooping(true);
-        if(JDCEGame.musicOn){
-            music.play();
-        }
-        */
+
         turbos = new ArrayList<Collectable>();
         setTheme(worldNumber);
         modules = levelCreator.createModules( "rata"+levelNumber+".svg");
-
-        /*camera = new OrthographicCamera();
-        camera.setToOrtho(false,worldWidth,worldHeight);*/
-
-
-
-        //stegosaurus = new Stegosaurus(this);
-
-        //collectable = new Collectable(this, new Texture("collectable.png"));
-        //collectable.setLocationInLevel(20f,levelCreator);
 
 
         endGame=false;
@@ -130,6 +149,9 @@ public class GameScreen extends NewScreen {
 
     }
 
+    /**
+     * Sets up pause table that contains buttons displayed when game is paused.
+     */
     public void setUpPauseTable() {
         title = new Label(pausedText, getGame().getUiSkin());
         updateTables();
@@ -319,6 +341,9 @@ public class GameScreen extends NewScreen {
                 0);
     }
 
+    /**
+     * Prepares the game to be reseted when show() method is called next time.
+     */
     public void reset(){
         world.setContactListener(null);
         world.clearForces();
@@ -329,42 +354,92 @@ public class GameScreen extends NewScreen {
 
     }
 
+    /**
+     * Gets world.
+     *
+     * @return the world
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * Sets world.
+     *
+     * @param world the world
+     */
     public void setWorld(World world) {
         this.world = world;
     }
 
+    /**
+     * Gets poly batch.
+     *
+     * @return the poly batch
+     */
     public PolygonSpriteBatch getPolyBatch() {
         return polyBatch;
     }
 
+    /**
+     * Sets poly batch.
+     *
+     * @param polyBatch the poly batch
+     */
     public void setPolyBatch(PolygonSpriteBatch polyBatch) {
         this.polyBatch = polyBatch;
     }
 
+    /**
+     * Gets modules.
+     *
+     * @return the modules
+     */
     public ArrayList<LevelModule> getModules() {
         return modules;
     }
 
+    /**
+     * Sets modules.
+     *
+     * @param modules the modules
+     */
     public void setModules(ArrayList<LevelModule> modules) {
         this.modules = modules;
     }
 
+    /**
+     * Gets level creator.
+     *
+     * @return the level creator
+     */
     public LevelCreator2 getLevelCreator() {
         return levelCreator;
     }
 
+    /**
+     * Sets level creator.
+     *
+     * @param levelCreator the level creator
+     */
     public void setLevelCreator(LevelCreator2 levelCreator) {
         this.levelCreator = levelCreator;
     }
 
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -411,52 +486,42 @@ public class GameScreen extends NewScreen {
         Gdx.input.setInputProcessor(player);
     }
 
+    /**
+     * Gets paused.
+     *
+     * @return the paused
+     */
     public boolean getPaused() {
         return paused;
     }
 
+    /**
+     * Sets paused.
+     *
+     * @param b the b
+     */
     public void setPaused(boolean b) {
         paused = b;
     }
 
-    /*public void selectLevel(int levelNumber){
-        switch (levelNumber){
-            case 1:
 
-                modules = levelCreator.createModules( "rata25.svg");
-                assets = levelCreator.createAssets("kuusi3.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
 
-                break;
-            case 2:
-
-                assets = levelCreator.createAssets("kaktus.png",new float[]{5,4.5f,7,10,11,37,66,55,45,20,30,40,50,60,70,80,90},false);
-
-                break;
-            case 3:
-
-                assets = levelCreator.createAssets("puu2.png",new float[]{5,10,20,30,31,42,56,44,56,66,67,65,40,50,60,70,80,90},false);
-                break;
-            case 4:
-
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
-                turbos = levelCreator.createCollectables(new float[]{1});
-                break;
-            case 5:
-
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
-                break;
-            case 6:
-
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
-                break;
-        }
-    }*/
-
+    /**
+     * Create level.
+     *
+     * @param levelNumber the level number
+     * @param worldNumber the world number
+     */
     public void createLevel(int levelNumber, int worldNumber){
 
 
     }
 
+    /**
+     * Set theme.
+     *
+     * @param themeNum the theme number
+     */
     public void setTheme(int themeNum){
         switch (themeNum){
             case 2:
@@ -484,7 +549,12 @@ public class GameScreen extends NewScreen {
         }
     }
 
-     public void assets(int worldNumber){
+    /**
+     * Creates assets according to the theme dictated by world number
+     *
+     * @param worldNumber the world number
+     */
+    public void assets(int worldNumber){
         switch (worldNumber){
             case 2:
                 assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false,1f);
@@ -515,7 +585,13 @@ public class GameScreen extends NewScreen {
         }
      }
 
-     public float[] randomFloatArray(int ammount){
+    /**
+     * Creates an array of random floats.
+     *
+     * @param ammount the ammount of floats in the array also normal person might have named this array length..
+     * @return the float [ ]
+     */
+    public float[] randomFloatArray(int ammount){
         float[] array = new float[ammount];
         for (int i=0; i<ammount; i++){
             array[i] = 1f+((float)(Math.random())*98f);
