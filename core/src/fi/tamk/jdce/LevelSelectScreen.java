@@ -59,7 +59,7 @@ public class LevelSelectScreen extends NewScreen {
      * - ...3 it creates buttons for levels 21-30.
      * - ...4 it creates buttons for levels 31-40.
      *
-     * @param g the JDCEGame-class. It allows LevelSelectScreen and NewScreen access for the: batch, myBundle,
+     * @param g the JDCEGame-class. It allows LevelSelectScreen and NewScreen access to the: batch, myBundle,
      *          the game's settings, textures, uiSkin and font48.
      * @param worldNumber tells LevelSelectScreen which world to build
      *                    the levelSelectTextButtons for.

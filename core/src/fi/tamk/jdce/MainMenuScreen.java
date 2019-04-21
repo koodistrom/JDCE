@@ -139,7 +139,7 @@ public class MainMenuScreen extends NewScreen {
     /**
      * The default constructor for MainMenuScreen.
      *
-     * @param g the JDCEGame-class. It allows MainMenuScreen and NewScreen access for the: batch, myBundle,
+     * @param g the JDCEGame-class. It allows MainMenuScreen and NewScreen access to the: batch, myBundle,
      *          the game's settings, textures, uiSkin and font48.
      */
     public MainMenuScreen(JDCEGame g) {

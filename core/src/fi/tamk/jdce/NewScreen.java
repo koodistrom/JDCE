@@ -147,7 +147,7 @@ public class NewScreen implements Screen {
     /**
      * The default constructor for NewScreen.
      *
-     * @param g the JDCEGame-class. It allows the NewScreen access for the: batch, myBundle,
+     * @param g the JDCEGame-class. It allows the NewScreen access to the: batch, myBundle,
      *          the game's settings, textures, uiSkin and font48.
      */
     public NewScreen(JDCEGame g) {

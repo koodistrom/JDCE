@@ -114,7 +114,7 @@ public class LevelInfoScreen extends NewScreen {
      *
      * Creates a downscaled display of the chosen level.
      *
-     * @param g the JDCEGame-class. It allows LevelInfoScreen and NewScreen access for the: batch, myBundle,
+     * @param g the JDCEGame-class. It allows LevelInfoScreen and NewScreen access to the: batch, myBundle,
      *          the game's settings, textures, uiSkin and font48.
      * @param levelNumber tells LevelInfoScreen which level is chosen.
      * @param worldNumber tells LevelInfoScreen which world the level belongs to.
@@ -148,8 +148,6 @@ public class LevelInfoScreen extends NewScreen {
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(getBackButton());
 
-
-        getGameStage().setDebugAll(true);
         Gdx.input.setInputProcessor(getGameStage());
 
         clickListeners();
@@ -235,6 +233,7 @@ public class LevelInfoScreen extends NewScreen {
             }
         });
     }
+
     @Override
     public void updateTexts() {
         playButtonText = getGame().getBundle().get("play");

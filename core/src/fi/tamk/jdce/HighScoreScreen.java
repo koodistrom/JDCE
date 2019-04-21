@@ -8,19 +8,55 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * HighScoreScreen displays the highest 10 scored times on the chosen level.
+ *
+ * It extends the NewScreen-class and has
+ * mute-buttons for the game's music and sound effects
+ * and backButton to access the previous screen.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class HighScoreScreen extends NewScreen {
+    /**
+     * Stores the high scores.
+     */
     Preferences highscores;
+
+    /**
+     * Table that controls and sets the layout of the high scores.
+     */
     Table table;
+
+    /**
+     * Label for the high score display.
+     */
     Label highscoreLabel;
+
+    /**
+     * Holds the the number of the level.
+     */
     private int levelNumber;
+
+    /**
+     * Holds the the number of the world.
+     */
     private int worldNumber;
+
+    /**
+     * The default constructor for HighScoreScreen.
+     *
+     * @param g the JDCEGame-class. It allows HighScoreScreen and NewScreen access to the: batch, myBundle,
+     *          the game's settings, textures, uiSkin and font48.
+     */
     public HighScoreScreen(JDCEGame g, int levelNum, int worldNumber) {
         super(g);
 
         this.worldNumber = worldNumber;
         levelNumber = levelNum;
         table = new Table();
-        table.setDebug(true);
         table.setFillParent(true);
         String labelText = getGame().getBundle().get("highscores") + " " + getGame().getBundle().get("level") + " " + levelNumber;
         highscoreLabel = new Label(labelText, getGame().getUiSkin());
@@ -39,11 +75,16 @@ public class HighScoreScreen extends NewScreen {
         Gdx.input.setInputProcessor(getGameStage());
 
         getGameStage().addActor(table);
-        getGameStage().setDebugAll(true);
 
         clickListeners();
     }
 
+    /**
+     * Puts the high scores of the level that is given as parameter in the table.
+     *
+     * @param levelNum number of the level that the high scores
+     *                 are from.
+     */
     public void displayHighScores(int levelNum) {
         String level = String.valueOf(levelNum);
         String highscoreString = highscores.getString(level, "");
@@ -85,13 +126,7 @@ public class HighScoreScreen extends NewScreen {
         }
 
     }
-    //addHighScore(Utilities.secondsToString(time),levelNum);
-    public void addHighScore(String score, int levelNum) {
-        String level = String.valueOf(levelNum);
-        String valueToSave = highscores.getString(level, "")+score+"#";
-        highscores.putString(level, valueToSave);
-        highscores.flush();
-    }
+
 
     @Override
     public void clickListeners() {

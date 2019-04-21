@@ -82,7 +82,7 @@ public class WorldSelectScreen extends NewScreen {
     /**
      * The default constructor for WorldSelectScreen.
      *
-     * @param g the JDCEGame-class. It allows WorldSelectScreen and NewScreen access for the: batch, myBundle,
+     * @param g the JDCEGame-class. It allows WorldSelectScreen and NewScreen access to the: batch, myBundle,
      *          the game's settings, textures, uiSkin and font48.
      */
     public WorldSelectScreen(JDCEGame g) {
