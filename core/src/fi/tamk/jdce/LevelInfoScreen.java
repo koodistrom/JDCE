@@ -36,7 +36,6 @@ public class LevelInfoScreen extends NewScreen {
 
         setupButtonBounds();
 
-
         playButton = new TextButton(playButtonText, getGame().getUiSkin());
         highScoreButton = new TextButton(highScoreButtonText, getGame().getUiSkin());
 

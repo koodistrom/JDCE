@@ -20,10 +20,6 @@ public class WorldSelectScreen extends NewScreen {
     private float worldButtonWidth;
     private float worldButtonHeight;
 
-    /*private String world1Text;
-    private String world2Text;
-    private String world3Text;
-    private String world4Text;*/
     private String worldSelectText;
 
     public WorldSelectScreen(JDCEGame g) {
@@ -55,19 +51,6 @@ public class WorldSelectScreen extends NewScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        /*Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        getMeterViewport().apply();
-        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
-
-        getSpriteBatch().begin();
-        getSpriteBatch().draw(getBackground(), 0, 0, getScreenWidth(), getScreenHeight());
-        getSpriteBatch().end();
-
-        getGameStage().draw();
-
-        getPixelViewport().apply();
-        getSpriteBatch().setProjectionMatrix(getPixelViewport().getCamera().combined);*/
 
         getGame().getLayout48().setText(getGame().getFont48(), worldSelectText);
 
@@ -76,14 +59,6 @@ public class WorldSelectScreen extends NewScreen {
                 getStageHeightTenth() * 9 - getGame().getLayout48().height / 2);
         getSpriteBatch().end();
     }
-
-/*    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        setupButtons();
-        updateTables();
-    }*/
-
 
     @Override
     public void setupButtonBounds() {
@@ -102,17 +77,6 @@ public class WorldSelectScreen extends NewScreen {
     @Override
     public void setupButtons() {
         super.setupButtons();
-        /*getBackButton().setWidth(getImageButtonWidth());
-        getBackButton().setHeight(getImageButtonHeight());
-        getBackButton().setPosition(getBackButtonX(), getBackButtonY());
-
-        getMuteMusicButton().setWidth(getImageButtonWidth());
-        getMuteMusicButton().setHeight(getImageButtonHeight());
-        getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
-
-        getMuteSoundFxButton().setWidth(getImageButtonWidth());
-        getMuteSoundFxButton().setHeight(getImageButtonHeight());
-        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
 
         world1Button.setSize(worldButtonWidth, worldButtonHeight);
         world2Button.setSize(worldButtonWidth, worldButtonHeight);
@@ -174,27 +138,9 @@ public class WorldSelectScreen extends NewScreen {
             }
         });
 
-/*        getMuteMusicButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        getMuteSoundFxButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });*/
-
     }
     @Override
     public void updateTexts() {
-        /*world1Text = getGame().getBundle().get("world1");
-        world2Text = getGame().getBundle().get("world2");
-        world3Text = getGame().getBundle().get("world3");
-        world4Text = getGame().getBundle().get("world4");*/
         worldSelectText = getGame().getBundle().get("worldSelect");
     }
 }

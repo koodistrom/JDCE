@@ -12,11 +12,34 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-
+/**
+ * NewScreen is the superclass for the game's screens.
+ *
+ * It implements the Screen-class and creates objects
+ * that are used by several screens, like for example:
+ * gameStage, backButton, meterViewport etc.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class NewScreen implements Screen {
+    /**
+     * Holds the JDCEGame class, that is receieved as the parameter in NewScreen's constructor
+     */
     private JDCEGame game;
+
+    /**
+     * Holds the spritebatch for the game
+     */
     private SpriteBatch batch;
+
+    /**
+     * Changes pixels to meters
+     */
     final float PIXELS_TO_METERS = 100f;
+
+
     private float screenWidth = (Gdx.graphics.getWidth()/PIXELS_TO_METERS)*1.2f;
     private float screenHeight = (Gdx.graphics.getHeight()/PIXELS_TO_METERS)*1.2f;
 
@@ -45,8 +68,6 @@ public class NewScreen implements Screen {
     private ScreenViewport pixelViewport;
     private FitViewport meterViewport;
 
-
-
     protected static Music music;
 
 
@@ -65,9 +86,6 @@ public class NewScreen implements Screen {
         muteSoundFx = new Button(getGame().muteSoundFxOff, getGame().muteSoundFxOn, getGame().muteSoundFxOn);
         muteSoundFx.setChecked(!JDCEGame.soundEffectsOn);
     }
-
-
-
 
     @Override
     public void show() {
@@ -160,11 +178,6 @@ public class NewScreen implements Screen {
     @Override
     public void dispose() {
         gameStage.dispose();
-        //uiSkin.dispose();
-        //font48.dispose();
-
-
-
     }
 
     public void clickListeners() {
@@ -194,50 +207,9 @@ public class NewScreen implements Screen {
         });
     }
 
-
-/*    public void clickListeners(final int levelNum) {
-        getButtonFI().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().updateLanguage(new Locale("fi", "FI"));
-                updateTexts();
-                updateTables();
-                setupButtons();
-            }
-        });
-
-        getButtonEN().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                getGame().updateLanguage(new Locale("en", "UK"));
-                updateTexts();
-                updateTables();
-                setupButtons();
-            }
-        });
-
-        getMuteMusicButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        getMuteSoundFxButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-    }*/
-
-
-
     public void playButtonSound(){
         if(JDCEGame.soundEffectsOn){
-
             getGame().getButtonSound().play(1f);
-
         }
     }
 
@@ -245,32 +217,16 @@ public class NewScreen implements Screen {
         return muteMusicX;
     }
 
-    public void setMuteMusicX(float muteMusicX) {
-        this.muteMusicX = muteMusicX;
-    }
-
     public float getMuteMusicY() {
         return muteMusicY;
-    }
-
-    public void setMuteMusicY(float muteMusicY) {
-        this.muteMusicY = muteMusicY;
     }
 
     public float getMuteSoundEffectsX() {
         return muteSoundEffectsX;
     }
 
-    public void setMuteSoundEffectsX(float muteSoundEffectsX) {
-        this.muteSoundEffectsX = muteSoundEffectsX;
-    }
-
     public float getMuteSoundEffectsY() {
         return MuteSoundEffectsY;
-    }
-
-    public void setMuteSoundEffectsY(float muteSoundEffectsY) {
-        MuteSoundEffectsY = muteSoundEffectsY;
     }
 
     public float getStageWidthTenth() {
@@ -294,16 +250,8 @@ public class NewScreen implements Screen {
         return backButtonX;
     }
 
-    public void setBackButtonX(float backButtonX) {
-        this.backButtonX = backButtonX;
-    }
-
     public float getBackButtonY() {
         return backButtonY;
-    }
-
-    public void setBackButtonY(float backButtonY) {
-        this.backButtonY = backButtonY;
     }
 
     public void updateTexts() {
@@ -330,10 +278,6 @@ public class NewScreen implements Screen {
         return game;
     }
 
-    public void setSpriteBatch(SpriteBatch sb) {
-        batch = sb;
-    }
-
     public SpriteBatch getSpriteBatch() {
         return batch;
     }
@@ -342,16 +286,8 @@ public class NewScreen implements Screen {
         return meterViewport;
     }
 
-    public void setMeterViewport(FitViewport meterViewport) {
-        this.meterViewport = meterViewport;
-    }
-
     public ScreenViewport getPixelViewport() {
         return pixelViewport;
-    }
-
-    public void setGameViewport(ScreenViewport pixelViewport) {
-        this.pixelViewport = pixelViewport;
     }
 
     public void setScreenWidth(float width) {
@@ -370,39 +306,17 @@ public class NewScreen implements Screen {
         return screenHeight;
     }
 
-    public void setGameStage(Stage s) {
-        gameStage = s;
-    }
-
     public Stage getGameStage() {
         return gameStage;
-    }
-
-
-
-    public void setTextButtonHeight(float height) {
-        textButtonHeight = height;
     }
 
     public float getTextButtonHeight() {
         return textButtonHeight;
     }
 
-    public void setTextButtonWidth(float width) {
-        textButtonWidth = width;
-    }
-
     public float getTextButtonWidth() {
         return textButtonWidth;
     }
-
-/*    public Button getButtonFI() {
-        return languageFI;
-    }
-
-    public Button getButtonEN() {
-        return languageEN;
-    }*/
 
     public Button getMuteMusicButton() {
         return muteMusic;
@@ -412,20 +326,8 @@ public class NewScreen implements Screen {
         return muteSoundFx;
     }
 
-    public void setMuteSoundFxButton(Button muteSoundFx) {
-        this.muteSoundFx = muteSoundFx;
-    }
-
-    public void setImageButtonHeight(float height) {
-        imageButtonHeight = height;
-    }
-
     public float getImageButtonHeight() {
         return imageButtonHeight;
-    }
-
-    public void setImageButtonWidth(float width) {
-        imageButtonWidth = width;
     }
 
     public float getImageButtonWidth() {

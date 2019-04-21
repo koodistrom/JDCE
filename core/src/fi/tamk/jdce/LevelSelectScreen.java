@@ -27,11 +27,9 @@ public class LevelSelectScreen extends NewScreen {
         setupButtonBounds();
 
         levelTable = new Table();
-        levelTable.defaults().pad(17.5f).space(17.5f);//.size(levelSelectTextButtonWidth, levelSelectTextButtonHeight);
+        levelTable.defaults().pad(17.5f).space(17.5f);
 
         this.worldNumber = worldNumber;
-        int posX;
-        int posY;
 
         switch(worldNumber) {
             case 1:
@@ -48,38 +46,21 @@ public class LevelSelectScreen extends NewScreen {
                 break;
         }
 
-        //levelnumber = 1;
         buttonGrid = new ArrayList<ArrayList<TextButton>>();
         for(int i = 0; i<5;i++){
             levelTable.row();
             buttonGrid.add(new ArrayList<TextButton>());
             for(int n=0; n<2;n++){
-                posX = n + 1;
-                posY = i + 1;
-
-
                 buttonGrid.get(i).add( new TextButton(getGame().getBundle().get("level") + " " + levelnumber, getGame().getUiSkin()));
 
-
-                //buttonGrid.get(i).get(n).setHeight(levelSelectTextButtonHeight);
-
-
                 levelTable.add(buttonGrid.get(i).get(n)).size(levelSelectTextButtonWidth, levelSelectTextButtonHeight);
-
-                //buttonGrid.get(i).get(n).setPosition(widthUnit*posX, (heightUnit*posY)/*+1*/);
-
-                //buttonGrid.get(i).get(n).setSize(levelSelectTextButtonWidth, levelSelectTextButtonHeight);
 
                 buttonGrid.get(i).get(n).addListener(new ClickListener() {
                     int level = levelnumber;
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        /*MyTextInputListener listener = new MyTextInputListener();
-                        Gdx.input.getTextInput(listener, "What is your name?", "Name", "Write your name here");*/
-                        //GameScreen gs = new GameScreen(getGame(),level, worldNumber);
                         playButtonSound();
                         getGame().setScreen(new LevelInfoScreen(getGame(), level, worldNumber));
-                        //getGame().setScreen(gs);
                     }
                 });
 
@@ -94,70 +75,18 @@ public class LevelSelectScreen extends NewScreen {
         getGameStage().addActor(getMuteMusicButton());
         getGameStage().addActor(getMuteSoundFxButton());
         getGameStage().addActor(getBackButton());
-        //getGameStage().setDebugAll(true);
         Gdx.input.setInputProcessor(getGameStage());
 
         updateTables();
 
         clickListeners();
 
-        /*getMuteMusicButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        getMuteSoundFxButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });*/
-
         Gdx.input.setInputProcessor(getGameStage());
     }
-
-    /*@Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        getPixelViewport().apply();
-        getSpriteBatch().setProjectionMatrix(getMeterViewport().getCamera().combined);
-
-        getSpriteBatch().begin();
-        getSpriteBatch().draw(getBackground(), 0, 0, getPixelViewport().getWorldWidth(), getPixelViewport().getWorldHeight());
-        getSpriteBatch().end();
-
-        getGameStage().draw();
-    }*/
-
-    /*@Override
-    public void resize(int width, int height) {
-        getPixelViewport().update(width, height, true);
-        getMeterViewport().update(width, height, true);
-
-        setupButtonBounds();
-        setupButtons();
-    }*/
 
     @Override
     public void setupButtonBounds() {
         super.setupButtonBounds();
-        /*updateTenths();
-
-        setTextButtonHeight(getGameStage().getHeight() / 6);
-        setTextButtonWidth(getGameStage().getWidth() / 3);
-        setImageButtonWidth(getTextButtonHeight());
-        setImageButtonHeight(getTextButtonHeight());
-
-        setBackButtonX(getStageWidthTenth() - (getImageButtonWidth() / 2));
-        setBackButtonY(getStageHeightTenth() * 1 - (getImageButtonHeight() / 2));
-        setMuteMusicY(getStageHeightTenth() * 9 - (getImageButtonHeight() / 2));
-        setMuteSoundEffectsY(getStageHeightTenth() * 6.333f - (getImageButtonHeight() / 2));
-        setMuteMusicX(getStageWidthTenth() * 9 - (getImageButtonWidth() / 2));
-        setMuteSoundEffectsX(getMuteMusicX());*/
 
         levelSelectTextButtonHeight = getStageHeightTenth();
         levelSelectTextButtonWidth = getStageWidthTenth() * 1.75f;
@@ -176,40 +105,6 @@ public class LevelSelectScreen extends NewScreen {
 
         levelTable.setPosition(getGameStage().getWidth() / 2 - (levelTable.getWidth() / 2),
                 getGameStage().getHeight() / 2 - (levelTable.getHeight() / 2));
-    }
-
-    @Override
-    public void setupButtons() {
-        super.setupButtons();
-        levelnumber = 1;
-        int posX;
-        int posY;
-
-        for(int i = 0; i<5;i++){
-            for(int n=0; n<2;n++){
-                posX = n + 1;
-                posY = i + 1;
-
-                //buttonGrid.get(i).get(n).setSize(levelSelectTextButtonWidth, levelSelectTextButtonHeight);
-                //buttonGrid.get(i).get(n).setHeight(levelSelectTextButtonHeight);
-                //buttonGrid.get(i).get(n).setPosition(widthUnit*posX, (heightUnit*posY)/*+1*/);
-
-                levelnumber++;
-
-            }
-        }
-
-        /*getBackButton().setWidth(getImageButtonWidth());
-        getBackButton().setHeight(getImageButtonHeight());
-        getBackButton().setPosition(getBackButtonX(), getBackButtonY());
-
-        getMuteMusicButton().setWidth(getImageButtonWidth());
-        getMuteMusicButton().setHeight(getImageButtonHeight());
-        getMuteMusicButton().setPosition(getMuteMusicX(), getMuteMusicY());
-
-        getMuteSoundFxButton().setWidth(getImageButtonWidth());
-        getMuteSoundFxButton().setHeight(getImageButtonHeight());
-        getMuteSoundFxButton().setPosition(getMuteSoundEffectsX(), getMuteSoundEffectsY());*/
     }
 
     public float getStageWidth() {
