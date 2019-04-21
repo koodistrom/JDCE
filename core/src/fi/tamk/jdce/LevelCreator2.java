@@ -213,12 +213,12 @@ public class LevelCreator2 {
         return points;
     }
 
-    public ArrayList<Asset> createAssets(String fileName, float[] xs, boolean rotate){
+    public ArrayList<Asset> createAssets(String fileName, float[] xs, boolean rotate,float scale){
         ArrayList<Asset> assets = new ArrayList<Asset>();
         Texture texture = new Texture("trees/"+fileName);
         for(int i = 0; i<xs.length; i++){
-            float x =(0.4f+(float)(Math.random()*0.2f));
-           float y= (0.4f+(float)(Math.random()*0.2f));
+            float x =scale*(0.4f+(float)(Math.random()*0.2f));
+           float y= scale*(0.4f+(float)(Math.random()*0.2f));
             assets.add(new Asset(game, xs[i], texture,x,y,rotate));
 
         }

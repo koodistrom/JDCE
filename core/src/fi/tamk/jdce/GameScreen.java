@@ -252,9 +252,17 @@ public class GameScreen extends NewScreen {
                 assets.get(i).draw();
             }
 
-        for (int i = 0; i < turbos.size(); i++) {
+            for (int i = 0; i < assets2.size(); i++) {
+            assets2.get(i).draw();
+            }
+
+            for (int i = 0; i < assets3.size(); i++) {
+            assets3.get(i).draw();
+            }
+
+            for (int i = 0; i < turbos.size(); i++) {
             turbos.get(i).draw();
-        }
+            }
 
             //collectable.update();
 
@@ -395,7 +403,7 @@ public class GameScreen extends NewScreen {
         paused = b;
     }
 
-    public void selectLevel(int levelNumber){
+    /*public void selectLevel(int levelNumber){
         switch (levelNumber){
             case 1:
 
@@ -426,7 +434,7 @@ public class GameScreen extends NewScreen {
                 assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
                 break;
         }
-    }
+    }*/
 
     public void createLevel(int levelNumber, int worldNumber){
         modules = levelCreator.createModules( "rata"+levelNumber+".svg");
@@ -463,28 +471,28 @@ public class GameScreen extends NewScreen {
      public void assets(int worldNumber){
         switch (worldNumber){
             case 1:
-                assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false);
+                assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false,1f);
                 assets2 = new ArrayList<Asset>();
                 assets3 = new ArrayList<Asset>();
                 break;
             case 2:
-                assets = levelCreator.createAssets("kaktus.png",randomFloatArray(20),false);
-                assets2 = levelCreator.createAssets("kivijakallo.png",randomFloatArray(6),true);
-                assets3 = levelCreator.createAssets("kaktus2.png",randomFloatArray(15),false);
+                assets = levelCreator.createAssets("kaktus.png",randomFloatArray(20),false,1f);
+                assets2 = levelCreator.createAssets("kivijakallo.png",randomFloatArray(6),true,0.3f);
+                assets3 = levelCreator.createAssets("kaktus2.png",randomFloatArray(15),false,1.3f);
 
                 break;
 
             case 3:
 
-                assets = levelCreator.createAssets("kiviasetelma1.png",randomFloatArray(15),true);
-                assets2 = levelCreator.createAssets("kasvi2.png",randomFloatArray(15),false);
-                assets3 = levelCreator.createAssets("kivi.png",randomFloatArray(7),true);
+                assets = levelCreator.createAssets("kiviasetelma1.png",randomFloatArray(7),true,2f);
+                assets2 = levelCreator.createAssets("kasvi2.png",randomFloatArray(15),false,0.5f);
+                assets3 = levelCreator.createAssets("kivi.png",randomFloatArray(7),true,1f);
 
                 break;
             case 4:
-                assets = levelCreator.createAssets("puu3.png",randomFloatArray(15),false);
-                assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false);
-                assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false);
+                assets = levelCreator.createAssets("puu3.png",randomFloatArray(15),false,1f);
+                assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false,1f);
+                assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false, 1f);
                 break;
         }
      }
