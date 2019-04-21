@@ -38,10 +38,7 @@ public class JDCEGame extends Game {
     private TextureAtlas textureAtlas;
     boolean skipConnect;
     LevelCreator2 levelCreator;
-    TextureRegionDrawable world1;
-    TextureRegionDrawable world2;
-    TextureRegionDrawable world3;
-    TextureRegionDrawable world4;
+
     TextureRegionDrawable backButtonTextRegDrawable;
     TextureRegionDrawable finTextRegDrawable;
     TextureRegionDrawable finOffTextRegDrawable;
@@ -120,10 +117,7 @@ public class JDCEGame extends Game {
         muteSoundFxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpäällä.png")));
         muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpois.png")));
 
-        world1 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake1.png")));
-        world2 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake2.png")));
-        world3 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake3.png")));
-        world4 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake4.png")));
+
 
 
         this.setScreen(new MainMenuScreen(this));
