@@ -100,6 +100,7 @@ public class GameScreen extends NewScreen {
 
         shapeRenderer = new ShapeRenderer();
 
+        //selectLevel(levelNumber);
         /*music.dispose();
         music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_gamesong_v5.mp3"));
         music.setLooping(true);
@@ -110,9 +111,6 @@ public class GameScreen extends NewScreen {
         turbos = new ArrayList<Collectable>();
         setTheme(worldNumber);
         createLevel(levelNumber,worldNumber);
-
-
-
 
         /*camera = new OrthographicCamera();
         camera.setToOrtho(false,worldWidth,worldHeight);*/

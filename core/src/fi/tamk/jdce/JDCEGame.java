@@ -61,8 +61,6 @@ public class JDCEGame extends Game {
 		fi = new Locale("fi", "FI");
 		en = new Locale("en", "UK");
 
-
-		//updateLanguage(new Locale("en", "UK"));
 		noSensor = true;
 		settings = Gdx.app.getPreferences("JDCE_settings");
 		isEnglish = settings.getBoolean("Language", true);
@@ -162,7 +160,7 @@ public class JDCEGame extends Game {
     }
 
     public void setFontParameter() {
-        parameter.size = (int) (Gdx.graphics.getHeight() / 24);
+        parameter.size = Gdx.graphics.getHeight() / 24;
         parameter.color = Color.WHITE;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 3;
@@ -177,49 +175,20 @@ public class JDCEGame extends Game {
         return font48;
     }
 
-    public void setFont48(BitmapFont font48) {
-        this.font48 = font48;
-    }
-
     public GlyphLayout getLayout48() {
         return layout48;
-    }
-
-    public void setLayout48(GlyphLayout layout48) {
-        this.layout48 = layout48;
     }
 
     public Texture getBackground() {
         return background;
     }
 
-    public void setBackground(Texture background) {
-        this.background = background;
-    }
-
-    public void setUiSkin(Skin s) {
-        uiSkin = s;
-    }
-
     public Skin getUiSkin() {
         return uiSkin;
     }
 
-
-    public FreeTypeFontGenerator getGenerator() {
-        return generator;
-    }
-
-    public void setGenerator(FreeTypeFontGenerator generator) {
-        this.generator = generator;
-    }
-
     public Sound getButtonSound() {
         return buttonSound;
-    }
-
-    public void setButtonSound(Sound buttonSound) {
-        this.buttonSound = buttonSound;
     }
 }
 

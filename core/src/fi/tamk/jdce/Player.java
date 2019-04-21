@@ -510,11 +510,6 @@ public class Player extends GameObject implements InputProcessor, ContactListene
     }
 
     public void endGame(){
-        /*NewScreen.music.stop();
-        NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
-        if(JDCEGame.musicOn) {
-            NewScreen.music.play();
-        }*/
         game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNumber, game.worldNumber));
         game.dispose();
 
