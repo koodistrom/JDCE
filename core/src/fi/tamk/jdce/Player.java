@@ -510,8 +510,7 @@ public class Player extends GameObject implements InputProcessor, ContactListene
     }
 
     public void endGame(){
-        game.getGame().setScreen(new FinishView(game.getGame(), trackTime, win, game.levelNumber, game.worldNumber));
-        game.dispose();
+        game.endGame = true;
 
     }
     @Override

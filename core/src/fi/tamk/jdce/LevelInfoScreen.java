@@ -132,6 +132,7 @@ public class LevelInfoScreen extends NewScreen {
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new HighScoreScreen(getGame(), levelNumber, worldNumber));
                 playButtonSound();
+                gameScreen.dispose();
                 dispose();
             }
         });
@@ -166,5 +167,6 @@ public class LevelInfoScreen extends NewScreen {
     public void dispose(){
         super.dispose();
         mapBackground.dispose();
+
     }
 }

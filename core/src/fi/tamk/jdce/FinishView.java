@@ -23,13 +23,15 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
     private int levelNumber;
     private int worldNumber;
     private int nameLengthLimit;
+    private  GameScreen gameScreen;
 
-    public FinishView(JDCEGame g, float time, boolean isItAWin, int levelNumber, int worldNumber) {
+    public FinishView(JDCEGame g,GameScreen gameScreen, float time, boolean isItAWin, int levelNumber, int worldNumber) {
         super(g);
         this.time = time;
         this.levelNumber = levelNumber;
         this.worldNumber = worldNumber;
         highscores = Gdx.app.getPreferences("JDCE_highscores");
+        this.gameScreen = gameScreen;
 
         nameLengthLimit = 10;
         winTable = new Table();
@@ -198,6 +200,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             public void clicked(InputEvent event, float x, float y) {
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
                 playButtonSound();
+                gameScreen.dispose();
                 dispose();
             }
         });
@@ -205,7 +208,8 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
+                gameScreen.reset();
+                getGame().setScreen(gameScreen);
                 playButtonSound();
                 dispose();
             }

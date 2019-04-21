@@ -55,6 +55,7 @@ public class GameScreen extends NewScreen {
     private Label title;
     private Table pauseTable;
     private boolean gamePaused = false;
+    boolean endGame;
 
 
 
@@ -110,7 +111,7 @@ public class GameScreen extends NewScreen {
         */
         turbos = new ArrayList<Collectable>();
         setTheme(worldNumber);
-        createLevel(levelNumber,worldNumber);
+        modules = levelCreator.createModules( "rata"+levelNumber+".svg");
 
         /*camera = new OrthographicCamera();
         camera.setToOrtho(false,worldWidth,worldHeight);*/
@@ -123,7 +124,7 @@ public class GameScreen extends NewScreen {
         //collectable.setLocationInLevel(20f,levelCreator);
 
 
-
+        endGame=false;
         debugRenderer = new Box2DDebugRenderer();
 
 
@@ -186,8 +187,11 @@ public class GameScreen extends NewScreen {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 playButtonSound();
                 reset();
+                show();
+
             }
         });
 
@@ -293,6 +297,11 @@ public class GameScreen extends NewScreen {
 
         }
 
+        if(endGame){
+            getGame().setScreen(new FinishView(getGame(),this, player.trackTime, player.win, levelNumber, worldNumber));
+            //dispose();
+        }
+
 
     }
 
@@ -311,8 +320,13 @@ public class GameScreen extends NewScreen {
     }
 
     public void reset(){
-        getGame().setScreen(new GameScreen(getGame(), levelNumber, worldNumber));
-        dispose();
+        world.setContactListener(null);
+        world.clearForces();
+        endGame =false;
+        player.dispose();
+
+
+
     }
 
     public World getWorld() {
@@ -363,7 +377,7 @@ public class GameScreen extends NewScreen {
             player.dispose();
         }
         polyBatch.dispose();
-
+        world.dispose();
 
         levelCreator.dispose();
     }
@@ -381,6 +395,7 @@ public class GameScreen extends NewScreen {
 
     @Override
     public void show() {
+        paused = false;
         NewScreen.music.stop();
         NewScreen.music.dispose();
         NewScreen.music = null;
@@ -389,8 +404,10 @@ public class GameScreen extends NewScreen {
         if (JDCEGame.musicOn) {
             NewScreen.music.play();
         }
+
+        assets(worldNumber);
         player = new Player(this);
-        world.setContactListener(player);
+        world.setContactListener(new ContactListenerClass(this));
         Gdx.input.setInputProcessor(player);
     }
 
@@ -436,8 +453,8 @@ public class GameScreen extends NewScreen {
     }*/
 
     public void createLevel(int levelNumber, int worldNumber){
-        modules = levelCreator.createModules( "rata"+levelNumber+".svg");
-        assets(worldNumber);
+
+
     }
 
     public void setTheme(int themeNum){
@@ -473,13 +490,13 @@ public class GameScreen extends NewScreen {
                 assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false,1f);
                 assets2 = new ArrayList<Asset>();
                 assets3 = new ArrayList<Asset>();
-                turbos = levelCreator.createCollectables(randomFloatArray(4));
+                //turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
             case 1:
                 assets = levelCreator.createAssets("kaktus.png",randomFloatArray(20),false,1f);
                 assets2 = levelCreator.createAssets("kivijakallo.png",randomFloatArray(6),true,0.3f);
                 assets3 = levelCreator.createAssets("kaktus2.png",randomFloatArray(15),false,1.3f);
-                turbos = levelCreator.createCollectables(randomFloatArray(4));
+                //turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
 
             case 4:
@@ -487,13 +504,13 @@ public class GameScreen extends NewScreen {
                 assets = levelCreator.createAssets("kiviasetelma1.png",randomFloatArray(7),true,2f);
                 assets2 = levelCreator.createAssets("kasvi2.png",randomFloatArray(15),false,0.5f);
                 assets3 = levelCreator.createAssets("kivi.png",randomFloatArray(7),true,1f);
-                turbos = levelCreator.createCollectables(randomFloatArray(4));
+                //turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
             case 3:
                 assets = levelCreator.createAssets("puu2.png",randomFloatArray(15),false,1.2f);
                 assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false,1.2f);
                 assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false, 0.5f);
-                turbos = levelCreator.createCollectables(randomFloatArray(4));
+                //turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
         }
      }

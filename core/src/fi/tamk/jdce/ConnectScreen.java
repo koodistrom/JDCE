@@ -14,7 +14,7 @@ public class ConnectScreen extends NewScreen {
     private Label connectionInfo;
     private ArrayList<String> devices;
     private Table table;
-    private boolean scanStarted;
+    private boolean locationDataAllowed;
     public ConnectScreen(JDCEGame g) {
         super(g);
         table = new Table();
@@ -23,7 +23,7 @@ public class ConnectScreen extends NewScreen {
         final TextButton connectButton = new TextButton(getGame().getBundle().get("scanDevices"), getGame().getUiSkin());
         final TextButton skipButton = new TextButton(getGame().getBundle().get("skip"), getGame().getUiSkin());
         devices = new ArrayList<String>();
-        scanStarted = false;
+
 
         connectButton.addListener(new ClickListener() {
             @Override
@@ -32,9 +32,10 @@ public class ConnectScreen extends NewScreen {
 
                 if(JDCEGame.m_platformResolver.isScanning()){
                     connectionInfo.setText(getGame().getBundle().get("scanning"));
+                    locationDataAllowed = true;
                 }else{
                     connectionInfo.setText(getGame().getBundle().get("allowLocationData"));
-                    scanStarted = true;
+                    locationDataAllowed = false;
                 }
             }
         });
@@ -67,7 +68,7 @@ public class ConnectScreen extends NewScreen {
             dispose();
         }
 
-        if(!JDCEGame.m_platformResolver.isScanning()&&scanStarted){
+        if(!JDCEGame.m_platformResolver.isScanning()&& locationDataAllowed){
             connectionInfo.setText(getGame().getBundle().get("scanEnd"));
         }
 
