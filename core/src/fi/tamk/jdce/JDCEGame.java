@@ -107,7 +107,7 @@ public class JDCEGame extends Game {
         uiSkin.addRegions(textureAtlas);
         uiSkin.load(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
-        backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("back_button_ph.png")));
+        backButtonTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("takaisin.png")));
 
 
         finTextRegDrawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("suomi2.png")));
@@ -124,8 +124,8 @@ public class JDCEGame extends Game {
 
         world1 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake1.png")));
         world2 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake2.png")));
-        world3 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake1.png")));
-        world4 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake2.png")));
+        world3 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake3.png")));
+        world4 = new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake4.png")));
 
 
         this.setScreen(new MainMenuScreen(this));
