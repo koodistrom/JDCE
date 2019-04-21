@@ -64,6 +64,7 @@ public class GameScreen extends NewScreen {
 
     public GameScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
+
         this.levelNumber = levelNumber;
         this.worldNumber = worldNumber;
         world = new World(new Vector2(0, -3f),true);
@@ -200,6 +201,7 @@ public class GameScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 playButtonSound();
+
                 getGame().setScreen(new MainMenuScreen(getGame()));
                 dispose();
             }
@@ -360,7 +362,27 @@ public class GameScreen extends NewScreen {
     }
 
     @Override
+    public void hide() {
+        NewScreen.music.stop();
+        NewScreen.music.dispose();
+        NewScreen.music = null;
+        NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
+        if(JDCEGame.musicOn) {
+            music.play();
+        }
+    }
+
+    @Override
     public void show() {
+        NewScreen.music.stop();
+        NewScreen.music.dispose();
+        NewScreen.music = null;
+        NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_gamesong_v5.mp3"));
+
+        if (JDCEGame.musicOn) {
+            NewScreen.music.play();
+        }
+
         Gdx.input.setInputProcessor(player);
     }
 

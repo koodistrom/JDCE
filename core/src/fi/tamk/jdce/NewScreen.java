@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class NewScreen implements Screen {
     private JDCEGame game;
     private SpriteBatch batch;
-    //private OrthographicCamera camera;
     final float PIXELS_TO_METERS = 100f;
     private float screenWidth = (Gdx.graphics.getWidth()/PIXELS_TO_METERS)*1.2f;
     private float screenHeight = (Gdx.graphics.getHeight()/PIXELS_TO_METERS)*1.2f;
@@ -54,12 +53,9 @@ public class NewScreen implements Screen {
     public NewScreen(JDCEGame g) {
         game = g;
         batch = game.getBatch();
-        /*camera = new OrthographicCamera();
-        camera.setToOrtho(false, screenWidth, screenHeight);*/
         pixelViewport = new ScreenViewport();
         meterViewport = new FitViewport(screenWidth, screenHeight);
         gameStage = new Stage(pixelViewport, batch);
-        //uiSkin = new Skin(Gdx.files.internal("ui_skin/clean-crispy-ui.json"));
 
         setupButtonBounds();
 
