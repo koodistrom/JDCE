@@ -1,10 +1,12 @@
 package fi.tamk.jdce;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class WorldSelectScreen extends NewScreen {
     private Button world1Button;
@@ -27,10 +29,10 @@ public class WorldSelectScreen extends NewScreen {
 
         setupButtonBounds();
 
-        world1Button = new Button(getGame().world1);
-        world2Button = new Button(getGame().world2);
-        world3Button = new Button(getGame().world3);
-        world4Button = new Button(getGame().world4);
+        world1Button = new Button(new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake1.png"))));
+        world2Button = new Button(new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake2.png"))));
+        world3Button = new Button(new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake3.png"))));
+        world4Button = new Button(new TextureRegionDrawable(new Texture(Gdx.files.internal("kuvake4.png"))));
 
         updateTexts();
         setupButtons();
