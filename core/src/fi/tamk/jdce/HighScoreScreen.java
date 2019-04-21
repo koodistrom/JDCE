@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Align;
  */
 public class HighScoreScreen extends NewScreen {
     /**
-     * Stores the high scores.
+     * A file where the high scores are stored.
      */
     Preferences highscores;
 
