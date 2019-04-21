@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Timer;
 
+
 import java.util.ArrayList;
 
 public class ContactListenerClass implements ContactListener {
@@ -48,11 +49,13 @@ public class ContactListenerClass implements ContactListener {
             objectTouched.deledDis();
         }
 
-        if(objectTouchesTag(game.getPlayer().getBody().getFixtureList().get(1),"turbo",contact)){
+        if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new Collectable(),contact)){
             game.getPlayer().turboOn();
+            game.getPlayer().turbo.play(1f);
+            objectTouched.deledDis();
         }
 
-        if(objectTouchesTag(game.getPlayer().getBody().getFixtureList().get(1),"levelModule",contact)){
+        if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new LevelModule(),contact)){
             game.getPlayer().endGame();
         }
 
@@ -73,7 +76,7 @@ public class ContactListenerClass implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        if(objectTouchesTag(frontWheel,"levelModule",contact)|| objectTouchesTag(rearWheel,"levelModule",contact)){
+        if(objectTouchesClass(frontWheel,new LevelModule(),contact)|| objectTouchesClass(rearWheel,new LevelModule(),contact)){
             if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
                 game.getPlayer().hitGround.play(1f);
@@ -81,7 +84,7 @@ public class ContactListenerClass implements ContactListener {
             }
         }
 
-        if(objectTouchesTag(playerBody,"levelModule",contact)){
+        if(objectTouchesClass(playerBody,new LevelModule(),contact)){
             if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
 
                 game.getPlayer().hitHead.play(1f);
@@ -107,9 +110,12 @@ public class ContactListenerClass implements ContactListener {
         return touch;
     }
 
-    public boolean objectTouchesTag(Fixture fixture, String UserDataTag, Contact contact){
-        if((contact.getFixtureA()==fixture && contact.getFixtureB().getBody().getUserData().equals(UserDataTag)) ||
-                (contact.getFixtureB()==fixture && contact.getFixtureA().getBody().getUserData().equals(UserDataTag))){
+    public boolean objectTouchesClass(Fixture fixture, Object objectType, Contact contact){
+        if(contact.getFixtureA()==fixture && contact.getFixtureB().getBody().getUserData().getClass()==objectType.getClass()){
+            objectTouched = (HasBody) contact.getFixtureB().getBody().getUserData();
+            return true;
+        }else if (contact.getFixtureB()==fixture && contact.getFixtureA().getBody().getUserData().getClass()==objectType.getClass()){
+            objectTouched = (HasBody) contact.getFixtureA().getBody().getUserData();
             return true;
         }else{
             return false;

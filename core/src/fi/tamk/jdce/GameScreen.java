@@ -111,9 +111,9 @@ public class GameScreen extends NewScreen {
             music.play();
         }
         */
-
-
-        selectLevel(levelNumber);
+        turbos = new ArrayList<Collectable>();
+        setTheme(worldNumber);
+        createLevel(levelNumber,worldNumber);
 
 
 
@@ -359,6 +359,7 @@ public class GameScreen extends NewScreen {
         super.dispose();
         background.dispose();
         player.dispose();
+        levelCreator.dispose();
     }
 
     @Override
@@ -398,59 +399,101 @@ public class GameScreen extends NewScreen {
         switch (levelNumber){
             case 1:
 
-                setTheme(SNOW);
-                assets = levelCreator.createAssets("kuusi3.png",new float[]{5,10,20,30,40,50,60,70,80,90});
+                modules = levelCreator.createModules( "rata25.svg");
+                assets = levelCreator.createAssets("kuusi3.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
 
                 break;
             case 2:
-                setTheme(DESERT);
-                assets = levelCreator.createAssets("kaktus.png",new float[]{5,4.5f,7,10,11,37,66,55,45,20,30,40,50,60,70,80,90});
+
+                assets = levelCreator.createAssets("kaktus.png",new float[]{5,4.5f,7,10,11,37,66,55,45,20,30,40,50,60,70,80,90},false);
 
                 break;
             case 3:
-                setTheme(FOREST1);
-                assets = levelCreator.createAssets("puu2.png",new float[]{5,10,20,30,31,42,56,44,56,66,67,65,40,50,60,70,80,90});
+
+                assets = levelCreator.createAssets("puu2.png",new float[]{5,10,20,30,31,42,56,44,56,66,67,65,40,50,60,70,80,90},false);
                 break;
             case 4:
-                setTheme(FOREST2);
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
+
+                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
                 turbos = levelCreator.createCollectables(new float[]{1});
                 break;
             case 5:
-                setTheme(SNOW);
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
+
+                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
                 break;
             case 6:
-                setTheme(SNOW);
-                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90});
+
+                assets = levelCreator.createAssets("kuusi2.png",new float[]{5,10,20,30,40,50,60,70,80,90},false);
                 break;
         }
+    }
+
+    public void createLevel(int levelNumber, int worldNumber){
+        modules = levelCreator.createModules( "rata"+levelNumber+".svg");
+        assets(worldNumber);
     }
 
     public void setTheme(int themeNum){
         switch (themeNum){
             case 1:
-                modules = levelCreator.createModules( "rata24.svg","lumitausta.png",Color.GRAY);
+                levelCreator.setTextureAndLine("lumitausta.png",Color.GRAY);
                 background = new Background(this,"tausta4taso1.jpg","tausta4taso2.png","tausta4taso3.png",0,0);
                 break;
 
             case 2:
-                modules = levelCreator.createModules( "rata25.svg","aavikkotausta.png",Color.TAN);
+                levelCreator.setTextureAndLine( "aavikkotausta.png",Color.TAN);
                 background = new Background(this,"tausta3taso1.jpg","tausta3taso2.png","tausta3taso3.png",0,-50);
                 break;
 
             case 3:
-                modules = levelCreator.createModules( "rata26.svg","tausta.png",Color.BROWN);
+                levelCreator.setTextureAndLine( "tausta.png",Color.BROWN);
                 background = new Background(this,"tausta2taso1.jpg","tausta2taso2.png","tausta2taso3.png",0,-50);
 
                 break;
 
             case 4:
-                modules = levelCreator.createModules( "rata27.svg","looppaavamaa.png",Color.BROWN);
+                levelCreator.setTextureAndLine( "looppaavamaa.png",Color.BROWN);
                 background = new Background(this,"tausta1taso1.jpg","tausta1taso2.png","tausta1taso3.png",0,0);
 
                 break;
 
         }
     }
+
+     public void assets(int worldNumber){
+        switch (worldNumber){
+            case 1:
+                assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false);
+                assets2 = new ArrayList<Asset>();
+                assets3 = new ArrayList<Asset>();
+                break;
+            case 2:
+                assets = levelCreator.createAssets("kaktus.png",randomFloatArray(20),false);
+                assets2 = levelCreator.createAssets("kivijakallo.png",randomFloatArray(6),true);
+                assets3 = levelCreator.createAssets("kaktus2.png",randomFloatArray(15),false);
+
+                break;
+
+            case 3:
+
+                assets = levelCreator.createAssets("kiviasetelma1.png",randomFloatArray(15),true);
+                assets2 = levelCreator.createAssets("kasvi2.png",randomFloatArray(15),false);
+                assets3 = levelCreator.createAssets("kivi.png",randomFloatArray(7),true);
+
+                break;
+            case 4:
+                assets = levelCreator.createAssets("puu3.png",randomFloatArray(15),false);
+                assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false);
+                assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false);
+                break;
+        }
+     }
+
+     public float[] randomFloatArray(int ammount){
+        float[] array = new float[ammount];
+        for (int i=0; i<ammount; i++){
+            array[i] = 1f+((float)(Math.random())*98f);
+        }
+        return array;
+     }
 }

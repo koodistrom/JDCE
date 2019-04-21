@@ -46,7 +46,7 @@ public class ConnectScreen extends NewScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 getGame().skipConnect=true;
-                getGame().setScreen(new WorldSelectScreen(getGame()));
+                getGame().setScreen(new MainMenuScreen(getGame()));
             }
         });
 

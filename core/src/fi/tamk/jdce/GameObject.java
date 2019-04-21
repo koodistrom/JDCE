@@ -28,6 +28,11 @@ public class GameObject implements HasBody{
         y = game.getScreenHeight()/2;
     }
 
+    public GameObject(){
+
+    }
+
+
     public void update(){
         x = (body.getPosition().x) - (width/2);
         y = (body.getPosition().y) - (height/2);

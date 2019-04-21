@@ -29,6 +29,9 @@ public class Collectable extends GameObject {
         setLocationInLevel(xPercentage, levelCreator);
 
     }
+    public Collectable(){
+
+    }
 
     @Override
     public void update() {
@@ -102,7 +105,7 @@ public class Collectable extends GameObject {
         fixtureDef.isSensor = true;
 
         body.createFixture(fixtureDef);
-        body.setUserData("turbo");
+        body.setUserData(this);
         setBody(body);
     }
 

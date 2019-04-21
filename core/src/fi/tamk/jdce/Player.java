@@ -258,7 +258,8 @@ public class Player extends GameObject implements InputProcessor {
         frontWheelJoint.setMotorSpeed(motorSpeed);
 
         if(isTurboOn){
-            body.applyForceToCenter(new Vector2(5,0),false);
+            body.applyForceToCenter(new Vector2((float)Math.cos(body.getAngle())*3,(float)Math.sin(body.getAngle())*3),false);
+
             //motorSpeed *= 2;
         }
 
@@ -525,7 +526,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     public void playPedalingSound(){
-        if(Math.abs(speed)!=0){
+        if(Math.abs(speed)!=0 && JDCEGame.soundEffectsOn){
             cycling.resume();
         }else {
             cycling.pause();

@@ -32,6 +32,8 @@ public class LevelCreator2 {
     ArrayList<Vector2> allVertices;
     TextureAtlas collectableAtlas;
     Animation<TextureRegion> collectableAnimation;
+    Texture texture;
+    Color lineColor;
 
     float lowest;
     float highest;
@@ -73,7 +75,7 @@ public class LevelCreator2 {
         fixtureDef.isSensor = isSensor;
         bodyDef.position.set(x,y);
         bodyGround = world.createBody(bodyDef);
-        bodyGround.setUserData(userData);
+
         bodyGround.createFixture(fixtureDef);
 
         chainShape.dispose();
@@ -84,10 +86,10 @@ public class LevelCreator2 {
 
 
 
-    public ArrayList<LevelModule> createModules (String fileName, String textureFileName, Color lineColor){
+    public ArrayList<LevelModule> createModules (String fileName){
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
-        Texture texture = new Texture("earth/"+textureFileName);
+
         firstX = paths.get(0).get(0).x;
         firstY = paths.get(0).get(0).y;
         lastX = 0;
@@ -128,6 +130,7 @@ public class LevelCreator2 {
 
 
             modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0,false));
+            modules.get(i).getBody().setUserData(modules.get(i));
             modules.get(i).setPolygonRegion(createPolygonRegion(game, points, texture));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
             modules.get(i).setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
@@ -210,13 +213,13 @@ public class LevelCreator2 {
         return points;
     }
 
-    public ArrayList<Asset> createAssets(String fileName, float[] xs){
+    public ArrayList<Asset> createAssets(String fileName, float[] xs, boolean rotate){
         ArrayList<Asset> assets = new ArrayList<Asset>();
         Texture texture = new Texture("trees/"+fileName);
         for(int i = 0; i<xs.length; i++){
             float x =(0.4f+(float)(Math.random()*0.2f));
            float y= (0.4f+(float)(Math.random()*0.2f));
-            assets.add(new Asset(game, xs[i], texture,x,y));
+            assets.add(new Asset(game, xs[i], texture,x,y,rotate));
 
         }
         return assets;
@@ -234,6 +237,21 @@ public class LevelCreator2 {
 
         }
         return collectables;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void setTextureAndLine(String textureFileName, Color lineColor) {
+        this.texture= new Texture("earth/"+textureFileName);
+        this.lineColor = lineColor;
+    }
+
+    public void dispose(){
+        goal.dispose();
+        //collectableAtlas.dispose();
+
     }
 
 
