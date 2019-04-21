@@ -12,7 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * WorldSelectScreen is the world selection menu for the game.
  *
  * It extends the NewScreen-class and has
- * mute-buttons for the game's music and sound effects.
+ * mute-buttons for the game's music and sound effects
+ * and backButton to access the previous screen.
  *
  * From the WorldSelectScreen you choose the world
  * which you want to choose a level from.

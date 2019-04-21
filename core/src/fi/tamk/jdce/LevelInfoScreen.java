@@ -8,26 +8,117 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * LevelInfoScreen displays info about chosen level.
+ *
+ * It extends the NewScreen-class and has
+ * mute-buttons for the game's music and sound effects
+ * and backButton to access the previous screen.
+ *
+ * LevelInfoScreen shows a scaled down map of the chosen level,
+ * allows user to see the highest scores achieved on the level via highScoreButton
+ * and allows user to launch GameScreen and play the level via playButton.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class LevelInfoScreen extends NewScreen {
+    /**
+     * The Button that sets the screen to GameScreen.
+     */
     private TextButton playButton;
+
+    /**
+     * The Button that sets the screen to HighScoreScreen.
+     */
     private TextButton highScoreButton;
+
+    /**
+     * The string that includes the text displayed on the playButton.
+     */
     private String playButtonText;
+
+    /**
+     * The string that includes the text displayed on the highScoreButton.
+     */
     private String highScoreButtonText;
+
+    /**
+     * The string that includes the level's number displayed above the playButton ("Level X").
+     */
     private String levelText;
+
+    /**
+     * Holds the the number of the world.
+     */
     private int worldNumber;
+
+    /**
+     * Holds the the number of the level.
+     */
     private int levelNumber;
+
+    /**
+     * The location of the playButton on the x-axis/width-axis.
+     */
     private float playButtonX;
+
+    /**
+     * The location of the playButton on the y-axis/height-axis.
+     */
     private float playButtonY;
+
+    /**
+     * The location of the highScoreButton on the x-axis/width-axis.
+     */
     private float highScoreButtonX;
+
+    /**
+     * The location of the highScoreButton on the y-axis/height-axis.
+     */
     private float highScoreButtonY;
+
+    /**
+     * The location of the levelText String on the x-axis/width-axis.
+     */
     private float levelTextX;
+
+    /**
+     * The location of the levelText String on the y-axis/height-axis.
+     */
     private float levelTextY;
+
+    /**
+     * Scaler used to downscale the level for the display.
+     */
     private float mapScaler;
+
+    /**
+     * The background texture for the level display.
+     */
     private Texture mapBackground;
 
+    /**
+     * Renders the shape of the level for the display.
+     */
     private ShapeRenderer shapeRenderer;
+
+    /**
+     * Screen for playing the level.
+     */
     private GameScreen gameScreen;
 
+    /**
+     * The default constructor for LevelInfoScreen.
+     *
+     * Creates a downscaled display of the chosen level.
+     *
+     * @param g the JDCEGame-class. It allows LevelInfoScreen and NewScreen access for the: batch, myBundle,
+     *          the game's settings, textures, uiSkin and font48.
+     * @param levelNumber tells LevelInfoScreen which level is chosen.
+     * @param worldNumber tells LevelInfoScreen which world the level belongs to.
+     */
     public LevelInfoScreen(JDCEGame g, int levelNumber, int worldNumber) {
         super(g);
 
@@ -46,7 +137,6 @@ public class LevelInfoScreen extends NewScreen {
         setMapScaler();
         for(int i=0; i<gameScreen.getModules().size();i++){
             gameScreen.getModules().get(i).createMapOutlines(mapScaler,0.1f*getScreenWidth(),0.8f*getScreenHeight());
-
         }
         mapBackground = new Texture("karttarausta.png");
         shapeRenderer = new ShapeRenderer();
@@ -86,8 +176,6 @@ public class LevelInfoScreen extends NewScreen {
             gameScreen.getModules().get(i).drawMapOutlines(shapeRenderer);
         }
         shapeRenderer.end();
-
-
     }
 
     @Override
@@ -154,6 +242,9 @@ public class LevelInfoScreen extends NewScreen {
         levelText = getGame().getBundle().get("level");
     }
 
+    /**
+     * Sets up the mapScaler based on the level layout.
+     */
     public void setMapScaler(){
         float mapAspectRatio = (gameScreen.getLevelCreator().highest-gameScreen.getLevelCreator().lowest)/gameScreen.getLevelCreator().lastX;
         if(mapAspectRatio<0.33f){
@@ -167,6 +258,5 @@ public class LevelInfoScreen extends NewScreen {
     public void dispose(){
         super.dispose();
         mapBackground.dispose();
-
     }
 }
