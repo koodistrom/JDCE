@@ -226,9 +226,6 @@ public class MainMenuScreen extends NewScreen {
         }
     }
 
-    /**
-     * Sets up or updates the buttons' sizes and position's coordinates.
-     */
     @Override
     public void setupButtonBounds() {
         super.setupButtonBounds();
@@ -245,9 +242,6 @@ public class MainMenuScreen extends NewScreen {
         languageButtonY = getStageHeightTenth() * 1 - (getImageButtonHeight() / 2);
     }
 
-    /**
-     * Sets up or updates the buttons with their size and position.
-     */
     @Override
     public void setupButtons() {
         super.setupButtons();
@@ -274,9 +268,6 @@ public class MainMenuScreen extends NewScreen {
         confirmNegative.setText(confirmNegativeText);
     }
 
-    /**
-     * Sets up the Buttons' clickListeners.
-     */
     @Override
     public void clickListeners() {
         super.clickListeners();
@@ -355,9 +346,6 @@ public class MainMenuScreen extends NewScreen {
 
     }
 
-    /**
-     * Sets the strings with the current JDCEGame.myBundle.
-     */
     @Override
     public void updateTexts() {
         playButtonText = getGame().getBundle().get("play");

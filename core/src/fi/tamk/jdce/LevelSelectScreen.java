@@ -8,17 +8,24 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
+/**
+ * LevelSelectScreen is the level selection menu for the game.
+ *
+ * It extends the NewScreen-class and has
+ * mute-buttons for the game's music and sound effects.
+ *
+ * From the LevelSelectScreen you choose the level
+ * that you want to play.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class LevelSelectScreen extends NewScreen {
-    private float heightUnit = getStageHeight() / 3;
-    private float widthUnit = getStageWidth() / 4;
     private float levelSelectTextButtonWidth;
     private float levelSelectTextButtonHeight;
-    private float textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
-    private float textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
-    private float textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
     private ArrayList<ArrayList<TextButton>> buttonGrid;
     private int levelnumber;
-    private int worldNumber;
     private Table levelTable;
 
     public LevelSelectScreen(JDCEGame g, final int worldNumber) {
@@ -29,7 +36,6 @@ public class LevelSelectScreen extends NewScreen {
         levelTable = new Table();
         levelTable.defaults().pad(17.5f).space(17.5f);
 
-        this.worldNumber = worldNumber;
 
         switch(worldNumber) {
             case 1:
@@ -90,12 +96,6 @@ public class LevelSelectScreen extends NewScreen {
 
         levelSelectTextButtonHeight = getStageHeightTenth();
         levelSelectTextButtonWidth = getStageWidthTenth() * 1.75f;
-
-        heightUnit = getStageHeightTenth() * 2.5f;
-        widthUnit = getStageWidthTenth() * 2;
-        textButtonX = getStageWidth() / 2 - (getTextButtonWidth() / 2);
-        textButtonY1 = getStageHeight() / 2 - (getTextButtonHeight() / 2);
-        textButtonY2 = getStageHeight() / 2.5f - (getTextButtonHeight() / 2);
     }
 
     @Override

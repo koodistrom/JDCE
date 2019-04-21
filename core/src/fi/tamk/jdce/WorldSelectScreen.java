@@ -8,22 +8,82 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+/**
+ * WorldSelectScreen is the world selection menu for the game.
+ *
+ * It extends the NewScreen-class and has
+ * mute-buttons for the game's music and sound effects.
+ *
+ * From the WorldSelectScreen you choose the world
+ * which you want to choose a level from.
+ * The world also determines the assets of its levels.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class WorldSelectScreen extends NewScreen {
+    /**
+     * Button that opens the LevelSelectScreen for world number 1.
+     */
     private Button world1Button;
+
+    /**
+     * Button that opens the LevelSelectScreen for world number 2.
+     */
     private Button world2Button;
+
+    /**
+     * Button that opens the LevelSelectScreen for world number 3.
+     */
     private Button world3Button;
+
+    /**
+     * Button that opens the LevelSelectScreen for world number 4.
+     */
     private Button world4Button;
 
+    /**
+     * The location of the Buttons in the first column on the x-axis/width-axis.
+     */
     private float buttonCol1x;
+
+    /**
+     * The location of the Buttons in the second column on the x-axis/width-axis.
+     */
     private float buttonCol2x;
+
+    /**
+     * The location of the Buttons in the first row on the y-axis/height-axis.
+     */
     private float buttonRow1y;
+
+    /**
+     * The location of the Buttons in the second row on the y-axis/height-axis.
+     */
     private float buttonRow2y;
 
+    /**
+     * The width for the worldButtons.
+     */
     private float worldButtonWidth;
+
+    /**
+     * The width for the worldButtons.
+     */
     private float worldButtonHeight;
 
+    /**
+     * The string that includes the text displayed on the top of WorldSelectScreen.
+     */
     private String worldSelectText;
 
+    /**
+     * The default constructor for WorldSelectScreen.
+     *
+     * @param g the JDCEGame-class. It allows WorldSelectScreen and NewScreen access for the: batch, myBundle,
+     *          the game's settings, textures, uiSkin and font48.
+     */
     public WorldSelectScreen(JDCEGame g) {
         super(g);
 
