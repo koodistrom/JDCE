@@ -113,7 +113,6 @@ public class HighScoreScreen extends NewScreen {
                     scoreToDisplay = "";
                     addToName = true;
                 }
-
             }
         }
         int rows = table.getRows();
@@ -124,9 +123,7 @@ public class HighScoreScreen extends NewScreen {
                 table.row();
             }
         }
-
     }
-
 
     @Override
     public void clickListeners() {
