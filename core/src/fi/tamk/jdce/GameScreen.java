@@ -470,6 +470,8 @@ public class GameScreen extends NewScreen {
 
     @Override
     public void show() {
+        player = new Player(this);
+        world.setContactListener(new ContactListenerClass(this));
         paused = false;
         NewScreen.music.stop();
         NewScreen.music.dispose();
@@ -481,8 +483,7 @@ public class GameScreen extends NewScreen {
         }
 
         assets(worldNumber);
-        player = new Player(this);
-        world.setContactListener(new ContactListenerClass(this));
+
         Gdx.input.setInputProcessor(player);
     }
 

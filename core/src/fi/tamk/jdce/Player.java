@@ -12,13 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -28,58 +24,147 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
-public class Player extends GameObject implements InputProcessor, ContactListener {
+/**
+ * The type Player.
+ */
+public class Player extends GameObject implements InputProcessor {
 
 
+    /**
+     * The World.
+     */
     World world;
+    /**
+     * The Front wheel's body.
+     */
     Body frontWheel;
+    /**
+     * The Rear wheel's body.
+     */
     Body rearWheel;
+    /**
+     * The Wheels' texture.
+     */
     Texture wheel;
-    float rwRotation;
-    float fwRotation;
-    WheelJointDef rearWheelJointDef = new WheelJointDef();
-    WheelJoint rearWheelJoint;
-    WheelJoint frontWheelJoint;
-    Float motorSpeed;
-    int time;
-    Float oldSpeed;
+
+    private float rwRotation;
+    private float fwRotation;
+    private WheelJoint rearWheelJoint;
+
+    private WheelJoint frontWheelJoint;
+    private Float motorSpeed;
+    private Float oldSpeed;
+    /**
+     * The track time. Time player has spend on the track.
+     */
     float trackTime;
-    Timer timer;
+    /**
+     * The boostTimer for turboboosts duration.
+     */
+    Timer boostTimer;
+    /**
+     * The Is turbo on.
+     */
     boolean isTurboOn;
+    /**
+     * The Free roll range.
+     */
     float freeRollRange;
 
+    /**
+     * The Reverse on.
+     */
     boolean reverseOn;
+    /**
+     * The Forward on.
+     */
     boolean forwardOn;
+    /**
+     * The Neutral on.
+     */
     boolean neutralOn;
 
+    /**
+     * The Speed.
+     */
     Float speed;
+    /**
+     * The Dists in sec.
+     */
     ArrayList<Float> distsInSec;
+    /**
+     * The Neutral dist.
+     */
     float neutralDist;
+    /**
+     * The Neutral range.
+     */
     float neutralRange;
 
+    /**
+     * The Ww.
+     */
     float ww;
+    /**
+     * The Wh.
+     */
     float wh;
+    /**
+     * The Linear damping.
+     */
     float linearDamping;
+    /**
+     * The Win.
+     */
     boolean win;
+    /**
+     * The Add speed.
+     */
     boolean addSpeed;
+    /**
+     * The Is on ground.
+     */
     boolean isOnGround;
+    /**
+     * The Pedaling atlas.
+     */
     TextureAtlas pedalingAtlas;
+    /**
+     * The Pedaling animation.
+     */
     Animation<TextureRegion> pedalingAnimation;
+    /**
+     * The State time.
+     */
     float stateTime;
+    /**
+     * The Current frame.
+     */
     TextureRegion currentFrame;
+    /**
+     * The sound of wheels hitting ground.
+     */
     Sound hitGround;
+    /**
+     * The sound when character hits part of its body to ground.
+     */
     Sound hitHead;
+    /**
+     * The Turbo sound.
+     */
     Sound turbo;
+    /**
+     * The Cycling sound.
+     */
     Sound cycling;
 
-    HasBody objectTouched;
-    Fixture frontWheelFix;
-    Fixture rearWheelFix;
-    Fixture playerBodyFix;
 
 
-
-
+    /**
+     * Instantiates a new Player.
+     *
+     * @param game the game
+     */
     public Player(GameScreen game) {
 
         super(game);
@@ -92,7 +177,7 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         world = game.getWorld();
         x = game.getScreenWidth()/3;
         y = game.getScreenHeight()/2;
-        time = 0;
+
         oldSpeed = 0f;
         isTurboOn = false;
         freeRollRange = 0.005f;
@@ -136,6 +221,11 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         //Gdx.input.setInputProcessor(this);
     }
 
+    /**
+     * Draw.
+     *
+     * @param textureRegion the texture region
+     */
     public void draw(TextureRegion textureRegion){
 
         batch.draw(wheel, rearWheel.getPosition().x-(ww/2), rearWheel.getPosition().y-(wh/2),ww/2, wh/2,
@@ -216,9 +306,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
     }
 
 
-
-
-
+    /**
+     * Win lose check.
+     */
     public void winLoseCheck(){
         if(x>game.getLevelCreator().goal.getX()) {
             //voittaminen :ok_hand:
@@ -231,6 +321,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         }
     }
 
+    /**
+     * Steering.
+     */
     public void steering(){
 
         tiltSteering();
@@ -278,9 +371,12 @@ public class Player extends GameObject implements InputProcessor, ContactListene
 
     }
 
+    /**
+     * Turbo on.
+     */
     public void turboOn(){
         isTurboOn = true;
-        timer = new Timer();
+        boostTimer = new Timer();
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
@@ -288,10 +384,15 @@ public class Player extends GameObject implements InputProcessor, ContactListene
                 isTurboOn = false;
             }
         };
-        timer.scheduleTask(task,7);
+        boostTimer.scheduleTask(task,7);
 
     }
 
+    /**
+     * Is reverse on boolean.
+     *
+     * @return the boolean
+     */
     public  boolean isReverseOn(){
         if (reverseOn){
             if (speed<freeRollRange){
@@ -306,6 +407,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         }
     }
 
+    /**
+     * Sets on reverse.
+     */
     public void setOnReverse() {
         reverseOn = true;
         neutralOn = false;
@@ -315,6 +419,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         frontWheelJoint.enableMotor(true);
     }
 
+    /**
+     * Sets on neutral.
+     */
     public void setOnNeutral() {
         rearWheelJoint.enableMotor(false);
         frontWheelJoint.enableMotor(false);
@@ -324,6 +431,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         forwardOn = false;
     }
 
+    /**
+     * Sets on forward.
+     */
     public void setOnForward() {
         rearWheelJoint.enableMotor(true);
         frontWheelJoint.enableMotor(false);
@@ -333,11 +443,17 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         forwardOn = true;
     }
 
+    /**
+     * Air control.
+     */
     public void airControl(){
         //body.applyTorque(speed*10,true);
         body.applyAngularImpulse(speed,false);
     }
 
+    /**
+     * Create bodies.
+     */
     public void createBodies(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -409,11 +525,11 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         data.center.set(0.0f, -0.3f);
         body.setMassData(data);
 
-        frontWheelFix = frontWheel.getFixtureList().get(0);
-        rearWheelFix = rearWheel.getFixtureList().get(0);
-        playerBodyFix = body.getFixtureList().get(0);
     }
 
+    /**
+     * Create death sensor.
+     */
     public void createDeathSensor(){
 
         Vector2[] vertices;
@@ -509,6 +625,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         return false;
     }
 
+    /**
+     * End game.
+     */
     public void endGame(){
         game.endGame = true;
 
@@ -524,6 +643,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         cycling.dispose();
     }
 
+    /**
+     * Tilt steering.
+     */
     public void tiltSteering(){
 
         if(game.getGame().skipConnect){
@@ -533,6 +655,9 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         }
     }
 
+    /**
+     * Play pedaling sound.
+     */
     public void playPedalingSound(){
         if(Math.abs(speed)!=0 && JDCEGame.soundEffectsOn){
             cycling.resume();
@@ -541,67 +666,5 @@ public class Player extends GameObject implements InputProcessor, ContactListene
         }
     }
 
-    @Override
-    public void beginContact(Contact contact) {
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
-
-
-        if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new Collectable(),contact)){
-            turboOn();
-            turbo.play(1f);
-            objectTouched.deledDis();
-        }
-
-        if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new LevelModule(),contact)){
-            endGame();
-        }
-
-
-
-    }
-
-    @Override
-    public void endContact(Contact contact) {
-
-
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-        if(objectTouchesClass(frontWheelFix,new LevelModule(),contact)|| objectTouchesClass(rearWheelFix,new LevelModule(),contact)){
-            if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
-
-                hitGround.play(1f);
-
-            }
-        }
-
-        if(objectTouchesClass(playerBodyFix,new LevelModule(),contact)){
-            if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
-
-                hitHead.play(1f);
-
-            }
-        }
-    }
-
-
-    public boolean objectTouchesClass(Fixture fixture, Object objectType, Contact contact){
-        if(contact.getFixtureA()==fixture && contact.getFixtureB().getBody().getUserData().getClass()==objectType.getClass()){
-            objectTouched = (HasBody) contact.getFixtureB().getBody().getUserData();
-            return true;
-        }else if (contact.getFixtureB()==fixture && contact.getFixtureA().getBody().getUserData().getClass()==objectType.getClass()){
-            objectTouched = (HasBody) contact.getFixtureA().getBody().getUserData();
-            return true;
-        }else{
-            return false;
-        }
-    }
 
 }
