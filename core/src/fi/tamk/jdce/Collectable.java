@@ -55,7 +55,7 @@ public class Collectable extends GameObject {
 
 
     public void setLocationInLevel(Float xPercentage, LevelCreator2 levelCreator) {
-        for (int i=0; i<levelCreator.allVertices.size(); i++){
+        for (int i=1; i<levelCreator.allVertices.size(); i++){
             float absolutePos = xPercentage*(levelCreator.lastX/100);
             if(levelCreator.allVertices.get(i).x>absolutePos){
 

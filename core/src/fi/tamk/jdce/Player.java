@@ -12,8 +12,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,7 +28,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
-public class Player extends GameObject implements InputProcessor {
+public class Player extends GameObject implements InputProcessor, ContactListener {
 
 
     World world;
@@ -66,6 +71,11 @@ public class Player extends GameObject implements InputProcessor {
     Sound hitHead;
     Sound turbo;
     Sound cycling;
+
+    HasBody objectTouched;
+    Fixture frontWheelFix;
+    Fixture rearWheelFix;
+    Fixture playerBodyFix;
 
 
 
@@ -398,6 +408,10 @@ public class Player extends GameObject implements InputProcessor {
 
         data.center.set(0.0f, -0.3f);
         body.setMassData(data);
+
+        frontWheelFix = frontWheel.getFixtureList().get(0);
+        rearWheelFix = rearWheel.getFixtureList().get(0);
+        playerBodyFix = body.getFixtureList().get(0);
     }
 
     public void createDeathSensor(){
@@ -532,4 +546,68 @@ public class Player extends GameObject implements InputProcessor {
             cycling.pause();
         }
     }
+
+    @Override
+    public void beginContact(Contact contact) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+
+
+        if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new Collectable(),contact)){
+            turboOn();
+            turbo.play(1f);
+            objectTouched.deledDis();
+        }
+
+        if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new LevelModule(),contact)){
+            endGame();
+        }
+
+
+
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+        if(objectTouchesClass(frontWheelFix,new LevelModule(),contact)|| objectTouchesClass(rearWheelFix,new LevelModule(),contact)){
+            if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
+
+                hitGround.play(1f);
+
+            }
+        }
+
+        if(objectTouchesClass(playerBodyFix,new LevelModule(),contact)){
+            if(JDCEGame.soundEffectsOn && impulse.getNormalImpulses()[0]>0.9f){
+
+                hitHead.play(1f);
+
+            }
+        }
+    }
+
+
+    public boolean objectTouchesClass(Fixture fixture, Object objectType, Contact contact){
+        if(contact.getFixtureA()==fixture && contact.getFixtureB().getBody().getUserData().getClass()==objectType.getClass()){
+            objectTouched = (HasBody) contact.getFixtureB().getBody().getUserData();
+            return true;
+        }else if (contact.getFixtureB()==fixture && contact.getFixtureA().getBody().getUserData().getClass()==objectType.getClass()){
+            objectTouched = (HasBody) contact.getFixtureA().getBody().getUserData();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

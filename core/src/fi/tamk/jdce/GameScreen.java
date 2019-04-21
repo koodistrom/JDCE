@@ -56,10 +56,6 @@ public class GameScreen extends NewScreen {
     private Table pauseTable;
     private boolean gamePaused = false;
 
-    private static int SNOW = 1;
-    private static int DESERT = 2;
-    private static int FOREST1 = 3;
-    private static int FOREST2 = 4;
 
 
     public GameScreen(JDCEGame g, int levelNumber, int worldNumber) {
@@ -122,13 +118,13 @@ public class GameScreen extends NewScreen {
         camera.setToOrtho(false,worldWidth,worldHeight);*/
 
 
-        player = new Player(this);
+
         //stegosaurus = new Stegosaurus(this);
 
         //collectable = new Collectable(this, new Texture("collectable.png"));
         //collectable.setLocationInLevel(20f,levelCreator);
 
-        world.setContactListener(new ContactListenerClass(this));
+
 
         debugRenderer = new Box2DDebugRenderer();
 
@@ -264,10 +260,9 @@ public class GameScreen extends NewScreen {
             turbos.get(i).draw();
             }
 
-            //collectable.update();
 
             levelCreator.goal.draw();
-            debugRenderer.render(world, debugMatrix);
+            //debugRenderer.render(world, debugMatrix);
 
             getSpriteBatch().end();
 
@@ -366,7 +361,12 @@ public class GameScreen extends NewScreen {
     public void dispose(){
         super.dispose();
         background.dispose();
-        player.dispose();
+        if(player!=null){
+            player.dispose();
+        }
+        polyBatch.dispose();
+
+
         levelCreator.dispose();
     }
 
@@ -391,7 +391,8 @@ public class GameScreen extends NewScreen {
         if (JDCEGame.musicOn) {
             NewScreen.music.play();
         }
-
+        player = new Player(this);
+        world.setContactListener(player);
         Gdx.input.setInputProcessor(player);
     }
 
@@ -443,23 +444,23 @@ public class GameScreen extends NewScreen {
 
     public void setTheme(int themeNum){
         switch (themeNum){
-            case 1:
+            case 2:
                 levelCreator.setTextureAndLine("lumitausta.png",Color.GRAY);
                 background = new Background(this,"tausta4taso1.jpg","tausta4taso2.png","tausta4taso3.png",0,0);
                 break;
 
-            case 2:
+            case 1:
                 levelCreator.setTextureAndLine( "aavikkotausta.png",Color.TAN);
                 background = new Background(this,"tausta3taso1.jpg","tausta3taso2.png","tausta3taso3.png",0,-50);
                 break;
 
-            case 3:
+            case 4:
                 levelCreator.setTextureAndLine( "tausta.png",Color.BROWN);
                 background = new Background(this,"tausta2taso1.jpg","tausta2taso2.png","tausta2taso3.png",0,-50);
 
                 break;
 
-            case 4:
+            case 3:
                 levelCreator.setTextureAndLine( "looppaavamaa.png",Color.BROWN);
                 background = new Background(this,"tausta1taso1.jpg","tausta1taso2.png","tausta1taso3.png",0,0);
 
@@ -470,29 +471,31 @@ public class GameScreen extends NewScreen {
 
      public void assets(int worldNumber){
         switch (worldNumber){
-            case 1:
+            case 2:
                 assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false,1f);
                 assets2 = new ArrayList<Asset>();
                 assets3 = new ArrayList<Asset>();
+                turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
-            case 2:
+            case 1:
                 assets = levelCreator.createAssets("kaktus.png",randomFloatArray(20),false,1f);
                 assets2 = levelCreator.createAssets("kivijakallo.png",randomFloatArray(6),true,0.3f);
                 assets3 = levelCreator.createAssets("kaktus2.png",randomFloatArray(15),false,1.3f);
-
+                turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
 
-            case 3:
+            case 4:
 
                 assets = levelCreator.createAssets("kiviasetelma1.png",randomFloatArray(7),true,2f);
                 assets2 = levelCreator.createAssets("kasvi2.png",randomFloatArray(15),false,0.5f);
                 assets3 = levelCreator.createAssets("kivi.png",randomFloatArray(7),true,1f);
-
+                turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
-            case 4:
-                assets = levelCreator.createAssets("puu3.png",randomFloatArray(15),false,1f);
-                assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false,1f);
-                assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false, 1f);
+            case 3:
+                assets = levelCreator.createAssets("puu2.png",randomFloatArray(15),false,1.2f);
+                assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false,1.2f);
+                assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false, 0.5f);
+                turbos = levelCreator.createCollectables(randomFloatArray(4));
                 break;
         }
      }

@@ -250,6 +250,10 @@ public class LevelCreator2 {
 
     public void dispose(){
         goal.dispose();
+        texture.dispose();
+        if(collectableAtlas!=null) {
+            collectableAtlas.dispose();
+        }
         //collectableAtlas.dispose();
 
     }

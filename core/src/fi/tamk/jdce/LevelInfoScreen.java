@@ -162,4 +162,10 @@ public class LevelInfoScreen extends NewScreen {
             mapScaler = (getScreenHeight()*0.4f)/ (gameScreen.getLevelCreator().highest-gameScreen.getLevelCreator().lowest);
         }
     }
+
+    @Override
+    public void dispose(){
+        super.dispose();
+        mapBackground.dispose();
+    }
 }
