@@ -4,15 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import fi.tamk.jdce.PlatformResolver;
 
+/**
+ * Unnecessary implentation of PlatformResolver left because of lack of time for refactoring
+ *
+ *
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class DesktopResolver implements PlatformResolver {
     @Override
     public Float getPedalSpeed() {
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
 
-            return -5f;
-        }else{
             return null;
-        }
 
     }
 

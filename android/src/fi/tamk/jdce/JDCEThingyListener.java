@@ -7,8 +7,18 @@ import java.util.ArrayList;
 import no.nordicsemi.android.thingylib.ThingyListener;
 import no.nordicsemi.android.thingylib.ThingySdkManager;
 
+/**
+ * Thingy listener listens for input from the Bluetooth sensor tracking the pedaling speed.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class JDCEThingyListener implements ThingyListener {
 
+    /**
+     * The Thingy sdk manager.
+     */
     ThingySdkManager thingySdkManager;
     private ArrayList<BluetoothDevice> mConnectedBleDeviceList;
 
@@ -16,12 +26,26 @@ public class JDCEThingyListener implements ThingyListener {
     private BluetoothDevice mOldDevice;
     private AndroidResolver androidResolver;
 
+    /**
+     * Instantiates a new Jdce thingy listener.
+     *
+     * @param thingySdkManager the thingy sdk manager paart of manufacturers API
+     * @param androidResolver  the android resolver handles communication between the android side and the core of the libgdx project
+     */
     public JDCEThingyListener(ThingySdkManager thingySdkManager, AndroidResolver androidResolver){
         mConnectedBleDeviceList = new ArrayList<BluetoothDevice>();
         this.androidResolver = androidResolver;
 
         this.thingySdkManager = thingySdkManager;
     }
+
+
+    /**
+     * Adds new devices to the list of possible devices to use
+     *
+     * @param device Bluetooth device
+     * @param connectionState
+     */
     @Override
     public void onDeviceConnected(BluetoothDevice device, int connectionState) {
 
@@ -31,6 +55,12 @@ public class JDCEThingyListener implements ThingyListener {
 
     }
 
+    /**
+     * informs android resolver that device has been disconnected
+     *
+     * @param device
+     * @param connectionState
+     */
     @Override
     public void onDeviceDisconnected(BluetoothDevice device, int connectionState) {
 
