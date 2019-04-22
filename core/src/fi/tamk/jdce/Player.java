@@ -170,7 +170,6 @@ public class Player extends GameObject implements InputProcessor {
         super(game);
         rwRotation=0;
         fwRotation=0;
-        setTexture(new Texture("noweeler.png"));
         wheel = new Texture("rengas.png");
         ww = (wheel.getWidth()/game.PIXELS_TO_METERS);
         wh = (wheel.getHeight()/game.PIXELS_TO_METERS);

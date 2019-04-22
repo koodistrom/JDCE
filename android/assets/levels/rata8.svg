@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.24748737"
-     inkscape:cx="9273.5741"
-     inkscape:cy="-1705.6781"
+     inkscape:zoom="0.087499999"
+     inkscape:cx="755.85206"
+     inkscape:cy="-852.83047"
      inkscape:document-units="cm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -71,40 +71,40 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 0,260.99999 c 27.892615,5.44207 27.781561,7.8434 27.743448,8.69346 1.449028,4.75743 2.975299,8.15716 7.256553,11.30655 23.757796,17.72387 32.696395,25.01224 39.244038,10 l 0.755962,45 H 0"
+       d="m 0,260.99999 c 27.892615,5.44207 27.781561,7.8434 27.743448,8.69346 1.449028,4.75743 2.975299,8.15716 7.256553,11.30655 23.757796,17.72387 32.696395,25.01224 39.244038,10 l 0.755962,0 0,45 H 0"
        id="path24"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccc" />
+       sodipodi:nodetypes="ccccccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 80.000002,285.85952 c 9.999999,0 26.877718,13.75545 29.999998,0 v 9.98929 L 80.000002,296"
+       d="m 80.000002,285.85952 c 9.999999,0 26.877718,13.75545 29.999998,0 0.24215,-0.005 0.37337,-0.0628 0.49194,0.0448 C 111.67982,286.98239 110,292.82133 110,295.84881 L 80.000002,296"
        id="path26"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="ccscc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 111.00104,286 c 4.33769,25.34249 22.12216,18.16487 22.12216,18.16487 l -6.27441,10.58333 -14.58988,-0.22737"
+       d="m 111.00104,286 c 4.33769,25.34249 22.12216,18.16487 22.12216,18.16487 l -0.0693,1.83513 -6.20507,8.7482 -14.58988,-0.22737"
        id="path28"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="ccccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 150,289.81192 c 18.89756,8.01707 -3.90132,14.85809 -3.93928,14.89225 L 160,308.18156 l 3.14524,-23.43453"
+       d="m 150,289.81192 c 18.89756,8.01707 -3.90132,14.85809 -3.93928,14.89225 l 0.4647,1.88561 13.47458,1.59178 3.14524,-23.43453"
        id="path30"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="ccccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 132.74522,310.54643 c 10.39712,25.47698 36.32094,13.62356 36.73631,11.53452 v 13.46548 h -38.62619"
+       d="m 132.74522,310.54643 c 10.39712,25.47698 35.02538,13.388 36.73631,11.53452 0.25088,0.0582 0.48169,-0.0874 0.51921,0.097 0.92087,4.52482 -0.51921,9.04529 -0.51921,13.36852 h -38.62619"
        id="path36"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="ccscc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 179.70876,319.1479 c 6.90068,6.5863 23.97335,4.86474 33.11786,-2.58095 l -1.31691,10.85526 -24.92178,7.85009"
+       d="m 179.70876,319.1479 c 6.90068,6.5863 23.97335,4.86474 33.11786,-2.58095 l 0.72736,0.0531 -2.04427,10.80218 -24.92178,7.85009"
        id="path23"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="ccccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 224.99998,313.38482 c 28.78949,0.31568 32.4624,-15.54599 33.8238,-14.21874 l 6.17619,13.6842 -33.54459,19.35031"
