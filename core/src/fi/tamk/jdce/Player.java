@@ -221,6 +221,8 @@ public class Player extends GameObject implements InputProcessor {
         //Gdx.input.setInputProcessor(this);
     }
 
+
+
     /**
      * Draw.
      *
@@ -451,6 +453,25 @@ public class Player extends GameObject implements InputProcessor {
         body.applyAngularImpulse(speed,false);
     }
 
+
+    public void resetPlayer(){
+        x = game.getScreenWidth()/3;
+        y = game.getScreenHeight()/2;
+        stateTime = 0;
+        win = false;
+        addSpeed = false;
+        isOnGround = false;
+        forwardOn = false;
+        reverseOn = false;
+        neutralOn = true;
+        speed = 0f;
+        world.clearForces();
+        body.setTransform((getX() + getWidth()/2),
+                (getY() + getHeight()/2),0);
+        rearWheel.setTransform(body.getPosition().add(new Vector2(-0.75f,-0.56f)),0f);
+        frontWheel.setTransform(body.getPosition().add(new Vector2(0.55f,-0.46f)),0f);
+        world.clearForces();
+    }
     /**
      * Create bodies.
      */
@@ -478,6 +499,7 @@ public class Player extends GameObject implements InputProcessor {
         fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
+        body.setUserData(this);
         shape.dispose();
         setBody(body);
 
@@ -487,7 +509,10 @@ public class Player extends GameObject implements InputProcessor {
 
 
         rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.5f,0.5f,0.8f,ww/2);
+        rearWheel.setUserData(this);
+
         frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.5f,0.5f,0.8f,ww/2);
+        frontWheel.setUserData(this);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
         rearWheelJointDef.bodyA=body;
@@ -641,6 +666,9 @@ public class Player extends GameObject implements InputProcessor {
         hitGround.dispose();
         turbo.dispose();
         cycling.dispose();
+        world.destroyBody(body);
+        world.destroyBody(rearWheel);
+        world.destroyBody(frontWheel);
     }
 
     /**

@@ -286,7 +286,7 @@ public class GameScreen extends NewScreen {
 
 
             levelCreator.goal.draw();
-            //debugRenderer.render(world, debugMatrix);
+            debugRenderer.render(world, debugMatrix);
 
             getSpriteBatch().end();
 
