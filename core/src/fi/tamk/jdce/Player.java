@@ -27,6 +27,8 @@ import java.util.ArrayList;
 /**
  * The player character.
  *
+ * Hold' s all player data, location, animation, bodies etc. and also track time and win/lose info.
+ *
  * @author Jaakko Mäntylä
  * @author Miika Minkkinen
  * @version 2019.0421
