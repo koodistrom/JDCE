@@ -20,28 +20,88 @@ import java.util.ArrayList;
 
 import svg.parser.ExtractSVGPaths;
 
+/**
+ * LevelCreator creates objects used by the game.
+ *
+ * It calculates vertices from svg files for levelmodules using svg classes from the svg package. classes in the svg package are created by Martin Davis and modified a little for the purposes of this game.
+ * LevelCreator also creates assets and collectables.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class LevelCreator {
 
 
+    /**
+     * The polygon region used in the texture of the ground.
+     */
     PolygonRegion polyReg;
+    /**
+     * The Poly sprite.
+     */
     PolygonSprite polySprite;
+    /**
+     * The Goal drawn in the end of the track.
+     */
     GameObject goal;
+    /**
+     * The game screen.
+     */
     GameScreen game;
+    /**
+     * The All vertices.
+     */
     ArrayList<Vector2> allVertices;
+    /**
+     * The  atlas used for collectable animations.
+     */
     TextureAtlas collectableAtlas;
+    /**
+     * The Collectable animation.
+     */
     Animation<TextureRegion> collectableAnimation;
+    /**
+     * The Texture used for ground polygon regions.
+     */
     Texture texture;
+    /**
+     * The Line color.
+     */
     Color lineColor;
 
+    /**
+     * The Lowest point in a level.
+     */
     float lowest;
+    /**
+     * The Highest point in a level.
+     */
     float highest;
 
+    /**
+     * The First x coordinate in a level.
+     */
     float firstX;
+    /**
+     * The First y coordinate in a level.
+     */
     float firstY;
+    /**
+     * The Last x the right most x coordinate in a level.
+     */
     float lastX;
+    /**
+     * The Last y the right most y coordinate in a level.
+     */
     float lastY;
 
 
+    /**
+     * Instantiates a new Level creator.
+     *
+     * @param game the game
+     */
     public LevelCreator(GameScreen game){
 
         this.game = game;
@@ -50,11 +110,18 @@ public class LevelCreator {
         goal.setTexture(new Texture("finish.png"));
 
 
-
-        //textureRegion.setRegion(0,0,texture.getWidth()*100,texture.getHeight()*100);
     }
 
-    public Body createBody(Vector2[] points, World world, float x, float y, boolean isSensor){
+    /**
+     * Create body for level module.
+     *
+     * @param points   the points through which the bodyshape goes
+     * @param world    the world
+     * @param x        the x location
+     * @param y        the y location
+     * @return the body
+     */
+    public Body createBody(Vector2[] points, World world, float x, float y){
         Body bodyGround;
         String userData = "levelModule";
 
@@ -68,7 +135,6 @@ public class LevelCreator {
 
         fixtureDef.shape = chainShape;
         fixtureDef.friction = 1.0f;
-        fixtureDef.isSensor = isSensor;
         bodyDef.position.set(x,y);
         bodyGround = world.createBody(bodyDef);
 
@@ -79,9 +145,15 @@ public class LevelCreator {
     }
 
 
-
-
-
+    /**
+     * Create modules array list for all the levelmodules for a level.
+     *
+     * Each part of ground separated by gaps is as it's own path in a svg file.
+     * This method creates box2D bodies and textures for those modules and puts this information in level modules hold by the returned array list
+     *
+     * @param fileName the svg file name from which the modules are created
+     * @return the array list of levelmodules
+     */
     public ArrayList<LevelModule> createModules (String fileName){
 
         ArrayList<ArrayList<Vector2>> paths = ExtractSVGPaths.extract("levels/"+fileName);
@@ -125,7 +197,7 @@ public class LevelCreator {
             }
 
 
-            modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0,false));
+            modules.get(i).setBody(createBody(points, game.getWorld(), 0, 0));
             modules.get(i).getBody().setUserData(modules.get(i));
             modules.get(i).setPolygonRegion(createPolygonRegion(game, points, texture));
             modules.get(i).setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
@@ -147,6 +219,14 @@ public class LevelCreator {
         return modules;
     }
 
+    /**
+     * Create polygon region for a level module.
+     *
+     * @param game    the game
+     * @param vectors the vectors
+     * @param texture the texture
+     * @return the polygon region
+     */
     public PolygonRegion createPolygonRegion(GameScreen game, Vector2[] vectors, Texture texture){
 
         texture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
@@ -175,6 +255,12 @@ public class LevelCreator {
 
     }
 
+    /**
+     * Create outlines float [ ] for a level module to be used with shaperenderer to create outlines for the module.
+     *
+     * @param vectors the Vector2 array from which the coordinates are read.
+     * @return the float array containing modules outline coordinates in x,y,x,y... order
+     */
     public float[] createOutlines(Vector2[] vectors){
         float[] vertices= new float[vectors.length*2];
         for(int i=0; i<vectors.length;i++){
@@ -186,14 +272,15 @@ public class LevelCreator {
     }
 
 
-
-    public float[] scalePoints(float[] points, float scaler){
-        for(int i=1; i<points.length;i+=2){
-            points[i]*=scaler;
-        }
-        return points;
-    }
-
+    /**
+     * Create assets array list. Assets are drawn along the track.
+     *
+     * @param fileName the file name of the texture to be drawn
+     * @param xs       the x locations where assets are to be placed as persentages of the full track width
+     * @param rotate   the boolean that defines if asset should be rotated to match track angle
+     * @param scale    the scale of the asset
+     * @return the array list of assets for the game screen
+     */
     public ArrayList<Asset> createAssets(String fileName, float[] xs, boolean rotate,float scale){
         ArrayList<Asset> assets = new ArrayList<Asset>();
         Texture texture = new Texture("trees/"+fileName);
@@ -206,6 +293,12 @@ public class LevelCreator {
         return assets;
     }
 
+    /**
+     * Create collectables array list.
+     *
+     * @param xs the x locations where collectables are to be placed as persentages of the full track width
+     * @return the array list of collectables for game screen
+     */
     public ArrayList<Collectable> createCollectables(float[] xs){
         ArrayList<Collectable> collectables = new ArrayList<Collectable>();
         collectableAtlas = new TextureAtlas("animations/collectable.atlas");
@@ -220,15 +313,29 @@ public class LevelCreator {
         return collectables;
     }
 
+    /**
+     * Gets texture.
+     *
+     * @return the texture
+     */
     public Texture getTexture() {
         return texture;
     }
 
+    /**
+     * Sets texture and line.
+     *
+     * @param textureFileName the texture file name
+     * @param lineColor       the line color
+     */
     public void setTextureAndLine(String textureFileName, Color lineColor) {
         this.texture= new Texture("earth/"+textureFileName);
         this.lineColor = lineColor;
     }
 
+    /**
+     * Dispose.
+     */
     public void dispose(){
         goal.dispose();
         texture.dispose();
