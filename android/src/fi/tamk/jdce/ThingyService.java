@@ -7,6 +7,13 @@ import androidx.annotation.Nullable;
 import no.nordicsemi.android.thingylib.BaseThingyService;
 import no.nordicsemi.android.thingylib.ThingyConnection;
 
+/**
+ * Thingy service
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class ThingyService extends BaseThingyService {
 
     @Nullable
@@ -15,13 +22,26 @@ public class ThingyService extends BaseThingyService {
         return new ThingyBinder();
     }
 
+    /**
+     * The type Thingy binder.
+     */
     public class ThingyBinder extends BaseThingyBinder {
         private boolean mIsScanning = false;
 
+        /**
+         * Sets scanning state.
+         *
+         * @param isScanning the is scanning
+         */
         public void setScanningState(final boolean isScanning) {
             mIsScanning = isScanning;
         }
 
+        /**
+         * Is scanning state boolean.
+         *
+         * @return the boolean
+         */
         public boolean isScanningState() {
             return mIsScanning;
         }

@@ -33,20 +33,43 @@ import no.nordicsemi.android.thingylib.ThingyListenerHelper;
 import no.nordicsemi.android.thingylib.ThingySdkManager;
 import no.nordicsemi.android.thingylib.utils.ThingyUtils;
 
+/**
+ * The android launcher launches the game on Android devices and creates needed services and listeners for the Bluetooth sensor
+ *
+ *
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class AndroidLauncher extends AndroidApplication implements ThingySdkManager.ServiceConnectionListener {
 
+    /**
+     * The Thingy sdk manager.
+     */
     ThingySdkManager thingySdkManager;
+    /**
+     * The Thingy binder.
+     */
     ThingyService.ThingyBinder thingyBinder;
     private JDCEThingyListener thingyListener;
 
     private static final int SCAN_DURATION = 15000;
+    /**
+     * The boolean is app scanning for devices.
+     */
     boolean mIsScanning = false;
     private Handler mProgressHandler = new Handler();
     private BluetoothDevice mDevice;
     private AndroidResolver androidResolver;
     private JDCEGame game;
+    /**
+     * The boolean does the app have adequate permissions.
+     */
     boolean permissions;
-    boolean bluetoothOn;
+    /**
+     * The time how long app requests to enable Bluetooth REQUEST_ENABLE_BT.
+     */
     public static final int REQUEST_ENABLE_BT = 1020;
 
 
@@ -55,7 +78,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
 	    androidResolver = new AndroidResolver(this);
         JDCEGame.setPlatformResolver(androidResolver);
 		super.onCreate(savedInstanceState);
-        System.out.println("edes Android launcher toimii");
+
         thingySdkManager = ThingySdkManager.getInstance();
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useWakelock=true;
@@ -75,7 +98,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         if (!isBleEnabled()) {
             enableBle();
         }
-        System.out.println("onStart kutsuttu ");
+
         thingySdkManager.bindService(this, ThingyService.class);
 
         ThingyListenerHelper.registerThingyListener(this, thingyListener);
@@ -93,7 +116,6 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     @Override
     public void onServiceConnected() {
         //Use this binder to access you own API methods declared in the binder inside ThingyService
-        System.out.println("service yhdistetty");
 
         thingyBinder = (ThingyService.ThingyBinder) thingySdkManager.getThingyBinder();
         //prepareForScanning(true);
@@ -103,6 +125,9 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     public void onPointerCaptureChanged(boolean hasCapture) {
     }
 
+    /**
+     * The M ble scanner timeout runnable.
+     */
     final Runnable mBleScannerTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
@@ -116,7 +141,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                System.out.println("ei lupaa: ACCESS_COARSE_LOCATION");
+
                 return false;
             }
         } else {
@@ -124,6 +149,11 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         }
     }
 
+    /**
+     * Is location enabled boolean.
+     *
+     * @return the boolean
+     */
     public boolean isLocationEnabled() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int locationMode = Settings.Secure.LOCATION_MODE_OFF;
@@ -138,34 +168,32 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     }
 
 
-
+    /**
+     * Prepare for scanning.
+     *
+     * @param nfcInitiated the nfc initiated
+     */
     public void prepareForScanning(final boolean nfcInitiated) {
-        System.out.println("preparoidaan");
-        System.out.println("luvat: "+ checkIfRequiredPermissionsGranted());
+
 
         if (checkIfRequiredPermissionsGranted()) {
             if (isLocationEnabled()) {
                 permissions = true;
                 if (thingyBinder != null) {
                     thingyBinder.setScanningState(true);
-                    if (nfcInitiated) {
-                        System.out.println("nfc-juttu käytössä ja skannaa");
-                    } else {
-                        System.out.println("skannaa");
-                    }
                     startScan();
                 }
             } else {
                 permissions = false;
-                System.out.println("sijaintilupapuuttuu");
-
-
             }
         }
     }
 
+    /**
+     * Starts scanningg for Bluetooth devices
+     */
     private void startScan() {
-        System.out.println("skannaus aloitettu");
+
         if (mIsScanning) {
             return;
         }
@@ -183,7 +211,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
 
     /**
      * Stop scan on rotation or on app closing.
-     * In case the stopScan is called inside onDestroy we have to check if the app is finishing as the mIsScanning flag becomes false on rotation
+     *
      */
     private void stopScan() {
         if (thingyBinder != null) {
@@ -191,7 +219,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         }
 
         if (mIsScanning) {
-            System.out.println("skannaus loppu");
+
             androidResolver.isScanning = false;
             final BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
             scanner.stopScan(mScanCallback);
@@ -205,7 +233,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
             if (thingyBinder != null) {
                 thingyBinder.setScanningState(true);
             }
-            System.out.println("skannaus loppu rotation homma");
+
             mProgressHandler.removeCallbacks(mBleScannerTimeoutRunnable);
             final BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
             scanner.stopScan(mScanCallback);
@@ -216,19 +244,16 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     private String mAddress;
     private ScanCallback mScanCallback = new ScanCallback() {
 
+        /**
+         * Adds Scan result to android resolvers list of found devices
+         * @param callbackType
+         * @param result
+         */
         @Override
         public void onScanResult(final int callbackType, @NonNull final ScanResult result) {
             // do nothing
             final BluetoothDevice device = result.getDevice();
             androidResolver.addDevice(device);
-
-            System.out.println("Laite löytyi: "+device);
-            if(device.getName().equals("JDCE12")){
-                mDevice = device;
-                System.out.println("laite: "+mDevice.getBluetoothClass());
-                stopScan();
-                connect();
-            }
 
 
             if (mAddress != null && mAddress.equals(device.getAddress())) {
@@ -262,18 +287,22 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
         }
     };
 
+
     private void connect() {
         thingySdkManager.connectToThingy(this, mDevice, ThingyService.class);
         final Thingy thingy = new Thingy(mDevice);
-        System.out.println(mDevice);
+
         thingySdkManager.setSelectedDevice(mDevice);
-        System.out.println(mDevice.getType());
-        System.out.println("nyt pitäis olla yhteys");
-        System.out.println("tyyppi: " + mDevice.getType());
+
         androidResolver.setConnected(true);
 
     }
 
+    /**
+     * Connect.
+     *
+     * @param device the device to connect
+     */
     public void connect(final BluetoothDevice device) {
         thingySdkManager.connectToThingy(this, device, ThingyService.class);
         final Thingy thingy = new Thingy(device);
@@ -286,7 +315,9 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
     }
 
 
-
+    /**
+     * The M ble state changed receiver.
+     */
     final BroadcastReceiver mBleStateChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
@@ -296,7 +327,7 @@ public class AndroidLauncher extends AndroidApplication implements ThingySdkMana
                         BluetoothAdapter.ERROR);
                 switch (state) {
                     case BluetoothAdapter.STATE_OFF:
-                        //teksti yhdistäsaatana
+
                         enableBle();
                         break;
                 }

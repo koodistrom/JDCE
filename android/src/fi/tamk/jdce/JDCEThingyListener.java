@@ -58,6 +58,8 @@ public class JDCEThingyListener implements ThingyListener {
     /**
      * informs android resolver that device has been disconnected
      *
+     * Works with the one sensor but probably should be updated to only react the disconnection of the selected device
+     *
      * @param device
      * @param connectionState
      */
@@ -140,6 +142,14 @@ public class JDCEThingyListener implements ThingyListener {
 
     }
 
+    /**
+     * Sends z-axel angular velocity to android resolver
+     *
+     * @param bluetoothDevice
+     * @param x x-axel angular velocity
+     * @param y y-axel angular velocity
+     * @param z z-axel angular velocity
+     */
     @Override
     public void onGyroscopeValueChangedEvent(BluetoothDevice bluetoothDevice, float x, float y, float z) {
         androidResolver.setPedalSpeed(z);
