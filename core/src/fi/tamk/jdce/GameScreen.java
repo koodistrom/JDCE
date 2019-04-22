@@ -240,9 +240,11 @@ public class GameScreen extends NewScreen {
     public void render(float delta) {
         //System.out.println("aika: "+delta);
         if(!paused) {
-            world.step(delta, 6, 2);
 
+
+            world.step(delta, 6, 2);
             moveCamera();
+
             JDCEGame.m_platformResolver.getPedalSpeed();
             player.update();
 
@@ -348,6 +350,10 @@ public class GameScreen extends NewScreen {
         world.setContactListener(null);
         world.clearForces();
         endGame =false;
+
+        if(levelCreator.collectableAtlas!=null){
+            levelCreator.collectableAtlas.dispose();
+        }
         player.dispose();
 
     }
@@ -464,6 +470,10 @@ public class GameScreen extends NewScreen {
         if(JDCEGame.musicOn) {
             music.play();
         }
+
+        if(levelCreator.collectableAtlas!=null){
+            levelCreator.collectableAtlas.dispose();
+        }
     }
 
     @Override
@@ -481,7 +491,9 @@ public class GameScreen extends NewScreen {
         }
 
         assets(worldNumber);
-        
+        if(levelNumber == 16){
+            turbos=levelCreator.createCollectables(new float[]{30,60});
+        }
 
         Gdx.input.setInputProcessor(player);
     }
