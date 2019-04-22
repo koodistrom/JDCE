@@ -238,7 +238,7 @@ public class GameScreen extends NewScreen {
 
     @Override
     public void render(float delta) {
-        System.out.println("aika: "+delta);
+        //System.out.println("aika: "+delta);
         if(!paused) {
             world.step(delta, 6, 2);
 
@@ -286,7 +286,7 @@ public class GameScreen extends NewScreen {
 
 
             levelCreator.goal.draw();
-            debugRenderer.render(world, debugMatrix);
+            //debugRenderer.render(world, debugMatrix);
 
             getSpriteBatch().end();
 

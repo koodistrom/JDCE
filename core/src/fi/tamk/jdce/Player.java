@@ -175,14 +175,11 @@ public class Player extends GameObject implements InputProcessor {
         stateTime = 0;
         setHeight(pedalingAnimation.getKeyFrame(stateTime, true).getRegionHeight()/(game.PIXELS_TO_METERS*2));
         setWidth(pedalingAnimation.getKeyFrame(stateTime, true).getRegionWidth()/(game.PIXELS_TO_METERS*2));
-        System.out.println("korkeus: "+getHeight()+" leveys: "+getWidth());
+
         currentFrame = pedalingAnimation.getKeyFrame(stateTime, true);
         createBodies();
 
-        System.out.println("korkeus: "+getHeight()+" leveys: "+getWidth());
-        System.out.println("rengas: "+ww);
-        System.out.println("massakeskipiste: "+body.getMassData().center);
-        System.out.println("massa: "+body.getMassData().mass);
+
 
         //Gdx.input.setInputProcessor(this);
     }
@@ -329,9 +326,9 @@ public class Player extends GameObject implements InputProcessor {
 
         airControl();
         //System.out.println("moottorinopeus: "+ rearWheelJoint.getMotorSpeed()+"  polkunopeus: "+speed+"  renkaan nopeus: "+rearWheelJoint.getJointSpeed());
-        //System.out.println("kerroin: "+ (rearWheelJoint.getJointSpeed()/-100)+1);
 
-        //desktoptestaukseen
+
+
         if(addSpeed==true){
             speed +=0.00001f;
         }
@@ -359,7 +356,7 @@ public class Player extends GameObject implements InputProcessor {
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-                System.out.println("turbo on pois");
+
                 isTurboOn = false;
             }
         };

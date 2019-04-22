@@ -61,11 +61,11 @@ public class Asset extends GameObject {
                     float y = oneBefore.y+(oneAfter.y-oneBefore.y)*xFactor;
 
 
-                    System.out.println("kulma: "+angle.angle());
+
                     if(angle.angle()<45f||angle.angle()>300f){
                         if(oneBefore.x<absolutePos){
                             setLocation(absolutePos-(getWidth()/2), y-0.1f);
-                            System.out.println("set "+absolutePos+"  "+y);
+
                         }else {
                             setLocation(oneAfter.y, oneAfter.x);
                         }

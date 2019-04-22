@@ -144,8 +144,6 @@ public class MainMenuScreen extends NewScreen {
      */
     public MainMenuScreen(JDCEGame g) {
         super(g);
-        System.out.println("korkeus "+getScreenHeight());
-        System.out.println("leveys "+getScreenWidth());
 
         setupButtonBounds();
 

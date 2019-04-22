@@ -266,7 +266,7 @@ public class LevelCreator {
         for(int i=0; i<vectors.length;i++){
             vertices[i*2]= vectors[i].x;
             vertices[i*2+1]= vectors[i].y;
-            //System.out.println(vertices[i*2]);
+
         }
         return vertices;
     }
@@ -303,7 +303,7 @@ public class LevelCreator {
         ArrayList<Collectable> collectables = new ArrayList<Collectable>();
         collectableAtlas = new TextureAtlas("animations/collectable.atlas");
         collectableAnimation = new Animation<TextureRegion>(0.05f, collectableAtlas.findRegions("collectable"), Animation.PlayMode.LOOP);
-        System.out.println("animaatio: "+ collectableAnimation.getKeyFrames().length);
+
         for(int i = 0; i<xs.length; i++){
             float x =(0.4f+(float)(Math.random()*0.2f));
             float y= (0.4f+(float)(Math.random()*0.2f));

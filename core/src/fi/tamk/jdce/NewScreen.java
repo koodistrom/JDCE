@@ -261,6 +261,7 @@ public class NewScreen implements Screen {
 
     @Override
     public void dispose() {
+        //batch.dispose();
         gameStage.dispose();
     }
 

@@ -36,13 +36,11 @@ public class IOUtilities {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     XmlReader xmlReader = new XmlReader();
 
-    LogMessage.log("IOUtilities", "loadXmlFile", "Path:"+path);
 
     FileHandle fileHandle = Gdx.files.internal(path);
 	File file = fileHandle.file();
-	System.out.println("file: "+ file);
-      System.out.println("filepath: "+ Gdx.files.internal(path).path());
-    LogMessage.log("IOUtilities", "loadXmlFile", "Can read:"+file.canRead());
+
+
 	 
 	 /*
 	 if (file.createNewFile()) {

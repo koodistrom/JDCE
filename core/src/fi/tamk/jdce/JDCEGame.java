@@ -202,8 +202,7 @@ public class JDCEGame extends Game {
 		    updateLanguage(fi);
         }
 
-        System.out.println(myBundle.getLocale());
-        System.out.println(myBundle.get("play"));
+
 		batch = new SpriteBatch();
 
         //musiikki
