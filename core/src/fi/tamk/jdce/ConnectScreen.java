@@ -9,12 +9,52 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
+/**
+ * ConnectScreen is displayed when the game is launched on an Android device
+ * and no Bluetooth connection to the cycling motion censor is found.
+ *
+ * It extends the NewScreen-class, and gives the user the option to either try to connect to the censor,
+ * or to skip the connection process.
+ *
+ * If the connection is successful or the user chooses to skip the process,
+ * the screen is set to MainMenuScreen.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class ConnectScreen extends NewScreen {
-
+    /**
+     * The Label displayed on the top of quitConfirmTable.
+     */
     private Label connectionInfo;
+
+    /**
+     * ArrayList for the found devices.
+     */
     private ArrayList<String> devices;
+
+    /**
+     * Table for controlling the UI elements and layout.
+     */
     private Table table;
+
+    /**
+     * Checks is the use of location data is allowed on the user's device.
+     */
     private boolean locationDataAllowed;
+
+    /**
+     * The default constructor for ConnectScreen.
+     *
+     * Creates two TextButtons:
+     *    - connectButton looks for the the cycling motion censor
+     *      via Bluetooth connection
+     *    - skipButton skips the connection process and sets the screen to MainMenuScreen.
+     *
+     * @param g the JDCEGame-class. It allows HighScoreScreen and NewScreen access to the: batch, myBundle,
+     *          the game's settings, textures, uiSkin and font48.
+     */
     public ConnectScreen(JDCEGame g) {
         super(g);
         table = new Table();
