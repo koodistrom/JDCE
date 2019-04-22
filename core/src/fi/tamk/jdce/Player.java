@@ -25,7 +25,11 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.ArrayList;
 
 /**
- * The type Player.
+ * The player character.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
  */
 public class Player extends GameObject implements InputProcessor {
 
@@ -66,69 +70,30 @@ public class Player extends GameObject implements InputProcessor {
      * The Is turbo on.
      */
     boolean isTurboOn;
-    /**
-     * The Free roll range.
-     */
-    float freeRollRange;
+
+    private float freeRollRange;
+    private boolean reverseOn;
+    private boolean forwardOn;
+    private boolean neutralOn;
 
     /**
-     * The Reverse on.
-     */
-    boolean reverseOn;
-    /**
-     * The Forward on.
-     */
-    boolean forwardOn;
-    /**
-     * The Neutral on.
-     */
-    boolean neutralOn;
-
-    /**
-     * The Speed.
+     * The pedalingspeed or speed given by tilting or by pressing keys.
      */
     Float speed;
-    /**
-     * The Dists in sec.
-     */
-    ArrayList<Float> distsInSec;
-    /**
-     * The Neutral dist.
-     */
-    float neutralDist;
-    /**
-     * The Neutral range.
-     */
-    float neutralRange;
+
+    private ArrayList<Float> distsInSec;
+    private float neutralDist;
+    private float neutralRange;
+    private float ww;
+    private float wh;
+    private float linearDamping;
 
     /**
-     * The Ww.
-     */
-    float ww;
-    /**
-     * The Wh.
-     */
-    float wh;
-    /**
-     * The Linear damping.
-     */
-    float linearDamping;
-    /**
-     * The Win.
+     * The Win true when player crosses finish line.
      */
     boolean win;
-    /**
-     * The Add speed.
-     */
-    boolean addSpeed;
-    /**
-     * The Is on ground.
-     */
-    boolean isOnGround;
-    /**
-     * The Pedaling atlas.
-     */
-    TextureAtlas pedalingAtlas;
+    private boolean addSpeed;
+    private TextureAtlas pedalingAtlas;
     /**
      * The Pedaling animation.
      */
@@ -193,7 +158,7 @@ public class Player extends GameObject implements InputProcessor {
         linearDamping = 0.1f;
         win = false;
         addSpeed = false;
-        isOnGround = false;
+
 
         hitGround = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_soft_impactsound4_v2.mp3"));
         hitHead = Gdx.audio.newSound(Gdx.files.internal("sound/JDCE_dinosaur_grunt_v3.mp3"));
@@ -223,7 +188,7 @@ public class Player extends GameObject implements InputProcessor {
 
 
     /**
-     * Draw.
+     * Draws wheels and the current frame of player animation.
      *
      * @param textureRegion the texture region
      */
@@ -282,6 +247,17 @@ public class Player extends GameObject implements InputProcessor {
 
     }
 
+    /**
+     * Creates wheels bodies
+     * @param type of body that is created for the wheel
+     * @param x position
+     * @param y position
+     * @param d density
+     * @param r restitution
+     * @param f friction
+     * @param radius
+     * @return returns the body for a wheel
+     */
 
     private Body createWheel(BodyDef.BodyType type, float x, float y, float d, float r, float f, float radius) {
         BodyDef bodyDef = new BodyDef();
@@ -373,7 +349,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     /**
-     * Turbo on.
+     * Turbo on, called when player hits collectable that gives a turbo boost.
      */
     public void turboOn(){
         isTurboOn = true;
@@ -390,7 +366,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     /**
-     * Is reverse on boolean.
+     * Is reverse on or should it be on boolean.
      *
      * @return the boolean
      */
@@ -445,7 +421,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     /**
-     * Air control.
+     * Air control for rotating player when in air.
      */
     public void airControl(){
         //body.applyTorque(speed*10,true);
@@ -453,26 +429,8 @@ public class Player extends GameObject implements InputProcessor {
     }
 
 
-    public void resetPlayer(){
-        x = game.getScreenWidth()/3;
-        y = game.getScreenHeight()/2;
-        stateTime = 0;
-        win = false;
-        addSpeed = false;
-        isOnGround = false;
-        forwardOn = false;
-        reverseOn = false;
-        neutralOn = true;
-        speed = 0f;
-        world.clearForces();
-        body.setTransform((getX() + getWidth()/2),
-                (getY() + getHeight()/2),0);
-        rearWheel.setTransform(body.getPosition().add(new Vector2(-0.75f,-0.56f)),0f);
-        frontWheel.setTransform(body.getPosition().add(new Vector2(0.55f,-0.46f)),0f);
-        world.clearForces();
-    }
     /**
-     * Create bodies.
+     * Create bodies for the player character and for wheels.
      */
     public void createBodies(){
         BodyDef bodyDef = new BodyDef();
@@ -552,7 +510,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     /**
-     * Create death sensor.
+     * Create death sensor to players back.
      */
     public void createDeathSensor(){
 
@@ -573,7 +531,6 @@ public class Player extends GameObject implements InputProcessor {
 
     }
 
-    //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){ }
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.RIGHT) {
@@ -626,10 +583,6 @@ public class Player extends GameObject implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
         game.pause();
-
-        /*game.getGame().setScreen(new LevelSelectScreen(game.getGame(), game.worldNumber));
-        game.dispose();*/
-
             return true;
 
     }
@@ -650,7 +603,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     /**
-     * End game.
+     * End game sets game screen to end the game at the end of render method.
      */
     public void endGame(){
         game.endGame = true;
@@ -671,7 +624,7 @@ public class Player extends GameObject implements InputProcessor {
     }
 
     /**
-     * Tilt steering.
+     * Tilt steering used when without Bluetooth sensor.
      */
     public void tiltSteering(){
 

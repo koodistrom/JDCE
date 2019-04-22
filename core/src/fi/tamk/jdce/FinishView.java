@@ -96,7 +96,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
      *
      * @param g the JDCEGame-class. It allows FinishView and NewScreen access to the: batch, myBundle,
      *          the game's settings, textures, uiSkin and font48.
-     * @param gameScreen screen for playing the level.
+     * @param gameScreen last game screen seved for retrying whitout loading the screen again.
      * @param time the time that the level was passed in.
      * @param isItAWin tells FinishView if the level was successfully finished.
      * @param levelNumber the number of the level.

@@ -7,17 +7,44 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 
+/**
+ *ContactListenerClass handles the events that result from box2D bodies colliding playing sounds, ending game if player is on their back and
+ *  activating properties from collectables.
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
 public class ContactListenerClass implements ContactListener {
 
+    /**
+     * The game screen.
+     */
     GameScreen game;
 
+    /**
+     * The Object touched.
+     */
     HasBody objectTouched;
+    /**
+     * The Front wheel fixture.
+     */
     Fixture frontWheelFix;
+    /**
+     * The Rear wheel fixture.
+     */
     Fixture rearWheelFix;
+    /**
+     * The Player body fixture.
+     */
     Fixture playerBodyFix;
 
 
-
+    /**
+     * Instantiates a new Contact listener class.
+     *
+     * @param game the game screen
+     */
     public ContactListenerClass (GameScreen game){
         this.game =game;
 
@@ -76,6 +103,14 @@ public class ContactListenerClass implements ContactListener {
     }
 
 
+    /**
+     * Object touches class boolean.
+     *
+     * @param fixture    the fixture which collisions are checked
+     * @param objectType the object type to which the collisions are checked
+     * @param contact    the contact checked
+     * @return the boolean has contact happened
+     */
     public boolean objectTouchesClass(Fixture fixture, Object objectType, Contact contact){
         if(contact.getFixtureA()==fixture && contact.getFixtureB().getBody().getUserData().getClass()==objectType.getClass()){
             objectTouched = (HasBody) contact.getFixtureB().getBody().getUserData();

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class GameScreen extends NewScreen {
     private World world;
     private PolygonSpriteBatch polyBatch;
-    private LevelCreator2 levelCreator;
+    private LevelCreator levelCreator;
     private ArrayList<LevelModule> modules;
     private Player player;
     private Box2DDebugRenderer debugRenderer;
@@ -132,7 +132,7 @@ public class GameScreen extends NewScreen {
 
         getGameStage().addActor(pauseTable);
 
-        levelCreator = new LevelCreator2(this);
+        levelCreator = new LevelCreator(this);
         assets = new ArrayList<Asset>();
 
         shapeRenderer = new ShapeRenderer();
@@ -350,8 +350,6 @@ public class GameScreen extends NewScreen {
         endGame =false;
         player.dispose();
 
-
-
     }
 
     /**
@@ -413,7 +411,7 @@ public class GameScreen extends NewScreen {
      *
      * @return the level creator
      */
-    public LevelCreator2 getLevelCreator() {
+    public LevelCreator getLevelCreator() {
         return levelCreator;
     }
 
@@ -422,7 +420,7 @@ public class GameScreen extends NewScreen {
      *
      * @param levelCreator the level creator
      */
-    public void setLevelCreator(LevelCreator2 levelCreator) {
+    public void setLevelCreator(LevelCreator levelCreator) {
         this.levelCreator = levelCreator;
     }
 

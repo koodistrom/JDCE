@@ -20,13 +20,11 @@ import java.util.ArrayList;
 
 import svg.parser.ExtractSVGPaths;
 
-public class LevelCreator2 {
+public class LevelCreator {
 
 
     PolygonRegion polyReg;
     PolygonSprite polySprite;
-    PolygonSprite polygonSprites[];
-    PolygonRegion polyRegs[];
     GameObject goal;
     GameScreen game;
     ArrayList<Vector2> allVertices;
@@ -37,16 +35,14 @@ public class LevelCreator2 {
 
     float lowest;
     float highest;
-    float bottom;
 
     float firstX;
     float firstY;
     float lastX;
     float lastY;
 
-    int verticeIndex = 0;
 
-    public LevelCreator2(GameScreen game){
+    public LevelCreator(GameScreen game){
 
         this.game = game;
         allVertices = new ArrayList<Vector2>();
@@ -143,22 +139,7 @@ public class LevelCreator2 {
             modules.get(i).setLineColor(lineColor);
             modules.get(i).setGame(game);
 
-
-
         }
-        /*LevelModule rotko = new LevelModule();
-        Vector2[] rotkoPoints = new Vector2[]{new Vector2(firstX-5, lowest+5), new Vector2(lastX+5,lowest+5),new Vector2(lastX+5,lowest),new Vector2(firstX-5,lowest)};
-        rotko.setBody(createBody(rotkoPoints, game.getWorld(), 0, 0,true));
-        rotko.outlines = createOutlines(rotkoPoints);
-        game.rotkos.add(rotko);
-        rotko.setPolygonRegion(createPolygonRegion(game, rotkoPoints, "spikes.png"));
-
-        rotko.setHeight(polySprite.getHeight()/game.PIXELS_TO_METERS);
-        rotko.setLength(polySprite.getWidth()/game.PIXELS_TO_METERS);
-        rotko.setX(0);
-        rotko.setY(0);
-        rotko.setGame(game);*/
-
 
         goal.setX(lastX);
         goal.setY(lastY);
@@ -254,7 +235,6 @@ public class LevelCreator2 {
         if(collectableAtlas!=null) {
             collectableAtlas.dispose();
         }
-        //collectableAtlas.dispose();
 
     }
 

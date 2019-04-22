@@ -1,22 +1,51 @@
 package fi.tamk.jdce;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
+
+
+/**
+ * The collectable items to be set along track
+ *
+ * @author Jaakko Mäntylä
+ * @author Miika Minkkinen
+ * @version 2019.0421
+ */
+
 public class Collectable extends GameObject {
+    /**
+     * The the boolean that is set true when player hits collectable.
+     */
     boolean touched;
+    /**
+     * The Current frame of the animation.
+     */
     TextureRegion currentFrame;
+    /**
+     * The Animation.
+     */
     Animation<TextureRegion> animation;
+    /**
+     * The time that defines current frame of the animation.
+     */
     float stateTime;
-    public Collectable(GameScreen game, Animation<TextureRegion> animation, Float xPercentage, LevelCreator2 levelCreator) {
+
+    /**
+     * Instantiates a new Collectable.
+     *
+     * @param game         the game
+     * @param animation    the animation
+     * @param xPercentage  the location of collectable in the x direction as persentages of the whole width of the track (0-100)
+     * @param levelCreator the level creator
+     */
+    public Collectable(GameScreen game, Animation<TextureRegion> animation, Float xPercentage, LevelCreator levelCreator) {
         super(game);
         touched = false;
         setWidth(animation.getKeyFrame(0.01f).getRegionWidth()/(2*game.PIXELS_TO_METERS));
@@ -29,6 +58,10 @@ public class Collectable extends GameObject {
         setLocationInLevel(xPercentage, levelCreator);
 
     }
+
+    /**
+     * Instantiates a new Collectable.
+     */
     public Collectable(){
 
     }
@@ -54,7 +87,13 @@ public class Collectable extends GameObject {
     }
 
 
-    public void setLocationInLevel(Float xPercentage, LevelCreator2 levelCreator) {
+    /**
+     * Sets location in level.
+     *
+     * @param xPercentage  the location of collectable in the x direction as persentages of the whole width of the track (0-100)
+     * @param levelCreator the level creator
+     */
+    public void setLocationInLevel(Float xPercentage, LevelCreator levelCreator) {
         for (int i=1; i<levelCreator.allVertices.size(); i++){
             float absolutePos = xPercentage*(levelCreator.lastX/100);
             if(levelCreator.allVertices.get(i).x>absolutePos){
@@ -83,6 +122,9 @@ public class Collectable extends GameObject {
         body.setTransform(getX() + getWidth()/2,getY() + getHeight()/2, MathUtils.degreesToRadians*rotation);
     }
 
+    /**
+     * Create body for the collectable.
+     */
     public void createBody(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
