@@ -481,6 +481,7 @@ public class GameScreen extends NewScreen {
         }
 
         assets(worldNumber);
+        
 
         Gdx.input.setInputProcessor(player);
     }
