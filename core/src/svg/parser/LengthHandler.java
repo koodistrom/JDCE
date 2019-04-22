@@ -12,63 +12,63 @@ public class LengthHandler implements org.apache.batik.parser.LengthHandler {
 	
 	@Override
 	public void startLength() throws ParseException {
-		LogMessage.log(TAG, "startLength", "", debug);
+		//LogMessage.log(TAG, "startLength", "", debug);
 	}
 
 	@Override
 	public void lengthValue(float v) throws ParseException {
-		LogMessage.log(TAG, "lengthValue", ""+v, debug);
+		//LogMessage.log(TAG, "lengthValue", ""+v, debug);
 		value = v;
 	}
 
 	@Override
 	public void em() throws ParseException {
-		LogMessage.log(TAG, "em", "", debug);
+		//LogMessage.log(TAG, "em", "", debug);
 	}
 
 	@Override
 	public void ex() throws ParseException {
-		LogMessage.log(TAG, "ex", "", debug);
+		//LogMessage.log(TAG, "ex", "", debug);
 	}
 
 	@Override
 	public void in() throws ParseException {
-		LogMessage.log(TAG, "in", "", debug);
+		//LogMessage.log(TAG, "in", "", debug);
 	}
 
 	@Override
 	public void cm() throws ParseException {
-		LogMessage.log(TAG, "cm", "", debug);
+		//LogMessage.log(TAG, "cm", "", debug);
 	}
 
 	@Override
 	public void mm() throws ParseException {
-		LogMessage.log(TAG, "mm", "", debug);
+		//LogMessage.log(TAG, "mm", "", debug);
 	}
 
 	@Override
 	public void pc() throws ParseException {
-		LogMessage.log(TAG, "pc", "", debug);
+		//LogMessage.log(TAG, "pc", "", debug);
 	}
 
 	@Override
 	public void pt() throws ParseException {
-		LogMessage.log(TAG, "pt", "", debug);
+		//LogMessage.log(TAG, "pt", "", debug);
 	}
 
 	@Override
 	public void px() throws ParseException {
-		LogMessage.log(TAG, "px", "", debug);
+		//LogMessage.log(TAG, "px", "", debug);
 	}
 
 	@Override
 	public void percentage() throws ParseException {
-		LogMessage.log(TAG, "%", "", debug);
+		//LogMessage.log(TAG, "%", "", debug);
 	}
 
 	@Override
 	public void endLength() throws ParseException {
-		LogMessage.log(TAG, "endLength", "", debug);
+		//LogMessage.log(TAG, "endLength", "", debug);
 	}
 
 }

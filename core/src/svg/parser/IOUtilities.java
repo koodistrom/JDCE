@@ -139,9 +139,9 @@ public class IOUtilities {
   
 	   
 	 if (file.createNewFile()) {
-		 LogMessage.log("IOUtilities", "writeToFile", "file created");
+		 //LogMessage.log("IOUtilities", "writeToFile", "file created");
      } else {
-		 LogMessage.log("IOUtilities", "writeToFile", "file already exists");
+		 //LogMessage.log("IOUtilities", "writeToFile", "file already exists");
      }  
 	   
      if (file == null) {
