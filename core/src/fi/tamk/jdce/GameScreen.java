@@ -492,9 +492,9 @@ public class GameScreen extends NewScreen {
 
         assets(worldNumber);
 
-        /*if(levelNumber == 16){
-            turbos=levelCreator.createCollectables(new float[]{30,60});
-        }*/
+        if(levelNumber%2 == 1){
+            turbos = levelCreator.createCollectables(randomFloatArray(2));
+        }
 
         Gdx.input.setInputProcessor(player);
     }
@@ -573,13 +573,13 @@ public class GameScreen extends NewScreen {
                 assets = levelCreator.createAssets("kuusi3.png",randomFloatArray(39),false,1f);
                 assets2 = new ArrayList<Asset>();
                 assets3 = new ArrayList<Asset>();
-                turbos = levelCreator.createCollectables(randomFloatArray(2));
+
                 break;
             case 1:
                 assets = levelCreator.createAssets("kaktus.png",randomFloatArray(20),false,1f);
                 assets2 = levelCreator.createAssets("kivijakallo.png",randomFloatArray(6),true,0.3f);
                 assets3 = levelCreator.createAssets("kaktus2.png",randomFloatArray(15),false,1.3f);
-                turbos = levelCreator.createCollectables(randomFloatArray(2));
+
                 break;
 
             case 4:
@@ -587,13 +587,13 @@ public class GameScreen extends NewScreen {
                 assets = levelCreator.createAssets("kiviasetelma1.png",randomFloatArray(7),true,2f);
                 assets2 = levelCreator.createAssets("kasvi2.png",randomFloatArray(15),false,0.5f);
                 assets3 = levelCreator.createAssets("kivi.png",randomFloatArray(7),true,1f);
-                turbos = levelCreator.createCollectables(randomFloatArray(2));
+
                 break;
             case 3:
                 assets = levelCreator.createAssets("puu2.png",randomFloatArray(15),false,1.2f);
                 assets2 = levelCreator.createAssets("kuusi2.png",randomFloatArray(15),false,1.2f);
                 assets3 = levelCreator.createAssets("kasvi.png",randomFloatArray(15),false, 0.5f);
-                turbos = levelCreator.createCollectables(randomFloatArray(2));
+
                 break;
         }
      }

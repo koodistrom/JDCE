@@ -466,10 +466,10 @@ public class Player extends GameObject implements InputProcessor {
 
 
 
-        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,x,y,0.5f,0.5f,0.8f,ww/2);
+        rearWheel=createWheel(BodyDef.BodyType.DynamicBody,body.getPosition().x-0.75f,body.getPosition().y-0.56f,0.5f,0.5f,0.8f,ww/2);
         rearWheel.setUserData(this);
 
-        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,x+getWidth(),y,0.5f,0.5f,0.8f,ww/2);
+        frontWheel=createWheel(BodyDef.BodyType.DynamicBody,body.getPosition().x+0.55f,body.getPosition().y-0.46f,0.5f,0.5f,0.8f,ww/2);
         frontWheel.setUserData(this);
 
         WheelJointDef rearWheelJointDef = new WheelJointDef();
