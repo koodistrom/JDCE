@@ -544,7 +544,7 @@ public class GameScreen extends NewScreen {
 
             case 1:
                 levelCreator.setTextureAndLine( "aavikkotausta.png",Color.TAN);
-                background = new Background(this,"tausta3taso1.jpg","tausta3taso2.png","tausta3taso3.png",0,-50);
+                background = new Background(this,"tausta3taso11.jpg","tausta3taso2.png","tausta3taso3.png",0,-50);
                 break;
 
             case 4:
