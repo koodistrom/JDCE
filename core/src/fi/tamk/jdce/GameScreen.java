@@ -323,6 +323,9 @@ public class GameScreen extends NewScreen {
 
         if(endGame){
             getGame().setScreen(new FinishView(getGame(),this, player.trackTime, player.win, levelNumber, worldNumber));
+            for (int i = 0; i < turbos.size(); i++) {
+                world.destroyBody(turbos.get(i).getBody());
+            }
             //dispose();
         }
 
@@ -354,6 +357,11 @@ public class GameScreen extends NewScreen {
         if(levelCreator.collectableAtlas!=null){
             levelCreator.collectableAtlas.dispose();
         }
+
+        for (int i = 0; i < turbos.size(); i++) {
+            world.destroyBody(turbos.get(i).getBody());
+        }
+
         player.dispose();
 
     }
@@ -467,6 +475,7 @@ public class GameScreen extends NewScreen {
         NewScreen.music.dispose();
         NewScreen.music = null;
         NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_menu_music_v4.mp3"));
+        music.setLooping(true);
         if(JDCEGame.musicOn) {
             music.play();
         }
@@ -485,7 +494,7 @@ public class GameScreen extends NewScreen {
         NewScreen.music.dispose();
         NewScreen.music = null;
         NewScreen.music = Gdx.audio.newMusic(Gdx.files.internal("sound/JDCE_gamesong_v5.mp3"));
-
+        music.setLooping(true);
         if (JDCEGame.musicOn) {
             NewScreen.music.play();
         }

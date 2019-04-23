@@ -60,7 +60,10 @@ public class ContactListenerClass implements ContactListener {
 
         if(objectTouchesClass(game.getPlayer().getBody().getFixtureList().get(1),new Collectable(),contact)){
             game.getPlayer().turboOn();
-            game.getPlayer().turbo.play(1f);
+            if(JDCEGame.soundEffectsOn){
+                game.getPlayer().turbo.play(1f);
+            }
+
             objectTouched.deledDis();
         }
 
