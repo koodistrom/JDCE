@@ -333,14 +333,16 @@ public class Player extends GameObject implements InputProcessor {
             speed +=0.00001f;
         }
 
-        rearWheelJoint.setMotorSpeed(motorSpeed);
-        frontWheelJoint.setMotorSpeed(motorSpeed);
-
         if(isTurboOn){
-            body.applyForceToCenter(new Vector2((float)Math.cos(body.getAngle())*3,(float)Math.sin(body.getAngle())*3),false);
+            body.applyForceToCenter(new Vector2((float)Math.cos(body.getAngle())*2,(float)Math.sin(body.getAngle())*2),false);
 
             //motorSpeed *= 2;
         }
+
+        rearWheelJoint.setMotorSpeed(motorSpeed);
+        frontWheelJoint.setMotorSpeed(motorSpeed);
+
+
 
 
 

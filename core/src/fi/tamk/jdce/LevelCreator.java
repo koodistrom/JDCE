@@ -214,7 +214,7 @@ public class LevelCreator {
         }
 
         goal.setX(lastX-goal.getWidth());
-        goal.setY(lastY);
+        goal.setY(lastY-2f);
 
         return modules;
     }
