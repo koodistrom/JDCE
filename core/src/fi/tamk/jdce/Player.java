@@ -631,7 +631,15 @@ public class Player extends GameObject implements InputProcessor {
 
         if(game.getGame().skipConnect){
 
-            speed = Gdx.input.getAccelerometerY()*(1f/250f);
+            if(Gdx.input.getAccelerometerY()>1f&&speed<1/45f){
+                speed += 1/190f;
+            }else if(Gdx.input.getAccelerometerY()<-1f&&speed>-1/45f){
+                speed -= 1/190f;
+            }else{
+                speed = 0f;
+            }
+
+            //speed = Gdx.input.getAccelerometerY()*(1f/250f);
 
         }
     }
