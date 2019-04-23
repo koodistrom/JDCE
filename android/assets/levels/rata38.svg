@@ -15,7 +15,7 @@
    version="1.1"
    id="svg3719"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="helppo9.svg">
+   sodipodi:docname="helppo8.svg">
   <defs
      id="defs3713" />
   <sodipodi:namedview
@@ -73,7 +73,7 @@
        sodipodi:nodetypes="ccccccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.02645833px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 155,311 c 44.99999,0.15119 44.99999,0.15119 44.99999,0.15119 v -7.625 H 155"
+       d="M 125.00001,310.84881 C 170,311 170,311 170,311 v -7.625 h -44.99999"
        id="path86"
        inkscape:connector-curvature="0" />
   </g>
