@@ -10,4 +10,5 @@ dependencies {
     implementation project(':batik-transcoder-1.11')
     implementation project(':batik-i18n-1.11')
     implementation project(':batik-util-1.11')
+    implementation "com.github.nkzawa:socket.io-client:0.3.0"
 }

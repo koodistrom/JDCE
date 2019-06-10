@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import java.util.Locale;
 
@@ -178,6 +180,8 @@ public class JDCEGame extends Game {
      */
     private Sound buttonSound;
 
+    private Socket socket;
+
 
     /**
      * The default constructor for JDCEGame.
@@ -248,6 +252,8 @@ public class JDCEGame extends Game {
         muteSoundFxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("äänetpois.png")));
 
         this.setScreen(new MainMenuScreen(this));
+
+        connectSocket();
 
 	}
 
@@ -361,6 +367,17 @@ public class JDCEGame extends Game {
      */
     public Sound getButtonSound() {
         return buttonSound;
+    }
+
+    public void connectSocket(){
+        try{
+            socket = IO.socket("http://192.168.2.33:6969");
+
+            socket.connect();
+            System.out.println("yritetään yhdistää");
+        }catch (Exception e){
+            System.out.println("netti ei toimi: "+e);
+        }
     }
 }
 
