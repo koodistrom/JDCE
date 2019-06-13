@@ -388,8 +388,17 @@ public class JDCEGame extends Game {
     public void configSocketEvents() {
         final JSONObject nameTime = new JSONObject();
         try {
+            nameTime.put("level", 1);
             nameTime.put("name", "Keke");
             nameTime.put("time" , 12.1);
+        } catch (JSONException e) {
+            Gdx.app.log("kusi", "vituiksimeni");
+        }
+
+        final JSONObject levelTime = new JSONObject();
+        try {
+            levelTime.put("level", 1);
+            levelTime.put("time" , 12.1);
         } catch (JSONException e) {
             Gdx.app.log("kusi", "vituiksimeni");
         }
@@ -399,7 +408,7 @@ public class JDCEGame extends Game {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
-                socket.emit("testi", nameTime);
+                socket.emit("testi", levelTime);
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -412,6 +421,11 @@ public class JDCEGame extends Game {
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting ID");
                 }
+            }
+        }).on("scoreFits", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                socket.emit("nameTime", nameTime);
             }
         });
     }
