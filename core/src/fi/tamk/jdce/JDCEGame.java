@@ -14,8 +14,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -254,6 +258,7 @@ public class JDCEGame extends Game {
         this.setScreen(new MainMenuScreen(this));
 
         connectSocket();
+        configSocketEvents();
 
 	}
 
@@ -374,10 +379,41 @@ public class JDCEGame extends Game {
             socket = IO.socket("http://192.168.2.33:6969");
 
             socket.connect();
-            System.out.println("yritetään yhdistää");
+            Gdx.app.log("testi","yritetään yhdistää");
         }catch (Exception e){
             System.out.println("netti ei toimi: "+e);
         }
+    }
+
+    public void configSocketEvents() {
+        final JSONObject nameTime = new JSONObject();
+        try {
+            nameTime.put("name", "Keke");
+            nameTime.put("time" , 12.1);
+        } catch (JSONException e) {
+            Gdx.app.log("kusi", "vituiksimeni");
+        }
+
+
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Gdx.app.log("SocketIO", "Connected");
+                socket.emit("testi", nameTime);
+            }
+        }).on("socketID", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+
+                    String id = data.getString("id");
+                    Gdx.app.log("SocketIO", "My ID: " + id);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting ID");
+                }
+            }
+        });
     }
 }
 
