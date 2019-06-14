@@ -184,7 +184,7 @@ public class JDCEGame extends Game {
      */
     private Sound buttonSound;
 
-    private Socket socket;
+
 
 
     /**
@@ -257,8 +257,7 @@ public class JDCEGame extends Game {
 
         this.setScreen(new MainMenuScreen(this));
 
-        connectSocket();
-        configSocketEvents();
+
 
 	}
 
@@ -374,61 +373,8 @@ public class JDCEGame extends Game {
         return buttonSound;
     }
 
-    public void connectSocket(){
-        try{
-            socket = IO.socket("http://192.168.2.33:6969");
-
-            socket.connect();
-            Gdx.app.log("testi","yritetään yhdistää");
-        }catch (Exception e){
-            System.out.println("netti ei toimi: "+e);
-        }
-    }
-
-    public void configSocketEvents() {
-        final JSONObject nameTime = new JSONObject();
-        try {
-            nameTime.put("level", 1);
-            nameTime.put("name", "Keke");
-            nameTime.put("time" , 12.1);
-        } catch (JSONException e) {
-            Gdx.app.log("kusi", "vituiksimeni");
-        }
-
-        final JSONObject levelTime = new JSONObject();
-        try {
-            levelTime.put("level", 1);
-            levelTime.put("time" , 12.1);
-        } catch (JSONException e) {
-            Gdx.app.log("kusi", "vituiksimeni");
-        }
 
 
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                Gdx.app.log("SocketIO", "Connected");
-                socket.emit("testi", levelTime);
-            }
-        }).on("socketID", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-
-                    String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "My ID: " + id);
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting ID");
-                }
-            }
-        }).on("scoreFits", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                socket.emit("nameTime", nameTime);
-            }
-        });
-    }
 }
 
 

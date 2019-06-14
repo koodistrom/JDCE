@@ -8,6 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * FinishView is displayed when the game ends either through succeeding or failing to finish a level.
@@ -91,6 +97,11 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
      */
     private  GameScreen gameScreen;
 
+    private Socket socket;
+
+    private Boolean fitsToGlobalHS;
+    final JSONObject levelTime = new JSONObject();
+
     /**
      * The default constructor for FinishView.
      *
@@ -102,7 +113,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
      * @param levelNumber the number of the level.
      * @param worldNumber the number of the world.
      */
-    public FinishView(JDCEGame g,GameScreen gameScreen, float time, boolean isItAWin, int levelNumber, int worldNumber) {
+    public FinishView(JDCEGame g, GameScreen gameScreen, float time, boolean isItAWin, int levelNumber, int worldNumber) {
         super(g);
         this.time = time;
         this.levelNumber = levelNumber;
@@ -121,14 +132,23 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         menuButton = new TextButton(getGame().getBundle().get("continue"), getGame().getUiSkin());
         retryButton = new TextButton(getGame().getBundle().get("retry"), getGame().getUiSkin());
 
+        fitsToGlobalHS = false;
+
+
+
+
         if(isItAWin) {
 
-            if(fitsToHighscore(time,levelNumber)){
-                enterName();
+            try {
+                levelTime.put("level", levelNumber);
+                levelTime.put("time", time);
+            } catch (JSONException e) {
+                Gdx.app.log("json", "error creating level & time json");
             }
 
-            setUpWinTable();
-            getGameStage().addActor(winTable);
+            connectSocket();
+            configSocketEvents();
+
         } else {
             setUpLoseTable();
             getGameStage().addActor(loseTable);
@@ -284,6 +304,9 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
      */
     public void enterName(){
         Gdx.input.getTextInput(this, getGame().getBundle().get("nameText"), "", getGame().getBundle().get("maxChars"));
+
+
+
     }
 
     @Override
@@ -320,7 +343,23 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             }
         }
         if(name.length()<=nameLengthLimit){
-            addHighScore(time, levelNumber);
+
+            if(fitsToHighscore(time, levelNumber)) {
+                addHighScore(time, levelNumber);
+            }
+
+            if(fitsToGlobalHS){
+                final JSONObject nameTime = new JSONObject();
+                try {
+                    nameTime.put("level", levelNumber);
+                    nameTime.put("name", name);
+                    nameTime.put("time", time);
+                } catch (JSONException e) {
+                    Gdx.app.log("json", "error creating name, level & time json");
+                }
+
+                socket.emit("nameTime", nameTime);
+            }
 
         }else{
             enterName();
@@ -333,4 +372,54 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
     }
 
+    public void connectSocket(){
+        try{
+            socket = IO.socket("http://192.168.2.33:6969");
+
+            socket.connect();
+            Gdx.app.log("testi","yritetään yhdistää");
+        }catch (Exception e){
+            System.out.println("netti ei toimi: "+e);
+        }
+    }
+
+    public void configSocketEvents() {
+
+
+
+
+
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Gdx.app.log("SocketIO", "Connected");
+                socket.emit("testi", levelTime);
+            }
+        }).on("socketID", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+
+                    String id = data.getString("id");
+                    Gdx.app.log("SocketIO", "My ID: " + id);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting ID");
+                }
+            }
+        }).on("scoreFits", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                fitsToGlobalHS = (Boolean) args[0];
+
+                if(fitsToHighscore(time,levelNumber)|| fitsToGlobalHS){
+                    enterName();
+                }
+
+                setUpWinTable();
+                getGameStage().addActor(winTable);
+
+            }
+        });
+    }
 }
