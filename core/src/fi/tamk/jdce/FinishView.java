@@ -47,6 +47,9 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
      */
     private String loseMessage;
 
+    private String worldHSMessage;
+    private String personalHSMessage;
+
     /**
      * Table created upon finishing a level.
      */
@@ -126,6 +129,8 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         loseTable = new Table();
         score = getGame().getBundle().get("yourTime") + " " + Utilities.secondsToString(time);
         loseMessage = getGame().getBundle().get("loseMessage");
+        personalHSMessage = getGame().getBundle().get("highscoreMessagePersonal");
+        worldHSMessage = getGame().getBundle().get("highscoreMessageWorld");
 
         name = "";
 
