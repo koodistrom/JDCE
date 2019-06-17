@@ -28,12 +28,12 @@ public class HighScoreScreen extends NewScreen {
     /**
      * Table that controls and sets the layout of the high scores.
      */
-    Table table;
+    Table localHSTable;
 
     /**
      * Label for the high score display.
      */
-    Label highscoreLabel;
+    Label localHSLabel;
 
     /**
      * Holds the the number of the level.
@@ -44,6 +44,10 @@ public class HighScoreScreen extends NewScreen {
      * Holds the the number of the world.
      */
     private int worldNumber;
+
+    Table worldHSTable;
+
+    Table mainTable;
 
     /**
      * The default constructor for HighScoreScreen.
@@ -56,15 +60,39 @@ public class HighScoreScreen extends NewScreen {
 
         this.worldNumber = worldNumber;
         levelNumber = levelNum;
-        table = new Table();
-        table.setFillParent(true);
-        String labelText = getGame().getBundle().get("highscores") + " " + getGame().getBundle().get("level") + " " + levelNumber;
-        highscoreLabel = new Label(labelText, getGame().getUiSkin());
-        table.add(highscoreLabel).colspan(2).height(highscoreLabel.getHeight()*2);
-        table.row();
+        localHSTable = new Table();
+        worldHSTable = new Table();
+        mainTable = new Table();
+
+
+        String HStext = getGame().getBundle().get("highscores") + " " + getGame().getBundle().get("level") + " " + levelNumber;
+
+        String localHStext ="Local ";
+        localHSLabel = new Label(localHStext, getGame().getUiSkin());
+        localHSTable.add(localHSLabel).colspan(2).height(localHSLabel.getHeight()*2);
+        localHSTable.row();
         highscores = Gdx.app.getPreferences("JDCE_highscores");
 
+
+        String worldHStext ="World ";
+        worldHSTable.add(new Label(worldHStext, getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
+        worldHSTable.row();
+        worldHSTable.add(new Label("tähän highsocoreja", getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
+        worldHSTable.padLeft(getGameStage().getHeight()*0.1f);
+        worldHSTable.top();
+
+        mainTable.setFillParent(true);
+
+        mainTable.add(new Label(HStext, getGame().getUiSkin())).colspan(4).height(localHSLabel.getHeight()*2);
+        mainTable.row();
+        mainTable.add(localHSTable);
+        mainTable.add(worldHSTable);
+        mainTable.left().top();
+        mainTable.padLeft(getGameStage().getHeight()*0.1f).padTop(getGameStage().getHeight()*0.07f);
+
         displayHighScores(levelNum);
+
+
         setupButtonBounds();
 
         setupButtons();
@@ -74,13 +102,14 @@ public class HighScoreScreen extends NewScreen {
         getGameStage().addActor(getBackButton());
         Gdx.input.setInputProcessor(getGameStage());
 
-        getGameStage().addActor(table);
+        getGameStage().addActor(mainTable);
+        getGameStage().setDebugAll(true);
 
         clickListeners();
     }
 
     /**
-     * Puts the high scores of the level that is given as parameter in the table.
+     * Puts the high scores of the level that is given as parameter in the localHSTable.
      *
      * @param levelNum number of the level that the high scores
      *                 are from.
@@ -102,25 +131,25 @@ public class HighScoreScreen extends NewScreen {
                     }
 
                 } else if (highscoreString.charAt(i) == '%') {
-                    table.add(new Label(name, getGame().getUiSkin())).align(Align.left);
+                    localHSTable.add(new Label(name, getGame().getUiSkin())).align(Align.left);
 
                     name = "";
                     addToName = false;
 
                 } else if (highscoreString.charAt(i) == '#') {
-                    table.add(new Label(Utilities.secondsToString(Float.valueOf(scoreToDisplay)), getGame().getUiSkin()));
-                    table.row();
+                    localHSTable.add(new Label(Utilities.secondsToString(Float.valueOf(scoreToDisplay)), getGame().getUiSkin()));
+                    localHSTable.row();
                     scoreToDisplay = "";
                     addToName = true;
                 }
             }
         }
-        int rows = table.getRows();
+        int rows = localHSTable.getRows();
         if (rows<11){
             for(int i=0; i<11-rows;i++){
-                table.add(new Label("--", getGame().getUiSkin())).align(Align.left);
-                table.add(new Label("--", getGame().getUiSkin()));
-                table.row();
+                localHSTable.add(new Label("--", getGame().getUiSkin())).align(Align.left);
+                localHSTable.add(new Label("--", getGame().getUiSkin()));
+                localHSTable.row();
             }
         }
     }

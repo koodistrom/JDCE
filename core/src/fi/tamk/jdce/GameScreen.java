@@ -150,7 +150,7 @@ public class GameScreen extends NewScreen {
     }
 
     /**
-     * Sets up pause table that contains buttons displayed when game is paused.
+     * Sets up pause localHSTable that contains buttons displayed when game is paused.
      */
     public void setUpPauseTable() {
         title = new Label(pausedText, getGame().getUiSkin());

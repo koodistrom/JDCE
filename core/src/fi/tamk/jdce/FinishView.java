@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -105,6 +106,11 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
     private Boolean fitsToGlobalHS;
     final JSONObject levelTime = new JSONObject();
 
+    private Table connectingTable;
+
+    private String connectingMessage;
+    private Button skipButton;
+
     /**
      * The default constructor for FinishView.
      *
@@ -127,15 +133,18 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         nameLengthLimit = 10;
         winTable = new Table();
         loseTable = new Table();
+        connectingTable = new Table();
         score = getGame().getBundle().get("yourTime") + " " + Utilities.secondsToString(time);
         loseMessage = getGame().getBundle().get("loseMessage");
         personalHSMessage = getGame().getBundle().get("highscoreMessagePersonal");
         worldHSMessage = getGame().getBundle().get("highscoreMessageWorld");
+        connectingMessage = getGame().getBundle().get("connectingHS");
 
         name = "";
 
         menuButton = new TextButton(getGame().getBundle().get("continue"), getGame().getUiSkin());
         retryButton = new TextButton(getGame().getBundle().get("retry"), getGame().getUiSkin());
+        skipButton = new TextButton(getGame().getBundle().get("skip"), getGame().getUiSkin());
 
         fitsToGlobalHS = false;
 
@@ -172,6 +181,16 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
      */
     public void setUpWinTable() {
         updateTables();
+        connectingTable.remove();
+        if(fitsToGlobalHS){
+            winTable.add(new Label(worldHSMessage, getGame().getUiSkin())).height(50).spaceBottom(30);
+            winTable.center();
+            winTable.row();
+        }else if(fitsToHighscore(time,levelNumber)){
+            winTable.add(new Label(personalHSMessage, getGame().getUiSkin())).height(50).spaceBottom(30);
+            winTable.center();
+            winTable.row();
+        }
         winTable.add(new Label(score, getGame().getUiSkin())).height(50).spaceBottom(30);
         winTable.center();
         winTable.row();
@@ -194,10 +213,18 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         loseTable.add(retryButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
 
     }
+
+    public void setUpConnectingTable(){
+        connectingTable.add(new Label(connectingMessage, getGame().getUiSkin())).height(50).spaceBottom(30);
+        connectingTable.center();
+        connectingTable.row();
+        connectingTable.add(skipButton).height(getTextButtonHeight()).width(getTextButtonWidth()).spaceBottom(30);
+    }
     @Override
     public void updateTables() {
         winTable.setFillParent(true);
         loseTable.setFillParent(true);
+        connectingTable.setFillParent(true);
     }
 
     /**
@@ -337,6 +364,23 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
                 dispose();
             }
         });
+
+        skipButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                playButtonSound();
+
+                if(fitsToHighscore(time, levelNumber)){
+                    enterName();
+                }else {
+                    setUpWinTable();
+                    getGameStage().addActor(winTable);
+                }
+
+
+            }
+        });
     }
 
     @Override
@@ -364,6 +408,9 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
                 }
 
                 socket.emit("nameTime", nameTime);
+            }else {
+                setUpWinTable();
+                getGameStage().addActor(winTable);
             }
 
         }else{
@@ -379,6 +426,8 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
 
     public void connectSocket(){
         try{
+            setUpConnectingTable();
+            getGameStage().addActor(connectingTable);
             socket = IO.socket("http://192.168.2.33:6969");
 
             socket.connect();
