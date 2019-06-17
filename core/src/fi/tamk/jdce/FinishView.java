@@ -370,6 +370,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             public void clicked(InputEvent event, float x, float y) {
 
                 playButtonSound();
+                fitsToGlobalHS = false;
 
                 if(fitsToHighscore(time, levelNumber)){
                     enterName();
@@ -393,6 +394,9 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         }
         if(name.length()<=nameLengthLimit){
 
+            setUpWinTable();
+            getGameStage().addActor(winTable);
+
             if(fitsToHighscore(time, levelNumber)) {
                 addHighScore(time, levelNumber);
             }
@@ -408,10 +412,10 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
                 }
 
                 socket.emit("nameTime", nameTime);
-            }else {
-                setUpWinTable();
-                getGameStage().addActor(winTable);
             }
+
+
+
 
         }else{
             enterName();

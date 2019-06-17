@@ -7,6 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * HighScoreScreen displays the highest 10 scored times on the chosen level.
@@ -49,6 +55,8 @@ public class HighScoreScreen extends NewScreen {
 
     Table mainTable;
 
+    private Socket socket;
+
     /**
      * The default constructor for HighScoreScreen.
      *
@@ -65,19 +73,20 @@ public class HighScoreScreen extends NewScreen {
         mainTable = new Table();
 
 
+
         String HStext = getGame().getBundle().get("highscores") + " " + getGame().getBundle().get("level") + " " + levelNumber;
 
-        String localHStext ="Local ";
+        String localHStext = getGame().getBundle().get("local");
         localHSLabel = new Label(localHStext, getGame().getUiSkin());
         localHSTable.add(localHSLabel).colspan(2).height(localHSLabel.getHeight()*2);
         localHSTable.row();
         highscores = Gdx.app.getPreferences("JDCE_highscores");
 
 
-        String worldHStext ="World ";
+        String worldHStext = getGame().getBundle().get("global");
         worldHSTable.add(new Label(worldHStext, getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
         worldHSTable.row();
-        worldHSTable.add(new Label("tähän highsocoreja", getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
+        worldHSTable.add(new Label(getGame().getBundle().get("connectingHS"), getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
         worldHSTable.padLeft(getGameStage().getHeight()*0.1f);
         worldHSTable.top();
 
@@ -106,6 +115,10 @@ public class HighScoreScreen extends NewScreen {
         getGameStage().setDebugAll(true);
 
         clickListeners();
+        connectSocket();
+        configSocketEvents();
+
+
     }
 
     /**
@@ -164,6 +177,62 @@ public class HighScoreScreen extends NewScreen {
                 getGame().setScreen(new LevelInfoScreen(getGame(), levelNumber, worldNumber));
                 playButtonSound();
                 dispose();
+            }
+        });
+    }
+
+    public void connectSocket(){
+        try{
+
+            socket = IO.socket("http://192.168.2.33:6969");
+
+            socket.connect();
+            Gdx.app.log("testi","yritetään yhdistää");
+        }catch (Exception e){
+            System.out.println("netti ei toimi: "+e);
+        }
+    }
+
+    public void configSocketEvents() {
+
+
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Gdx.app.log("SocketIO", "Connected");
+
+            }
+        }).on("socketID", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+
+                    String id = data.getString("id");
+                    Gdx.app.log("SocketIO", "My ID: " + id);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting ID");
+                }
+
+                socket.emit("getHS", levelNumber);
+                Gdx.app.log("SocketIO", "get HS emitted");
+            }
+        }).on("HSinfo", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Gdx.app.log("SocketIO", "info saatu");
+                JSONObject[] data = (JSONObject[]) args[0];
+                try {
+                    for(int n=0; n<data.length; n++){
+                        String name = data[n].getString("name");
+                        Gdx.app.log("SocketIO", name);
+                    }
+
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting name");
+                }
+
+
             }
         });
     }
