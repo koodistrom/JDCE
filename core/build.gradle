@@ -11,4 +11,8 @@ dependencies {
     implementation project(':batik-i18n-1.11')
     implementation project(':batik-util-1.11')
     implementation "com.github.nkzawa:socket.io-client:0.3.0"
+    implementation ('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 }

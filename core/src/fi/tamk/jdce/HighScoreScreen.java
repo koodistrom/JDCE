@@ -7,12 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * HighScoreScreen displays the highest 10 scored times on the chosen level.
@@ -202,6 +205,12 @@ public class HighScoreScreen extends NewScreen {
                 Gdx.app.log("SocketIO", "Connected");
 
             }
+        }).on("testing", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Gdx.app.log("SocketIO", "testionnistui");
+
+            }
         }).on("socketID", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -214,6 +223,7 @@ public class HighScoreScreen extends NewScreen {
                     Gdx.app.log("SocketIO", "Error getting ID");
                 }
 
+
                 socket.emit("getHS", levelNumber);
                 Gdx.app.log("SocketIO", "get HS emitted");
             }
@@ -221,10 +231,10 @@ public class HighScoreScreen extends NewScreen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "info saatu");
-                JSONObject[] data = (JSONObject[]) args[0];
+                JSONArray data = (JSONArray) args[0];
                 try {
-                    for(int n=0; n<data.length; n++){
-                        String name = data[n].getString("name");
+                    for(int n=0; n<data.length(); n++){
+                        String name = data.get(n).toString();
                         Gdx.app.log("SocketIO", name);
                     }
 
