@@ -59,6 +59,7 @@ public class HighScoreScreen extends NewScreen {
     Table mainTable;
 
     private Socket socket;
+    private String worldHStext;
 
     /**
      * The default constructor for HighScoreScreen.
@@ -86,9 +87,8 @@ public class HighScoreScreen extends NewScreen {
         highscores = Gdx.app.getPreferences("JDCE_highscores");
 
 
-        String worldHStext = getGame().getBundle().get("global");
-        worldHSTable.add(new Label(worldHStext, getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
-        worldHSTable.row();
+        worldHStext = getGame().getBundle().get("global");
+
         worldHSTable.add(new Label(getGame().getBundle().get("connectingHS"), getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight()*2);
         worldHSTable.padLeft(getGameStage().getHeight()*0.1f);
         worldHSTable.top();
@@ -187,7 +187,7 @@ public class HighScoreScreen extends NewScreen {
     public void connectSocket(){
         try{
 
-            socket = IO.socket("http://192.168.2.33:6969");
+            socket = IO.socket("http://localhost:6969");
 
             socket.connect();
             Gdx.app.log("testi","yritetään yhdistää");
@@ -231,15 +231,44 @@ public class HighScoreScreen extends NewScreen {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "info saatu");
-                JSONArray data = (JSONArray) args[0];
+                JSONArray names = (JSONArray) args[0];
+                JSONArray times = (JSONArray) args[1];
+
+                worldHSTable.clearChildren();
+                worldHSTable.add(new Label(worldHStext, getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight());
+                worldHSTable.row();
+                String name;
+
                 try {
-                    for(int n=0; n<data.length(); n++){
-                        String name = data.get(n).toString();
+                    for(int n=0; n<names.length(); n++){
+
+                        name = names.get(n).toString();
+                        if(name.equals("null")){
+                            name = "--";
+                        }
+                        worldHSTable.add(new Label(name, getGame().getUiSkin())).align(Align.left);
+
+                        if(!times.get(n).equals(null)){
+                            float time = (float)times.getDouble(n);
+                            worldHSTable.add(new Label(Utilities.secondsToString(Float.valueOf(time)), getGame().getUiSkin()));
+                        }else{
+                            String time = "--";
+                            worldHSTable.add(new Label(time, getGame().getUiSkin()));
+                        }
+
                         Gdx.app.log("SocketIO", name);
+
+
+
+                        worldHSTable.row();
                     }
+
+                    socket.disconnect();
 
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting name");
+                    worldHSTable.clearChildren();
+                    worldHSTable.add(new Label("Error getting high scores", getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight());
                 }
 
 

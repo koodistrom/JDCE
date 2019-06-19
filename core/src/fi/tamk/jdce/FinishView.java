@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -348,6 +348,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                socket.disconnect();
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
                 playButtonSound();
                 gameScreen.dispose();
@@ -358,6 +359,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                socket.disconnect();
                 gameScreen.reset();
                 getGame().setScreen(gameScreen);
                 playButtonSound();
@@ -372,11 +374,10 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
                 playButtonSound();
                 fitsToGlobalHS = false;
 
+                setUpWinTable();
+                getGameStage().addActor(winTable);
                 if(fitsToHighscore(time, levelNumber)){
                     enterName();
-                }else {
-                    setUpWinTable();
-                    getGameStage().addActor(winTable);
                 }
 
 
@@ -394,11 +395,11 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         }
         if(name.length()<=nameLengthLimit){
 
-            setUpWinTable();
-            getGameStage().addActor(winTable);
+
 
             if(fitsToHighscore(time, levelNumber)) {
                 addHighScore(time, levelNumber);
+
             }
 
             if(fitsToGlobalHS){
@@ -432,7 +433,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         try{
             setUpConnectingTable();
             getGameStage().addActor(connectingTable);
-            socket = IO.socket("http://192.168.2.33:6969");
+            socket = IO.socket("http://localhost:6969");
 
             socket.connect();
             Gdx.app.log("testi","yritetään yhdistää");
