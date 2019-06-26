@@ -348,7 +348,9 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                socket.disconnect();
+                if(socket != null){
+                    socket.disconnect();
+                }
                 getGame().setScreen(new LevelSelectScreen(getGame(), worldNumber));
                 playButtonSound();
                 gameScreen.dispose();
@@ -359,7 +361,10 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                socket.disconnect();
+                if(socket != null){
+                    socket.disconnect();
+                }
+
                 gameScreen.reset();
                 getGame().setScreen(gameScreen);
                 playButtonSound();
