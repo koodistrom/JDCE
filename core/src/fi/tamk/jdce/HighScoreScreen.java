@@ -62,6 +62,7 @@ public class HighScoreScreen extends NewScreen {
     private String worldHStext;
     private String[] worldHSNames;
     private String[] worldHSTimes;
+    private boolean worldScoresAdded;
 
     /**
      * The default constructor for HighScoreScreen.
@@ -77,7 +78,7 @@ public class HighScoreScreen extends NewScreen {
         localHSTable = new Table();
         worldHSTable = new Table();
         mainTable = new Table();
-
+        worldScoresAdded = false;
 
 
         String HStext = getGame().getBundle().get("highscores") + " " + getGame().getBundle().get("level") + " " + levelNumber;
@@ -236,9 +237,7 @@ public class HighScoreScreen extends NewScreen {
                 JSONArray names = (JSONArray) args[0];
                 JSONArray times = (JSONArray) args[1];
 
-                worldHSTable.clearChildren();
-                worldHSTable.add(new Label(worldHStext, getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight());
-                worldHSTable.row();
+
                 String name;
 
                 try {
@@ -252,25 +251,22 @@ public class HighScoreScreen extends NewScreen {
                         }
                         worldHSNames[n]= name;
 
-                        worldHSTable.add(new Label(name, getGame().getUiSkin())).align(Align.left);
+
 
                         if(!times.get(n).equals(null)){
                             float time = (float)times.getDouble(n);
-                            worldHSTable.add(new Label(Utilities.secondsToString(Float.valueOf(time)), getGame().getUiSkin()));
+
                             worldHSTimes[n]= Utilities.secondsToString(Float.valueOf(time));
                         }else{
                             String time = "--";
                             worldHSTimes[n]=time;
-                            worldHSTable.add(new Label(time, getGame().getUiSkin()));
+
                         }
 
                         Gdx.app.log("SocketIO", name);
-
-
-
-                        worldHSTable.row();
                     }
 
+                    worldScoresAdded = true;
                     socket.disconnect();
 
                 } catch (JSONException e) {
@@ -285,6 +281,9 @@ public class HighScoreScreen extends NewScreen {
     }
 
     public void createWorldHS(){
+        worldHSTable.clearChildren();
+        worldHSTable.add(new Label(worldHStext, getGame().getUiSkin())).colspan(2).height(localHSLabel.getHeight());
+        worldHSTable.row();
         for(int n=0; n<worldHSNames.length; n++) {
 
 
@@ -292,6 +291,15 @@ public class HighScoreScreen extends NewScreen {
             worldHSTable.add(new Label(worldHSTimes[n], getGame().getUiSkin()));
 
             worldHSTable.row();
+        }
+        worldScoresAdded = false;
+    }
+
+    @Override
+    public void render(float delta){
+        super.render(delta);
+        if(worldScoresAdded){
+            createWorldHS();
         }
     }
 }
