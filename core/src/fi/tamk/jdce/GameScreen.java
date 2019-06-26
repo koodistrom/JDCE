@@ -502,7 +502,7 @@ public class GameScreen extends NewScreen {
         assets(worldNumber);
 
         if(levelNumber%2 == 1){
-            turbos = levelCreator.createCollectables(randomFloatArray(2));
+            //turbos = levelCreator.createCollectables(randomFloatArray(2));
         }
 
         Gdx.input.setInputProcessor(player);
