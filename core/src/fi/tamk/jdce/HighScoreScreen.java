@@ -60,6 +60,8 @@ public class HighScoreScreen extends NewScreen {
 
     private Socket socket;
     private String worldHStext;
+    private String[] worldHSNames;
+    private String[] worldHSTimes;
 
     /**
      * The default constructor for HighScoreScreen.
@@ -240,19 +242,25 @@ public class HighScoreScreen extends NewScreen {
                 String name;
 
                 try {
+                    worldHSNames = new String[names.length()];
+                    worldHSTimes = new String[names.length()];
                     for(int n=0; n<names.length(); n++){
 
                         name = names.get(n).toString();
                         if(name.equals("null")){
                             name = "--";
                         }
+                        worldHSNames[n]= name;
+
                         worldHSTable.add(new Label(name, getGame().getUiSkin())).align(Align.left);
 
                         if(!times.get(n).equals(null)){
                             float time = (float)times.getDouble(n);
                             worldHSTable.add(new Label(Utilities.secondsToString(Float.valueOf(time)), getGame().getUiSkin()));
+                            worldHSTimes[n]= Utilities.secondsToString(Float.valueOf(time));
                         }else{
                             String time = "--";
+                            worldHSTimes[n]=time;
                             worldHSTable.add(new Label(time, getGame().getUiSkin()));
                         }
 
@@ -274,6 +282,17 @@ public class HighScoreScreen extends NewScreen {
 
             }
         });
+    }
+
+    public void createWorldHS(){
+        for(int n=0; n<worldHSNames.length; n++) {
+
+
+            worldHSTable.add(new Label(worldHSNames[n], getGame().getUiSkin())).align(Align.left);
+            worldHSTable.add(new Label(worldHSTimes[n], getGame().getUiSkin()));
+
+            worldHSTable.row();
+        }
     }
 }
 
