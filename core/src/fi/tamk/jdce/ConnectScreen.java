@@ -97,6 +97,7 @@ public class ConnectScreen extends NewScreen {
 
         getGameStage().addActor(table);
         Gdx.input.setInputProcessor(getGameStage());
+        getGameStage().setDebugAll(true);
     }
 
     @Override

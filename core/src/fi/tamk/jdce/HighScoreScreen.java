@@ -100,10 +100,12 @@ public class HighScoreScreen extends NewScreen {
 
         mainTable.add(new Label(HStext, getGame().getUiSkin())).colspan(4).height(localHSLabel.getHeight()*2);
         mainTable.row();
-        mainTable.add(localHSTable);
-        mainTable.add(worldHSTable);
+        mainTable.setWidth(getGameStage().getWidth()*0.7f);
+        mainTable.add(localHSTable).expandX();
+        mainTable.add(worldHSTable).expandX();
         mainTable.left().top();
-        mainTable.padLeft(getGameStage().getHeight()*0.1f).padTop(getGameStage().getHeight()*0.07f);
+        mainTable.padLeft(getGameStage().getHeight()*0.1f).padTop(getGameStage().getHeight()*0.07f).padRight(getGameStage().getHeight()*0.3f);
+
 
         displayHighScores(levelNum);
 
@@ -118,7 +120,7 @@ public class HighScoreScreen extends NewScreen {
         Gdx.input.setInputProcessor(getGameStage());
 
         getGameStage().addActor(mainTable);
-        getGameStage().setDebugAll(true);
+
 
         clickListeners();
         connectSocket();
