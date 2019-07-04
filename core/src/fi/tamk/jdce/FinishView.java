@@ -439,7 +439,7 @@ public class FinishView extends NewScreen implements Input.TextInputListener {
             setUpConnectingTable();
             getGameStage().addActor(connectingTable);
             socket = IO.socket("http://jdce.herokuapp.com");
-
+            //socket = IO.socket("http://localhost:6969");
             socket.connect();
             Gdx.app.log("testi","yritetään yhdistää");
         }catch (Exception e){

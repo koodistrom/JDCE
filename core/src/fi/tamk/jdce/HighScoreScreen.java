@@ -192,8 +192,8 @@ public class HighScoreScreen extends NewScreen {
     public void connectSocket(){
         try{
 
-            //socket = IO.socket("http://jdce.herokuapp.com");
-            socket = IO.socket("http://localhost:6969");
+            socket = IO.socket("http://jdce.herokuapp.com");
+            //socket = IO.socket("http://localhost:6969");
             socket.connect();
             Gdx.app.log("testi","yritetään yhdistää");
         }catch (Exception e){
